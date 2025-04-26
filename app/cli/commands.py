@@ -150,7 +150,7 @@ class {name.capitalize()}Response({name.capitalize()}Base):
     updated_at: datetime
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 '''
     schema_path.write_text(schema_content)
     click.echo(f"Schema {name} created successfully!")
