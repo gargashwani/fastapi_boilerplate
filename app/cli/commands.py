@@ -48,14 +48,18 @@ def rollback():
 
 @app.command(name="make:model")
 @click.argument('name')
-def make_model(name: str):
+@click.option('--migration', is_flag=True, help='Create a migration for the model')
+def make_model(name: str, migration: bool):
     """Create a new model file"""
     model_path = Path("app/models") / f"{name.lower()}.py"
     if model_path.exists():
         click.echo(f"Model {name} already exists!")
         return
 
-    model_content = f'''from sqlalchemy import Column, Integer, String, DateTime
+    # Create models directory if it doesn't exist
+    model_path.parent.mkdir(parents=True, exist_ok=True)
+
+    model_content = f'''from sqlalchemy import Column, Integer, String, DateTime, Boolean
 from app.core.database import Base
 from datetime import datetime
 
@@ -63,11 +67,32 @@ class {name.capitalize()}(Base):
     __tablename__ = "{name.lower()}s"
 
     id = Column(Integer, primary_key=True, index=True)
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    email = Column(String(255), unique=True, index=True, nullable=False)
+    name = Column(String(255), nullable=False)
+    is_active = Column(Boolean, default=True)
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
 '''
     model_path.write_text(model_content)
-    click.echo(f"Model {name} created successfully!")
+    
+    # Print clickable file paths
+    click.echo("\nCreated files:")
+    click.echo(f"Model: file://{model_path.absolute()}")
+    
+    if migration:
+        # Create migrations directory if it doesn't exist
+        migration_path = Path("alembic/versions")
+        migration_path.mkdir(parents=True, exist_ok=True)
+        
+        # Generate migration
+        os.system(f'alembic revision --autogenerate -m "create {name.lower()} model"')
+        
+        # Get the latest migration file
+        latest_migration = sorted(migration_path.glob("*.py"))[-1] if migration_path.exists() else None
+        if latest_migration:
+            click.echo(f"Migration: file://{latest_migration.absolute()}")
+    
+    click.echo(f"\nModel {name} created successfully!")
 
 @app.command(name="make:controller")
 @click.argument('name')
