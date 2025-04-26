@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentication - FastAPI Boilerplate Documentation</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="topbar">
+        <div class="topbar-left">
+            <button class="sidebar-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="search-box">
+                <input type="text" placeholder="Search documentation...">
+                <i class="fas fa-search"></i>
+            </div>
+        </div>
+        <div class="topbar-right">
+            <div class="theme-switch-wrapper">
+                <label class="theme-switch" for="checkbox">
+                    <input type="checkbox" id="checkbox" />
+                    <div class="slider round">
+                        <i class="fas fa-sun"></i>
+                        <i class="fas fa-moon"></i>
+                    </div>
+                </label>
+            </div>
+            <a href="https://github.com/your-repo" class="github-link" target="_blank">
+                <i class="fab fa-github"></i>
+                <span>GitHub</span>
+            </a>
+        </div>
+    </div>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="logo">
+                <h1>FastAPI Boilerplate</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="getting-started.html"><i class="fas fa-rocket"></i> Getting Started</a></li>
+                <li><a href="requirements.html"><i class="fas fa-list-check"></i> Requirements</a></li>
+                <li><a href="architecture.html"><i class="fas fa-sitemap"></i> Architecture</a></li>
+                <li><a href="authentication.html" class="active"><i class="fas fa-shield-alt"></i> Authentication</a></li>
+                <li><a href="database.html"><i class="fas fa-database"></i> Database</a></li>
+                <li><a href="models.html"><i class="fas fa-table"></i> Models</a></li>
+                <li><a href="controllers.html"><i class="fas fa-cogs"></i> Controllers</a></li>
+                <li><a href="services.html"><i class="fas fa-server"></i> Services</a></li>
+                <li><a href="schemas.html"><i class="fas fa-code"></i> Schemas</a></li>
+                <li><a href="middleware.html"><i class="fas fa-layer-group"></i> Middleware</a></li>
+                <li><a href="cli.html"><i class="fas fa-terminal"></i> CLI Commands</a></li>
+                <li><a href="deployment.html"><i class="fas fa-cloud"></i> Deployment</a></li>
+            </ul>
+        </nav>
+        <main class="content">
+            <div class="hero">
+                <h1>Authentication</h1>
+                <p>JWT-based authentication system with role-based access control</p>
+            </div>
+
+            <section id="jwt-authentication">
+                <h2>JWT Authentication</h2>
+                <div class="card">
+                    <h3>Token Generation</h3>
+                    <pre><code>from datetime import datetime, timedelta
+from typing import Optional
+from jose import JWTError, jwt
+from passlib.context import CryptContext
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
+    to_encode = data.copy()
+    if expires_delta:
+        expire = datetime.utcnow() + expires_delta
+    else:
+        expire = datetime.utcnow() + timedelta(minutes=15)
+    to_encode.update({"exp": expire})
+    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    return encoded_jwt</code></pre>
+                </div>
+            </section>
+
+            <section id="login-endpoint">
+                <h2>Login Endpoint</h2>
+                <div class="card">
+                    <h3>Token Generation</h3>
+                    <pre><code>@router.post("/token")
+async def login_for_access_token(
+    form_data: OAuth2PasswordRequestForm = Depends(),
+    db: Session = Depends(get_db)
+):
+    user = authenticate_user(db, form_data.username, form_data.password)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect username or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = create_access_token(
+        data={"sub": user.email}, expires_delta=access_token_expires
+    )
+    return {"access_token": access_token, "token_type": "bearer"}</code></pre>
+                </div>
+            </section>
+
+            <section id="protected-routes">
+                <h2>Protected Routes</h2>
+                <div class="card">
+                    <h3>Route Protection</h3>
+                    <pre><code>async def get_current_user(
+    token: str = Depends(oauth2_scheme),
+    db: Session = Depends(get_db)
+) -> User:
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        email: str = payload.get("sub")
+        if email is None:
+            raise credentials_exception
+    except JWTError:
+        raise credentials_exception
+    user = db.query(User).filter(User.email == email).first()
+    if user is None:
+        raise credentials_exception
+    return user</code></pre>
+                </div>
+            </section>
+
+            <section id="password-hashing">
+                <h2>Password Hashing</h2>
+                <div class="card">
+                    <h3>Password Verification</h3>
+                    <pre><code>def verify_password(plain_password: str, hashed_password: str) -> bool:
+    return pwd_context.verify(plain_password, hashed_password)
+
+def get_password_hash(password: str) -> str:
+    return pwd_context.hash(password)</code></pre>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="js/main.js"></script>
+    <script src="js/theme.js"></script>
+</body>
+</html> 

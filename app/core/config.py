@@ -5,12 +5,12 @@ from functools import lru_cache
 
 class Settings(BaseSettings):
     # Database Configuration
-    DB_CONNECTION: str = "postgresql"
+    DB_CONNECTION: str = "mysql+pymysql"
     DB_HOST: str = "localhost"
-    DB_PORT: int = 5432
+    DB_PORT: int = 8889  # MAMP's default MySQL port
     DB_DATABASE: str = "fastapi_boilerplate"
-    DB_USERNAME: str = "postgres"
-    DB_PASSWORD: str = "postgres"
+    DB_USERNAME: str = "root"
+    DB_PASSWORD: str = "root"  # MAMP's default MySQL password
 
     # Application Configuration
     APP_NAME: str = "FastAPI Boilerplate"

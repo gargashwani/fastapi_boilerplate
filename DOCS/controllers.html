@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controllers - FastAPI Boilerplate Documentation</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="topbar">
+        <div class="topbar-left">
+            <button class="sidebar-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="search-box">
+                <input type="text" placeholder="Search documentation...">
+                <i class="fas fa-search"></i>
+            </div>
+        </div>
+        <div class="topbar-right">
+            <div class="theme-switch-wrapper">
+                <label class="theme-switch" for="checkbox">
+                    <input type="checkbox" id="checkbox" />
+                    <div class="slider round">
+                        <i class="fas fa-sun"></i>
+                        <i class="fas fa-moon"></i>
+                    </div>
+                </label>
+            </div>
+            <a href="https://github.com/your-repo" class="github-link" target="_blank">
+                <i class="fab fa-github"></i>
+                <span>GitHub</span>
+            </a>
+        </div>
+    </div>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="logo">
+                <h1>FastAPI Boilerplate</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="getting-started.html"><i class="fas fa-rocket"></i> Getting Started</a></li>
+                <li><a href="requirements.html"><i class="fas fa-list-check"></i> Requirements</a></li>
+                <li><a href="architecture.html"><i class="fas fa-sitemap"></i> Architecture</a></li>
+                <li><a href="authentication.html"><i class="fas fa-shield-alt"></i> Authentication</a></li>
+                <li><a href="database.html"><i class="fas fa-database"></i> Database</a></li>
+                <li><a href="models.html"><i class="fas fa-table"></i> Models</a></li>
+                <li><a href="controllers.html" class="active"><i class="fas fa-cogs"></i> Controllers</a></li>
+                <li><a href="services.html"><i class="fas fa-server"></i> Services</a></li>
+                <li><a href="schemas.html"><i class="fas fa-code"></i> Schemas</a></li>
+                <li><a href="middleware.html"><i class="fas fa-layer-group"></i> Middleware</a></li>
+                <li><a href="cli.html"><i class="fas fa-terminal"></i> CLI Commands</a></li>
+                <li><a href="deployment.html"><i class="fas fa-cloud"></i> Deployment</a></li>
+            </ul>
+        </nav>
+        <main class="content">
+            <div class="hero">
+                <h1>Controllers</h1>
+                <p>API controllers and route handlers for the FastAPI Boilerplate</p>
+            </div>
+
+            <section id="base-controller">
+                <h2>Base Controller</h2>
+                <div class="card">
+                    <h3>Controller Structure</h3>
+                    <pre><code>from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy.orm import Session
+from typing import List, Optional
+
+from app.core.database import get_db
+from app.schemas import BaseSchema
+from app.services import BaseService
+
+class BaseController:
+    def __init__(self, service: BaseService):
+        self.service = service
+        self.router = APIRouter()
+        self._register_routes()
+
+    def _register_routes(self):
+        raise NotImplementedError("Subclasses must implement _register_routes")</code></pre>
+                </div>
+            </section>
+
+            <section id="user-controller">
+                <h2>User Controller</h2>
+                <div class="card">
+                    <h3>User Routes</h3>
+                    <pre><code>from fastapi import APIRouter, Depends, HTTPException, status
+from sqlalchemy.orm import Session
+from typing import List
+
+from app.core.database import get_db
+from app.core.auth import get_current_user
+from app.schemas.user import UserCreate, UserUpdate, UserResponse
+from app.services.user import UserService
+from app.models.user import User
+
+class UserController(BaseController):
+    def __init__(self, service: UserService):
+        super().__init__(service)
+
+    def _register_routes(self):
+        self.router.post("/", response_model=UserResponse)(self.create)
+        self.router.get("/me", response_model=UserResponse)(self.get_me)
+        self.router.get("/{user_id}", response_model=UserResponse)(self.get)
+        self.router.put("/{user_id}", response_model=UserResponse)(self.update)
+        self.router.delete("/{user_id}")(self.delete)
+
+    async def create(self, user: UserCreate, db: Session = Depends(get_db)):
+        return await self.service.create(db, user)
+
+    async def get_me(self, current_user: User = Depends(get_current_user)):
+        return current_user
+
+    async def get(self, user_id: int, db: Session = Depends(get_db)):
+        return await self.service.get(db, user_id)
+
+    async def update(
+        self,
+        user_id: int,
+        user: UserUpdate,
+        db: Session = Depends(get_db),
+        current_user: User = Depends(get_current_user)
+    ):
+        if current_user.id != user_id and not current_user.is_superuser:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Not enough permissions"
+            )
+        return await self.service.update(db, user_id, user)
+
+    async def delete(
+        self,
+        user_id: int,
+        db: Session = Depends(get_db),
+        current_user: User = Depends(get_current_user)
+    ):
+        if current_user.id != user_id and not current_user.is_superuser:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Not enough permissions"
+            )
+        return await self.service.delete(db, user_id)</code></pre>
+                </div>
+            </section>
+
+            <section id="post-controller">
+                <h2>Post Controller</h2>
+                <div class="card">
+                    <h3>Post Routes</h3>
+                    <pre><code>from fastapi import APIRouter, Depends, HTTPException, status
+from sqlalchemy.orm import Session
+from typing import List
+
+from app.core.database import get_db
+from app.core.auth import get_current_user
+from app.schemas.post import PostCreate, PostUpdate, PostResponse
+from app.services.post import PostService
+from app.models.user import User
+
+class PostController(BaseController):
+    def __init__(self, service: PostService):
+        super().__init__(service)
+
+    def _register_routes(self):
+        self.router.post("/", response_model=PostResponse)(self.create)
+        self.router.get("/", response_model=List[PostResponse])(self.list)
+        self.router.get("/{post_id}", response_model=PostResponse)(self.get)
+        self.router.put("/{post_id}", response_model=PostResponse)(self.update)
+        self.router.delete("/{post_id}")(self.delete)
+
+    async def create(
+        self,
+        post: PostCreate,
+        db: Session = Depends(get_db),
+        current_user: User = Depends(get_current_user)
+    ):
+        return await self.service.create(db, post, current_user.id)
+
+    async def list(
+        self,
+        skip: int = 0,
+        limit: int = 100,
+        db: Session = Depends(get_db)
+    ):
+        return await self.service.list(db, skip, limit)
+
+    async def get(self, post_id: int, db: Session = Depends(get_db)):
+        return await self.service.get(db, post_id)
+
+    async def update(
+        self,
+        post_id: int,
+        post: PostUpdate,
+        db: Session = Depends(get_db),
+        current_user: User = Depends(get_current_user)
+    ):
+        return await self.service.update(db, post_id, post, current_user.id)
+
+    async def delete(
+        self,
+        post_id: int,
+        db: Session = Depends(get_db),
+        current_user: User = Depends(get_current_user)
+    ):
+        return await self.service.delete(db, post_id, current_user.id)</code></pre>
+                </div>
+            </section>
+
+            <section id="error-handling">
+                <h2>Error Handling</h2>
+                <div class="card">
+                    <h3>Custom Exceptions</h3>
+                    <pre><code>from fastapi import HTTPException, status
+
+class NotFoundException(HTTPException):
+    def __init__(self, detail: str = "Resource not found"):
+        super().__init__(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=detail
+        )
+
+class UnauthorizedException(HTTPException):
+    def __init__(self, detail: str = "Not authenticated"):
+        super().__init__(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail=detail
+        )
+
+class ForbiddenException(HTTPException):
+    def __init__(self, detail: str = "Not enough permissions"):
+        super().__init__(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail=detail
+        )</code></pre>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="js/main.js"></script>
+    <script src="js/theme.js"></script>
+</body>
+</html> 

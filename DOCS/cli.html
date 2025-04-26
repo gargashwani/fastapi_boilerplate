@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CLI Commands - FastAPI Boilerplate Documentation</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="topbar">
+        <div class="topbar-left">
+            <button class="sidebar-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="search-box">
+                <input type="text" placeholder="Search documentation...">
+                <i class="fas fa-search"></i>
+            </div>
+        </div>
+        <div class="topbar-right">
+            <div class="theme-switch-wrapper">
+                <label class="theme-switch" for="checkbox">
+                    <input type="checkbox" id="checkbox" />
+                    <div class="slider round">
+                        <i class="fas fa-sun"></i>
+                        <i class="fas fa-moon"></i>
+                    </div>
+                </label>
+            </div>
+            <a href="https://github.com/your-repo" class="github-link" target="_blank">
+                <i class="fab fa-github"></i>
+                <span>GitHub</span>
+            </a>
+        </div>
+    </div>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="logo">
+                <h1>FastAPI Boilerplate</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="getting-started.html"><i class="fas fa-rocket"></i> Getting Started</a></li>
+                <li><a href="requirements.html"><i class="fas fa-list-check"></i> Requirements</a></li>
+                <li><a href="architecture.html"><i class="fas fa-sitemap"></i> Architecture</a></li>
+                <li><a href="authentication.html"><i class="fas fa-shield-alt"></i> Authentication</a></li>
+                <li><a href="database.html"><i class="fas fa-database"></i> Database</a></li>
+                <li><a href="models.html"><i class="fas fa-table"></i> Models</a></li>
+                <li><a href="controllers.html"><i class="fas fa-cogs"></i> Controllers</a></li>
+                <li><a href="services.html"><i class="fas fa-server"></i> Services</a></li>
+                <li><a href="schemas.html"><i class="fas fa-code"></i> Schemas</a></li>
+                <li><a href="middleware.html"><i class="fas fa-layer-group"></i> Middleware</a></li>
+                <li><a href="cli.html" class="active"><i class="fas fa-terminal"></i> CLI Commands</a></li>
+                <li><a href="deployment.html"><i class="fas fa-cloud"></i> Deployment</a></li>
+            </ul>
+        </nav>
+        <main class="content">
+            <div class="hero">
+                <h1>CLI Commands</h1>
+                <p>Command-line interface tools for the FastAPI Boilerplate</p>
+            </div>
+
+            <section id="installation">
+                <h2>Installation</h2>
+                <div class="card">
+                    <h3>Installing CLI Tools</h3>
+                    <pre><code># Install the package
+pip install -e .
+
+# Verify installation
+python3 artisan.py --version</code></pre>
+                </div>
+            </section>
+
+            <section id="database-commands">
+                <h2>Database Commands</h2>
+                <div class="card">
+                    <h3>Migration Commands</h3>
+                    <pre><code># Create a new migration
+python3 artisan.py make:migration "create users table"
+
+# Run migrations
+python3 artisan.py migrate
+
+# Rollback last migration
+python3 artisan.py migrate:rollback
+
+# Show migration status
+python3 artisan.py migrate:status
+
+# Reset database
+python3 artisan.py migrate:reset
+
+# Refresh database
+python3 artisan.py migrate:refresh</code></pre>
+                </div>
+                <div class="card">
+                    <h3>Seed Commands</h3>
+                    <pre><code># Create a new seeder
+python3 artisan.py make:seeder UsersSeeder
+
+# Run seeders
+python3 artisan.py db:seed
+
+# Run specific seeder
+python3 artisan.py db:seed --seeder=UsersSeeder
+
+# Refresh and seed
+python3 artisan.py db:refresh</code></pre>
+                </div>
+            </section>
+
+            <section id="model-commands">
+                <h2>Model Commands</h2>
+                <div class="card">
+                    <h3>Model Generation</h3>
+                    <pre><code># Create a new model
+python3 artisan.py make:model User
+
+# Create model with migration
+python3 artisan.py make:model User --migration
+
+# Create model with controller
+python3 artisan.py make:model User --controller
+
+# Create model with all components
+python3 artisan.py make:model User --all</code></pre>
+                </div>
+            </section>
+
+            <section id="controller-commands">
+                <h2>Controller Commands</h2>
+                <div class="card">
+                    <h3>Controller Generation</h3>
+                    <pre><code># Create a new controller
+python3 artisan.py make:controller UserController
+
+# Create resource controller
+python3 artisan.py make:controller UserController --resource
+
+# Create API controller
+python3 artisan.py make:controller UserController --api</code></pre>
+                </div>
+            </section>
+
+            <section id="service-commands">
+                <h2>Service Commands</h2>
+                <div class="card">
+                    <h3>Service Generation</h3>
+                    <pre><code># Create a new service
+python3 artisan.py make:service UserService
+
+# Create service with interface
+python3 artisan.py make:service UserService --interface</code></pre>
+                </div>
+            </section>
+
+            <section id="development-commands">
+                <h2>Development Commands</h2>
+                <div class="card">
+                    <h3>Development Tools</h3>
+                    <pre><code># Run development server
+python3 artisan.py serve
+
+# Run development server with reload
+python3 artisan.py serve --reload
+
+# Run tests
+python3 artisan.py test
+
+# Run specific test
+python3 artisan.py test tests/test_users.py
+
+# Generate API documentation
+python3 artisan.py docs:generate
+
+# Clear application cache
+python3 artisan.py cache:clear
+
+# View application logs
+python3 artisan.py logs:view</code></pre>
+                </div>
+            </section>
+
+            <section id="custom-commands">
+                <h2>Custom Commands</h2>
+                <div class="card">
+                    <h3>Creating Custom Commands</h3>
+                    <pre><code>from artisan import Command
+
+class CustomCommand(Command):
+    name = "custom:command"
+    description = "Description of your custom command"
+
+    def handle(self):
+        # Command logic here
+        self.info("Running custom command...")
+        # Add your command implementation
+        self.success("Command completed successfully")
+
+# Register the command
+Command.register(CustomCommand)</code></pre>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="js/main.js"></script>
+    <script src="js/theme.js"></script>
+</body>
+</html> 

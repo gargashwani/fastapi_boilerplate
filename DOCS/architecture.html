@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Architecture - FastAPI Boilerplate Documentation</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="topbar">
+        <div class="topbar-left">
+            <button class="sidebar-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="search-box">
+                <input type="text" placeholder="Search documentation...">
+                <i class="fas fa-search"></i>
+            </div>
+        </div>
+        <div class="topbar-right">
+            <div class="theme-switch-wrapper">
+                <label class="theme-switch" for="checkbox">
+                    <input type="checkbox" id="checkbox" />
+                    <div class="slider round">
+                        <i class="fas fa-sun"></i>
+                        <i class="fas fa-moon"></i>
+                    </div>
+                </label>
+            </div>
+            <a href="https://github.com/your-repo" class="github-link" target="_blank">
+                <i class="fab fa-github"></i>
+                <span>GitHub</span>
+            </a>
+        </div>
+    </div>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="logo">
+                <h1>FastAPI Boilerplate</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="getting-started.html"><i class="fas fa-rocket"></i> Getting Started</a></li>
+                <li><a href="requirements.html"><i class="fas fa-list-check"></i> Requirements</a></li>
+                <li><a href="architecture.html" class="active"><i class="fas fa-sitemap"></i> Architecture</a></li>
+                <li><a href="authentication.html"><i class="fas fa-shield-alt"></i> Authentication</a></li>
+                <li><a href="database.html"><i class="fas fa-database"></i> Database</a></li>
+                <li><a href="models.html"><i class="fas fa-table"></i> Models</a></li>
+                <li><a href="controllers.html"><i class="fas fa-cogs"></i> Controllers</a></li>
+                <li><a href="services.html"><i class="fas fa-server"></i> Services</a></li>
+                <li><a href="schemas.html"><i class="fas fa-code"></i> Schemas</a></li>
+                <li><a href="middleware.html"><i class="fas fa-layer-group"></i> Middleware</a></li>
+                <li><a href="cli.html"><i class="fas fa-terminal"></i> CLI Commands</a></li>
+                <li><a href="deployment.html"><i class="fas fa-cloud"></i> Deployment</a></li>
+            </ul>
+        </nav>
+        <main class="content">
+            <div class="hero">
+                <h1>Architecture</h1>
+                <p>Project structure and design patterns used in the FastAPI Boilerplate</p>
+            </div>
+
+            <section id="project-structure">
+                <h2>Project Structure</h2>
+                <div class="card">
+                    <h3>Directory Layout</h3>
+                    <pre><code>fastapi_boilerplate/
+├── app/
+│   ├── api/
+│   │   └── v1/
+│   │       ├── endpoints/
+│   │       └── api.py
+│   ├── controllers/
+│   ├── core/
+│   │   ├── config.py
+│   │   ├── database.py
+│   │   └── security.py
+│   ├── models/
+│   ├── schemas/
+│   └── services/
+├── alembic/
+│   └── versions/
+├── docs/
+├── tests/
+└── .env</code></pre>
+                </div>
+            </section>
+
+            <section id="design-patterns">
+                <h2>Design Patterns</h2>
+                <div class="card">
+                    <h3>Repository Pattern</h3>
+                    <p>The repository pattern is used to abstract the data layer, making it easier to swap out implementations or test the application.</p>
+                    <pre><code>class UserRepository:
+    def __init__(self, db: Session):
+        self.db = db
+
+    def get_by_id(self, user_id: int) -> Optional[User]:
+        return self.db.query(User).filter(User.id == user_id).first()
+
+    def get_by_email(self, email: str) -> Optional[User]:
+        return self.db.query(User).filter(User.email == email).first()</code></pre>
+                </div>
+                <div class="card">
+                    <h3>Service Layer</h3>
+                    <p>The service layer contains business logic and orchestrates operations between repositories and other services.</p>
+                    <pre><code>class UserService:
+    def __init__(self, user_repository: UserRepository):
+        self.user_repository = user_repository
+
+    async def create_user(self, user_data: UserCreate) -> User:
+        if await self.user_repository.get_by_email(user_data.email):
+            raise HTTPException(
+                status_code=400,
+                detail="Email already registered"
+            )
+        return await self.user_repository.create(user_data)</code></pre>
+                </div>
+            </section>
+
+            <section id="dependency-injection">
+                <h2>Dependency Injection</h2>
+                <div class="card">
+                    <h3>FastAPI Dependencies</h3>
+                    <p>FastAPI's dependency injection system is used to manage dependencies and provide them to route handlers.</p>
+                    <pre><code>async def get_db() -> Session:
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+@router.post("/users/", response_model=UserResponse)
+async def create_user(
+    user: UserCreate,
+    db: Session = Depends(get_db),
+    user_service: UserService = Depends()
+):
+    return await user_service.create_user(user)</code></pre>
+                </div>
+            </section>
+
+            <section id="error-handling">
+                <h2>Error Handling</h2>
+                <div class="card">
+                    <h3>Custom Exception Handler</h3>
+                    <pre><code>from fastapi import Request, status
+from fastapi.responses import JSONResponse
+from app.core.exceptions import CustomException
+
+@app.exception_handler(CustomException)
+async def custom_exception_handler(request: Request, exc: CustomException):
+    return JSONResponse(
+        status_code=exc.status_code,
+        content={
+            "detail": exc.detail,
+            "error_code": exc.error_code
+        }
+    )</code></pre>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="js/main.js"></script>
+    <script src="js/theme.js"></script>
+</body>
+</html> 

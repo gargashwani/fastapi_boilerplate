@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Middleware - FastAPI Boilerplate Documentation</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="topbar">
+        <div class="topbar-left">
+            <button class="sidebar-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="search-box">
+                <input type="text" placeholder="Search documentation...">
+                <i class="fas fa-search"></i>
+            </div>
+        </div>
+        <div class="topbar-right">
+            <div class="theme-switch-wrapper">
+                <label class="theme-switch" for="checkbox">
+                    <input type="checkbox" id="checkbox" />
+                    <div class="slider round">
+                        <i class="fas fa-sun"></i>
+                        <i class="fas fa-moon"></i>
+                    </div>
+                </label>
+            </div>
+            <a href="https://github.com/your-repo" class="github-link" target="_blank">
+                <i class="fab fa-github"></i>
+                <span>GitHub</span>
+            </a>
+        </div>
+    </div>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="logo">
+                <h1>FastAPI Boilerplate</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="getting-started.html"><i class="fas fa-rocket"></i> Getting Started</a></li>
+                <li><a href="requirements.html"><i class="fas fa-list-check"></i> Requirements</a></li>
+                <li><a href="architecture.html"><i class="fas fa-sitemap"></i> Architecture</a></li>
+                <li><a href="authentication.html"><i class="fas fa-shield-alt"></i> Authentication</a></li>
+                <li><a href="database.html"><i class="fas fa-database"></i> Database</a></li>
+                <li><a href="models.html"><i class="fas fa-table"></i> Models</a></li>
+                <li><a href="controllers.html"><i class="fas fa-cogs"></i> Controllers</a></li>
+                <li><a href="services.html"><i class="fas fa-server"></i> Services</a></li>
+                <li><a href="schemas.html"><i class="fas fa-code"></i> Schemas</a></li>
+                <li><a href="middleware.html" class="active"><i class="fas fa-layer-group"></i> Middleware</a></li>
+                <li><a href="cli.html"><i class="fas fa-terminal"></i> CLI Commands</a></li>
+                <li><a href="deployment.html"><i class="fas fa-cloud"></i> Deployment</a></li>
+            </ul>
+        </nav>
+        <main class="content">
+            <div class="hero">
+                <h1>Middleware</h1>
+                <p>Middleware components and request processing for the FastAPI Boilerplate</p>
+            </div>
+
+            <section id="cors-middleware">
+                <h2>CORS Middleware</h2>
+                <div class="card">
+                    <h3>Cross-Origin Resource Sharing</h3>
+                    <pre><code>from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
+app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # In production, replace with specific origins
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)</code></pre>
+                </div>
+            </section>
+
+            <section id="auth-middleware">
+                <h2>Authentication Middleware</h2>
+                <div class="card">
+                    <h3>JWT Authentication</h3>
+                    <pre><code>from fastapi import FastAPI, Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordBearer
+from jose import JWTError, jwt
+from datetime import datetime, timedelta
+from typing import Optional
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
+async def get_current_user(token: str = Depends(oauth2_scheme)):
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        email: str = payload.get("sub")
+        if email is None:
+            raise credentials_exception
+    except JWTError:
+        raise credentials_exception
+    return email</code></pre>
+                </div>
+            </section>
+
+            <section id="logging-middleware">
+                <h2>Logging Middleware</h2>
+                <div class="card">
+                    <h3>Request Logging</h3>
+                    <pre><code>from fastapi import FastAPI, Request
+from fastapi.middleware.base import BaseHTTPMiddleware
+import time
+import logging
+
+logger = logging.getLogger(__name__)
+
+class LoggingMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        start_time = time.time()
+        response = await call_next(request)
+        process_time = time.time() - start_time
+        
+        logger.info(
+            f"{request.method} {request.url.path} "
+            f"status_code={response.status_code} "
+            f"process_time={process_time:.4f}s"
+        )
+        return response
+
+app = FastAPI()
+app.add_middleware(LoggingMiddleware)</code></pre>
+                </div>
+            </section>
+
+            <section id="error-middleware">
+                <h2>Error Handling Middleware</h2>
+                <div class="card">
+                    <h3>Global Exception Handler</h3>
+                    <pre><code>from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse
+from fastapi.exceptions import RequestValidationError
+from starlette.exceptions import HTTPException as StarletteHTTPException
+import logging
+
+logger = logging.getLogger(__name__)
+
+app = FastAPI()
+
+@app.exception_handler(StarletteHTTPException)
+async def http_exception_handler(request: Request, exc: StarletteHTTPException):
+    logger.error(f"HTTP Exception: {exc.detail}")
+    return JSONResponse(
+        status_code=exc.status_code,
+        content={"detail": exc.detail},
+    )
+
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    logger.error(f"Validation Error: {exc.errors()}")
+    return JSONResponse(
+        status_code=422,
+        content={"detail": exc.errors()},
+    )
+
+@app.exception_handler(Exception)
+async def general_exception_handler(request: Request, exc: Exception):
+    logger.error(f"Unexpected Error: {str(exc)}")
+    return JSONResponse(
+        status_code=500,
+        content={"detail": "Internal Server Error"},
+    )</code></pre>
+                </div>
+            </section>
+
+            <section id="rate-limit-middleware">
+                <h2>Rate Limiting Middleware</h2>
+                <div class="card">
+                    <h3>Request Rate Limiting</h3>
+                    <pre><code>from fastapi import FastAPI, Request
+from fastapi.middleware.base import BaseHTTPMiddleware
+from starlette.responses import JSONResponse
+import time
+from collections import defaultdict
+
+class RateLimitMiddleware(BaseHTTPMiddleware):
+    def __init__(self, app: FastAPI, limit: int = 100, window: int = 60):
+        super().__init__(app)
+        self.limit = limit
+        self.window = window
+        self.requests = defaultdict(list)
+
+    async def dispatch(self, request: Request, call_next):
+        client_ip = request.client.host
+        current_time = time.time()
+        
+        # Clean up old requests
+        self.requests[client_ip] = [
+            t for t in self.requests[client_ip]
+            if current_time - t < self.window
+        ]
+        
+        # Check rate limit
+        if len(self.requests[client_ip]) >= self.limit:
+            return JSONResponse(
+                status_code=429,
+                content={"detail": "Too many requests"},
+            )
+        
+        # Add current request
+        self.requests[client_ip].append(current_time)
+        
+        return await call_next(request)
+
+app = FastAPI()
+app.add_middleware(RateLimitMiddleware, limit=100, window=60)</code></pre>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="js/main.js"></script>
+    <script src="js/theme.js"></script>
+</body>
+</html> 

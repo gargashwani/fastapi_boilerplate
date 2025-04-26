@@ -53,3 +53,5 @@ vine==5.1.0
 wcwidth==0.2.13
 pydantic-settings==2.2.1
 email-validator==2.1.0.post1
+psycopg2-binary==2.9.10
+mysqlclient==2.2.4

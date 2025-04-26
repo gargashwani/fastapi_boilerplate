@@ -12,18 +12,18 @@ def app():
     """FastAPI Boilerplate CLI"""
     pass
 
-@app.command()
+@app.command(name="serve")
 def serve():
     """Start the development server"""
     os.system("uvicorn main:app --reload")
 
-@app.command()
+@app.command(name="key:generate")
 def key_generate():
     """Generate a new application key"""
     key = secrets.token_hex(32)
     click.echo(f"Application key: {key}")
 
-@app.command()
+@app.command(name="make:migration")
 @click.argument('message', required=False)
 def make_migration(message: str = None):
     """Create a new database migration"""
@@ -31,12 +31,17 @@ def make_migration(message: str = None):
         message = click.prompt("Enter migration message")
     os.system(f'alembic revision --autogenerate -m "{message}"')
 
-@app.command()
+@app.command(name="migrate")
 def migrate():
     """Run database migrations"""
     os.system("alembic upgrade head")
 
-@app.command()
+@app.command(name="migrate:status")
+def migrate_status():
+    """Show the status of database migrations"""
+    os.system("alembic current")
+
+@app.command(name="migrate:rollback")
 def rollback():
     """Rollback the last database migration"""
     os.system("alembic downgrade -1")

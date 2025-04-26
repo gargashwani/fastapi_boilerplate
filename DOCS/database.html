@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database - FastAPI Boilerplate Documentation</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="topbar">
+        <div class="topbar-left">
+            <button class="sidebar-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="search-box">
+                <input type="text" placeholder="Search documentation...">
+                <i class="fas fa-search"></i>
+            </div>
+        </div>
+        <div class="topbar-right">
+            <div class="theme-switch-wrapper">
+                <label class="theme-switch" for="checkbox">
+                    <input type="checkbox" id="checkbox" />
+                    <div class="slider round">
+                        <i class="fas fa-sun"></i>
+                        <i class="fas fa-moon"></i>
+                    </div>
+                </label>
+            </div>
+            <a href="https://github.com/your-repo" class="github-link" target="_blank">
+                <i class="fab fa-github"></i>
+                <span>GitHub</span>
+            </a>
+        </div>
+    </div>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="logo">
+                <h1>FastAPI Boilerplate</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="getting-started.html"><i class="fas fa-rocket"></i> Getting Started</a></li>
+                <li><a href="requirements.html"><i class="fas fa-list-check"></i> Requirements</a></li>
+                <li><a href="architecture.html"><i class="fas fa-sitemap"></i> Architecture</a></li>
+                <li><a href="authentication.html"><i class="fas fa-shield-alt"></i> Authentication</a></li>
+                <li><a href="database.html" class="active"><i class="fas fa-database"></i> Database</a></li>
+                <li><a href="models.html"><i class="fas fa-table"></i> Models</a></li>
+                <li><a href="controllers.html"><i class="fas fa-cogs"></i> Controllers</a></li>
+                <li><a href="services.html"><i class="fas fa-server"></i> Services</a></li>
+                <li><a href="schemas.html"><i class="fas fa-code"></i> Schemas</a></li>
+                <li><a href="middleware.html"><i class="fas fa-layer-group"></i> Middleware</a></li>
+                <li><a href="cli.html"><i class="fas fa-terminal"></i> CLI Commands</a></li>
+                <li><a href="deployment.html"><i class="fas fa-cloud"></i> Deployment</a></li>
+            </ul>
+        </nav>
+        <main class="content">
+            <div class="hero">
+                <h1>Database</h1>
+                <p>Database configuration and models for the FastAPI Boilerplate</p>
+            </div>
+
+            <section id="configuration">
+                <h2>Database Configuration</h2>
+                <div class="card">
+                    <h3>Environment Variables</h3>
+                    <pre><code># Database Configuration
+DATABASE_URL=mysql://user:password@localhost/db_name
+# or for PostgreSQL
+# DATABASE_URL=postgresql://user:password@localhost/db_name
+
+# Database Pool Settings
+DB_POOL_SIZE=5
+DB_MAX_OVERFLOW=10
+DB_POOL_TIMEOUT=30
+DB_POOL_RECYCLE=1800</code></pre>
+                </div>
+                <div class="card">
+                    <h3>Database Connection</h3>
+                    <pre><code>from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+from app.core.config import settings
+
+engine = create_engine(
+    settings.DATABASE_URL,
+    pool_size=settings.DB_POOL_SIZE,
+    max_overflow=settings.DB_MAX_OVERFLOW,
+    pool_timeout=settings.DB_POOL_TIMEOUT,
+    pool_recycle=settings.DB_POOL_RECYCLE
+)
+
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+Base = declarative_base()</code></pre>
+                </div>
+            </section>
+
+            <section id="migrations">
+                <h2>Database Migrations</h2>
+                <div class="card">
+                    <h3>Creating Migrations</h3>
+                    <pre><code># Create new migration
+python3 artisan.py make-migration "migration message"
+
+# Run migrations
+python3 artisan.py migrate
+
+# Rollback last migration
+python3 artisan.py rollback
+
+# Show migration history
+python3 artisan.py migrate:status</code></pre>
+                </div>
+            </section>
+
+            <section id="models">
+                <h2>Database Models</h2>
+                <div class="card">
+                    <h3>Base Model</h3>
+                    <pre><code>from sqlalchemy import Column, Integer, DateTime
+from sqlalchemy.sql import func
+from app.core.database import Base
+
+class BaseModel(Base):
+    __abstract__ = True
+    
+    id = Column(Integer, primary_key=True, index=True)
+    created_at = Column(DateTime, default=func.now())
+    updated_at = Column(DateTime, default=func.now(), onupdate=func.now())</code></pre>
+                </div>
+                <div class="card">
+                    <h3>User Model</h3>
+                    <pre><code>from sqlalchemy import Column, String, Boolean
+from app.core.database import BaseModel
+
+class User(BaseModel):
+    __tablename__ = "users"
+
+    email = Column(String, unique=True, index=True)
+    hashed_password = Column(String)
+    is_active = Column(Boolean, default=True)
+    is_superuser = Column(Boolean, default=False)</code></pre>
+                </div>
+            </section>
+
+            <section id="transactions">
+                <h2>Database Transactions</h2>
+                <div class="card">
+                    <h3>Transaction Management</h3>
+                    <pre><code>from contextlib import contextmanager
+from sqlalchemy.orm import Session
+
+@contextmanager
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+        db.commit()
+    except Exception:
+        db.rollback()
+        raise
+    finally:
+        db.close()</code></pre>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="js/main.js"></script>
+    <script src="js/theme.js"></script>
+</body>
+</html> 

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Getting Started - FastAPI Boilerplate Documentation</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="topbar">
+        <div class="topbar-left">
+            <button class="sidebar-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="search-box">
+                <input type="text" placeholder="Search documentation...">
+                <i class="fas fa-search"></i>
+            </div>
+        </div>
+        <div class="topbar-right">
+            <div class="theme-switch-wrapper">
+                <label class="theme-switch" for="checkbox">
+                    <input type="checkbox" id="checkbox" />
+                    <div class="slider round">
+                        <i class="fas fa-sun"></i>
+                        <i class="fas fa-moon"></i>
+                    </div>
+                </label>
+            </div>
+            <a href="https://github.com/your-repo" class="github-link" target="_blank">
+                <i class="fab fa-github"></i>
+                <span>GitHub</span>
+            </a>
+        </div>
+    </div>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="logo">
+                <h1>FastAPI Boilerplate</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="getting-started.html" class="active"><i class="fas fa-rocket"></i> Getting Started</a></li>
+                <li><a href="requirements.html"><i class="fas fa-list-check"></i> Requirements</a></li>
+                <li><a href="architecture.html"><i class="fas fa-sitemap"></i> Architecture</a></li>
+                <li><a href="authentication.html"><i class="fas fa-shield-alt"></i> Authentication</a></li>
+                <li><a href="database.html"><i class="fas fa-database"></i> Database</a></li>
+                <li><a href="models.html"><i class="fas fa-table"></i> Models</a></li>
+                <li><a href="controllers.html"><i class="fas fa-cogs"></i> Controllers</a></li>
+                <li><a href="services.html"><i class="fas fa-server"></i> Services</a></li>
+                <li><a href="schemas.html"><i class="fas fa-code"></i> Schemas</a></li>
+                <li><a href="middleware.html"><i class="fas fa-layer-group"></i> Middleware</a></li>
+                <li><a href="cli.html"><i class="fas fa-terminal"></i> CLI Commands</a></li>
+                <li><a href="deployment.html"><i class="fas fa-cloud"></i> Deployment</a></li>
+            </ul>
+        </nav>
+        <main class="content">
+            <div class="hero">
+                <h1>Getting Started</h1>
+                <p>Learn how to set up and run the FastAPI Boilerplate project</p>
+            </div>
+
+            <section id="installation">
+                <h2>Installation</h2>
+                <div class="card">
+                    <h3>Prerequisites</h3>
+                    <ul class="requirements-list">
+                        <li>Python 3.8 or higher</li>
+                        <li>MySQL 5.7 or higher</li>
+                        <li>Redis (optional, for caching and background tasks)</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Setup Steps</h3>
+                    <pre><code># Clone the repository
+git clone https://github.com/your-repo/fastapi-boilerplate.git
+cd fastapi-boilerplate
+
+# Create and activate virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Set up environment variables
+cp .env.example .env
+# Edit .env with your configuration</code></pre>
+                </div>
+            </section>
+
+            <section id="configuration">
+                <h2>Configuration</h2>
+                <div class="card">
+                    <h3>Environment Variables</h3>
+                    <pre><code># Application
+APP_ENV=development
+DEBUG=True
+SECRET_KEY=your-secret-key
+
+# Database
+DATABASE_URL=mysql://user:password@localhost/db_name
+
+# Redis (optional)
+REDIS_URL=redis://localhost:6379/0
+
+# JWT
+JWT_SECRET_KEY=your-jwt-secret
+JWT_ALGORITHM=HS256
+ACCESS_TOKEN_EXPIRE_MINUTES=30
+
+# CORS
+ALLOWED_HOSTS=localhost,127.0.0.1
+CORS_ORIGINS=http://localhost:3000</code></pre>
+                </div>
+            </section>
+
+            <section id="running">
+                <h2>Running the Application</h2>
+                <div class="card">
+                    <h3>Development Server</h3>
+                    <pre><code># Run the development server
+python3 main.py
+
+# Or using the CLI
+python3 artisan.py serve</code></pre>
+                </div>
+                <div class="card">
+                    <h3>Database Migrations</h3>
+                    <pre><code># Create new migration
+python3 artisan.py make-migration "initial migration"
+
+# Run migrations
+python3 artisan.py migrate
+
+# Rollback last migration
+python3 artisan.py rollback</code></pre>
+                </div>
+            </section>
+
+            <section id="next-steps">
+                <h2>Next Steps</h2>
+                <div class="card">
+                    <h3>Explore the Documentation</h3>
+                    <ul class="requirements-list">
+                        <li><a href="architecture.html">Architecture Overview</a></li>
+                        <li><a href="authentication.html">Authentication System</a></li>
+                        <li><a href="database.html">Database Configuration</a></li>
+                        <li><a href="cli.html">CLI Commands</a></li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="js/main.js"></script>
+    <script src="js/theme.js"></script>
+</body>
+</html> 

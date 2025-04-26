@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Models - FastAPI Boilerplate Documentation</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="topbar">
+        <div class="topbar-left">
+            <button class="sidebar-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="search-box">
+                <input type="text" placeholder="Search documentation...">
+                <i class="fas fa-search"></i>
+            </div>
+        </div>
+        <div class="topbar-right">
+            <div class="theme-switch-wrapper">
+                <label class="theme-switch" for="checkbox">
+                    <input type="checkbox" id="checkbox" />
+                    <div class="slider round">
+                        <i class="fas fa-sun"></i>
+                        <i class="fas fa-moon"></i>
+                    </div>
+                </label>
+            </div>
+            <a href="https://github.com/your-repo" class="github-link" target="_blank">
+                <i class="fab fa-github"></i>
+                <span>GitHub</span>
+            </a>
+        </div>
+    </div>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="logo">
+                <h1>FastAPI Boilerplate</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="getting-started.html"><i class="fas fa-rocket"></i> Getting Started</a></li>
+                <li><a href="requirements.html"><i class="fas fa-list-check"></i> Requirements</a></li>
+                <li><a href="architecture.html"><i class="fas fa-sitemap"></i> Architecture</a></li>
+                <li><a href="authentication.html"><i class="fas fa-shield-alt"></i> Authentication</a></li>
+                <li><a href="database.html"><i class="fas fa-database"></i> Database</a></li>
+                <li><a href="models.html" class="active"><i class="fas fa-table"></i> Models</a></li>
+                <li><a href="controllers.html"><i class="fas fa-cogs"></i> Controllers</a></li>
+                <li><a href="services.html"><i class="fas fa-server"></i> Services</a></li>
+                <li><a href="schemas.html"><i class="fas fa-code"></i> Schemas</a></li>
+                <li><a href="middleware.html"><i class="fas fa-layer-group"></i> Middleware</a></li>
+                <li><a href="cli.html"><i class="fas fa-terminal"></i> CLI Commands</a></li>
+                <li><a href="deployment.html"><i class="fas fa-cloud"></i> Deployment</a></li>
+            </ul>
+        </nav>
+        <main class="content">
+            <div class="hero">
+                <h1>Models</h1>
+                <p>Data models and relationships for the FastAPI Boilerplate</p>
+            </div>
+
+            <section id="base-model">
+                <h2>Base Model</h2>
+                <div class="card">
+                    <h3>Common Fields</h3>
+                    <pre><code>from sqlalchemy import Column, Integer, DateTime
+from sqlalchemy.sql import func
+from app.core.database import Base
+
+class BaseModel(Base):
+    __abstract__ = True
+    
+    id = Column(Integer, primary_key=True, index=True)
+    created_at = Column(DateTime, default=func.now())
+    updated_at = Column(DateTime, default=func.now(), onupdate=func.now())</code></pre>
+                </div>
+            </section>
+
+            <section id="user-model">
+                <h2>User Model</h2>
+                <div class="card">
+                    <h3>User Fields</h3>
+                    <pre><code>from sqlalchemy import Column, String, Boolean, DateTime
+from app.core.database import BaseModel
+
+class User(BaseModel):
+    __tablename__ = "users"
+
+    email = Column(String, unique=True, index=True)
+    hashed_password = Column(String)
+    full_name = Column(String)
+    is_active = Column(Boolean, default=True)
+    is_superuser = Column(Boolean, default=False)
+    last_login = Column(DateTime, nullable=True)</code></pre>
+                </div>
+            </section>
+
+            <section id="post-model">
+                <h2>Post Model</h2>
+                <div class="card">
+                    <h3>Post Fields</h3>
+                    <pre><code>from sqlalchemy import Column, String, Text, ForeignKey
+from sqlalchemy.orm import relationship
+from app.core.database import BaseModel
+
+class Post(BaseModel):
+    __tablename__ = "posts"
+
+    title = Column(String, index=True)
+    content = Column(Text)
+    author_id = Column(Integer, ForeignKey("users.id"))
+    
+    author = relationship("User", back_populates="posts")</code></pre>
+                </div>
+            </section>
+
+            <section id="relationships">
+                <h2>Model Relationships</h2>
+                <div class="card">
+                    <h3>One-to-Many</h3>
+                    <pre><code># User model
+class User(BaseModel):
+    # ... other fields ...
+    posts = relationship("Post", back_populates="author")
+
+# Post model
+class Post(BaseModel):
+    # ... other fields ...
+    author_id = Column(Integer, ForeignKey("users.id"))
+    author = relationship("User", back_populates="posts")</code></pre>
+                </div>
+                <div class="card">
+                    <h3>Many-to-Many</h3>
+                    <pre><code># Association table
+post_tags = Table(
+    "post_tags",
+    Base.metadata,
+    Column("post_id", Integer, ForeignKey("posts.id")),
+    Column("tag_id", Integer, ForeignKey("tags.id"))
+)
+
+# Post model
+class Post(BaseModel):
+    # ... other fields ...
+    tags = relationship("Tag", secondary=post_tags, back_populates="posts")
+
+# Tag model
+class Tag(BaseModel):
+    __tablename__ = "tags"
+    name = Column(String, unique=True)
+    posts = relationship("Post", secondary=post_tags, back_populates="tags")</code></pre>
+                </div>
+            </section>
+
+            <section id="model-methods">
+                <h2>Model Methods</h2>
+                <div class="card">
+                    <h3>Common Methods</h3>
+                    <pre><code>from sqlalchemy.orm import Session
+from typing import Optional
+
+class User(BaseModel):
+    # ... fields ...
+
+    @classmethod
+    def get_by_email(cls, db: Session, email: str) -> Optional["User"]:
+        return db.query(cls).filter(cls.email == email).first()
+
+    @classmethod
+    def get_by_id(cls, db: Session, id: int) -> Optional["User"]:
+        return db.query(cls).filter(cls.id == id).first()
+
+    def update(self, db: Session, **kwargs):
+        for key, value in kwargs.items():
+            setattr(self, key, value)
+        db.commit()
+        db.refresh(self)
+        return self</code></pre>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="js/main.js"></script>
+    <script src="js/theme.js"></script>
+</body>
+</html> 

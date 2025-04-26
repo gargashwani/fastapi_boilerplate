@@ -12,7 +12,10 @@ engine = create_engine(
     pool_pre_ping=True,
     pool_recycle=3600,
     pool_size=5,
-    max_overflow=10
+    max_overflow=10,
+    connect_args={
+        "unix_socket": "/Applications/MAMP/tmp/mysql/mysql.sock"  # MAMP's MySQL socket
+    }
 )
 
 # Create session factory
