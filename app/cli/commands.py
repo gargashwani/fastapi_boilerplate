@@ -46,7 +46,7 @@ def rollback():
     """Rollback the last database migration"""
     os.system("alembic downgrade -1")
 
-@app.command()
+@app.command(name="make:model")
 @click.argument('name')
 def make_model(name: str):
     """Create a new model file"""
@@ -69,7 +69,7 @@ class {name.capitalize()}(Base):
     model_path.write_text(model_content)
     click.echo(f"Model {name} created successfully!")
 
-@app.command()
+@app.command(name="make:controller")
 @click.argument('name')
 def make_controller(name: str):
     """Create a new controller file"""
@@ -96,7 +96,7 @@ async def create_{name.lower()}({name.lower()}: {name.capitalize()}Create, servi
     controller_path.write_text(controller_content)
     click.echo(f"Controller {name} created successfully!")
 
-@app.command()
+@app.command(name="make:service")
 @click.argument('name')
 def make_service(name: str):
     """Create a new service file"""
@@ -130,7 +130,7 @@ class {name.capitalize()}Service:
     service_path.write_text(service_content)
     click.echo(f"Service {name} created successfully!")
 
-@app.command()
+@app.command(name="make:schema")
 @click.argument('name')
 def make_schema(name: str):
     """Create a new schema file"""
@@ -160,18 +160,18 @@ class {name.capitalize()}Response({name.capitalize()}Base):
     schema_path.write_text(schema_content)
     click.echo(f"Schema {name} created successfully!")
 
-@app.command()
+@app.command(name="test")
 def test():
     """Run tests"""
     os.system("pytest")
 
-@app.command()
+@app.command(name="seed")
 def seed():
     """Seed the database with initial data"""
     # Add your seeding logic here
     click.echo("Database seeded successfully!")
 
-@app.command()
+@app.command(name="clear:cache")
 def clear_cache():
     """Clear the application cache"""
     # Add your cache clearing logic here
