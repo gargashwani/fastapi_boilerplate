@@ -69,7 +69,7 @@
 pip install -e .
 
 # Verify installation
-python3 artisan.py --version</code></pre>
+python3 artisan --version</code></pre>
                 </div>
             </section>
 
@@ -78,36 +78,36 @@ python3 artisan.py --version</code></pre>
                 <div class="card">
                     <h3>Migration Commands</h3>
                     <pre><code># Create a new migration
-python3 artisan.py make:migration "create users table"
+python3 artisan make:migration "create users table"
 
 # Run migrations
-python3 artisan.py migrate
+python3 artisan migrate
 
 # Rollback last migration
-python3 artisan.py migrate:rollback
+python3 artisan migrate:rollback
 
 # Show migration status
-python3 artisan.py migrate:status
+python3 artisan migrate:status
 
 # Reset database
-python3 artisan.py migrate:reset
+python3 artisan migrate:reset
 
 # Refresh database
-python3 artisan.py migrate:refresh</code></pre>
+python3 artisan migrate:refresh</code></pre>
                 </div>
                 <div class="card">
                     <h3>Seed Commands</h3>
                     <pre><code># Create a new seeder
-python3 artisan.py make:seeder UsersSeeder
+python3 artisan make:seeder UsersSeeder
 
 # Run seeders
-python3 artisan.py db:seed
+python3 artisan db:seed
 
 # Run specific seeder
-python3 artisan.py db:seed --seeder=UsersSeeder
+python3 artisan db:seed --seeder=UsersSeeder
 
 # Refresh and seed
-python3 artisan.py db:refresh</code></pre>
+python3 artisan db:refresh</code></pre>
                 </div>
             </section>
 
@@ -116,16 +116,16 @@ python3 artisan.py db:refresh</code></pre>
                 <div class="card">
                     <h3>Model Generation</h3>
                     <pre><code># Create a new model
-python3 artisan.py make:model User
+python3 artisan make:model User
 
 # Create model with migration
-python3 artisan.py make:model User --migration
+python3 artisan make:model User --migration
 
 # Create model with controller
-python3 artisan.py make:model User --controller
+python3 artisan make:model User --controller
 
 # Create model with all components
-python3 artisan.py make:model User --all</code></pre>
+python3 artisan make:model User --all</code></pre>
                 </div>
             </section>
 
@@ -134,13 +134,13 @@ python3 artisan.py make:model User --all</code></pre>
                 <div class="card">
                     <h3>Controller Generation</h3>
                     <pre><code># Create a new controller
-python3 artisan.py make:controller UserController
+python3 artisan make:controller UserController
 
 # Create resource controller
-python3 artisan.py make:controller UserController --resource
+python3 artisan make:controller UserController --resource
 
 # Create API controller
-python3 artisan.py make:controller UserController --api</code></pre>
+python3 artisan make:controller UserController --api</code></pre>
                 </div>
             </section>
 
@@ -149,10 +149,10 @@ python3 artisan.py make:controller UserController --api</code></pre>
                 <div class="card">
                     <h3>Service Generation</h3>
                     <pre><code># Create a new service
-python3 artisan.py make:service UserService
+python3 artisan make:service UserService
 
 # Create service with interface
-python3 artisan.py make:service UserService --interface</code></pre>
+python3 artisan make:service UserService --interface</code></pre>
                 </div>
             </section>
 
@@ -161,25 +161,25 @@ python3 artisan.py make:service UserService --interface</code></pre>
                 <div class="card">
                     <h3>Development Tools</h3>
                     <pre><code># Run development server
-python3 artisan.py serve
+python3 artisan serve
 
 # Run development server with reload
-python3 artisan.py serve --reload
+python3 artisan serve --reload
 
 # Run tests
-python3 artisan.py test
+python3 artisan test
 
 # Run specific test
-python3 artisan.py test tests/test_users.py
+python3 artisan test tests/test_users.py
 
 # Generate API documentation
-python3 artisan.py docs:generate
+python3 artisan docs:generate
 
 # Clear application cache
-python3 artisan.py cache:clear
+python3 artisan cache:clear
 
 # View application logs
-python3 artisan.py logs:view</code></pre>
+python3 artisan logs:view</code></pre>
                 </div>
             </section>
 
