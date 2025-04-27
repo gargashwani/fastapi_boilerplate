@@ -22,5 +22,14 @@ app.add_middleware(
 app.add_middleware(LoggingMiddleware)
 app.add_middleware(RateLimitMiddleware)
 
+@app.get("/")
+async def root():
+    return {
+        "message": "Welcome to the FastAPI Boilerplate API",
+        "version": "1.0.0",
+        "docs": "/docs",
+        "api_docs": "/redoc"
+    }
+
 # Include API router
 app.include_router(api_router, prefix="/api/v1") 
