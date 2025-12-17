@@ -56,7 +56,8 @@ This document explains all the environment variables used in the FastAPI boilerp
 ### APP_DEBUG
 - **Description**: Enable/disable debug mode
 - **Options**: `true`, `false`
-- **Default**: `true`
+- **Default**: `false` (for security)
+- **Security**: Should always be `false` in production to prevent information disclosure
 
 ### APP_URL
 - **Description**: Application URL
@@ -64,7 +65,13 @@ This document explains all the environment variables used in the FastAPI boilerp
 
 ### APP_KEY
 - **Description**: Application secret key for encryption
-- **Note**: Generate a secure random key for production
+- **Required**: Yes (must be set, no default in production)
+- **Security**: Must be at least 32 characters long
+- **Generation**: 
+  ```bash
+  python -c "import secrets; print(secrets.token_urlsafe(32))"
+  ```
+- **Note**: **CRITICAL** - Never use default values in production. Generate a secure random key.
 
 ### APP_TIMEZONE
 - **Description**: Default timezone for scheduled tasks
@@ -76,7 +83,13 @@ This document explains all the environment variables used in the FastAPI boilerp
 
 ### JWT_SECRET
 - **Description**: Secret key for JWT token generation
-- **Note**: Generate a secure random key for production
+- **Required**: Yes (must be set, no default in production)
+- **Security**: Must be at least 32 characters long
+- **Generation**: 
+  ```bash
+  python -c "import secrets; print(secrets.token_urlsafe(32))"
+  ```
+- **Note**: **CRITICAL** - Never use default values in production. Generate a secure random key.
 
 ### JWT_ALGORITHM
 - **Description**: JWT algorithm

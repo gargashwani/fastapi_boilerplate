@@ -155,21 +155,52 @@ async def websocket_endpoint(websocket: WebSocket, token: Optional[str] = Query(
     """
     WebSocket endpoint for broadcasting.
     Similar to Laravel's broadcasting endpoint.
+    Requires authentication token.
     """
     import uuid
     socket_id = str(uuid.uuid4())
     user_id = None
     
-    # Authenticate user if token provided
-    if token:
-        try:
-            from app.core.security import get_current_user_from_token
-            # You'd need to implement token validation for WebSocket
-            # For now, we'll accept the connection
-            pass
-        except Exception:
-            await websocket.close(code=1008, reason="Authentication failed")
+    # Require authentication token
+    if not token:
+        await websocket.close(code=1008, reason="Authentication token required")
+        return
+    
+    # Authenticate user
+    try:
+        from jose import jwt
+        from jose.exceptions import JWTError
+        from app.core.config import settings
+        from app.core.database import get_db
+        from app.models.user import User
+        
+        # Decode and validate JWT token
+        payload = jwt.decode(
+            token, settings.JWT_SECRET, algorithms=[settings.JWT_ALGORITHM]
+        )
+        user_id = payload.get("sub")
+        
+        if user_id is None:
+            await websocket.close(code=1008, reason="Invalid token")
             return
+        
+        # Verify user exists
+        # Note: We need to get a DB session - for WebSocket, we'll create a temporary one
+        from app.core.database import SessionLocal
+        db = SessionLocal()
+        try:
+            user = User.get(db, id=int(user_id))
+            if not user or not user.is_active:
+                await websocket.close(code=1008, reason="User not found or inactive")
+                return
+            user_id = user.id
+        finally:
+            db.close()
+            
+    except (JWTError, ValueError, Exception) as e:
+        logger.error(f"WebSocket authentication failed: {e}")
+        await websocket.close(code=1008, reason="Authentication failed")
+        return
     
     await manager.connect(websocket, socket_id, user_id)
     

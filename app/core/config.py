@@ -1,6 +1,6 @@
 from typing import List, Optional
 from pydantic_settings import BaseSettings
-from pydantic import AnyHttpUrl, validator
+from pydantic import AnyHttpUrl, validator, root_validator
 from functools import lru_cache
 
 class Settings(BaseSettings):
@@ -23,12 +23,12 @@ class Settings(BaseSettings):
     # Application Configuration
     APP_NAME: str = "FastAPI Boilerplate"
     APP_ENV: str = "local"
-    APP_DEBUG: bool = True
+    APP_DEBUG: bool = False  # Default to False for security
     APP_URL: str = "http://localhost:8000"
-    APP_KEY: str = "your-secret-key-here"
+    APP_KEY: str = "your-secret-key-here-change-in-production"  # Must be changed in production
 
     # JWT Configuration
-    JWT_SECRET: str = "your-jwt-secret-key-here"
+    JWT_SECRET: str = "your-jwt-secret-key-here-change-in-production"  # Must be changed in production
     JWT_ALGORITHM: str = "HS256"
     JWT_EXPIRATION: int = 3600
 
@@ -118,6 +118,39 @@ class Settings(BaseSettings):
     SFTP_USERNAME: Optional[str] = None
     SFTP_PASSWORD: Optional[str] = None
     SFTP_KEY: Optional[str] = None  # Path to SSH private key
+
+    @root_validator
+    def validate_secrets(cls, values):
+        """Validate that secrets are set and not using defaults in production."""
+        insecure_defaults = [
+            'your-secret-key-here',
+            'your-jwt-secret-key-here',
+            'your-secret-key-here-change-in-production',
+            'your-jwt-secret-key-here-change-in-production'
+        ]
+        
+        # Only validate in production
+        if values.get('APP_ENV') == 'production':
+            app_key = values.get('APP_KEY', '')
+            jwt_secret = values.get('JWT_SECRET', '')
+            
+            if app_key in insecure_defaults:
+                raise ValueError(
+                    "APP_KEY must be set to a secure random value in production. "
+                    "Generate one with: python -c \"import secrets; print(secrets.token_urlsafe(32))\""
+                )
+            if jwt_secret in insecure_defaults:
+                raise ValueError(
+                    "JWT_SECRET must be set to a secure random value in production. "
+                    "Generate one with: python -c \"import secrets; print(secrets.token_urlsafe(32))\""
+                )
+            
+            if len(app_key) < 32:
+                raise ValueError("APP_KEY must be at least 32 characters long for security")
+            if len(jwt_secret) < 32:
+                raise ValueError("JWT_SECRET must be at least 32 characters long for security")
+        
+        return values
 
     class Config:
         env_file = ".env"

@@ -213,6 +213,84 @@ pytest --cov=app
 - Create custom exception classes in `app/core/exceptions.py` for specific error cases
 - Use Pydantic validation for request data
 - Implement proper error logging
+- **Security**: Don't expose sensitive information in error messages
+- Use `app/core/error_handler.py` for secure error handling
+
+### Security Best Practices
+
+1. **Secrets Management**
+   - Never commit `.env` files
+   - Generate secure random keys for production
+   - Use environment variables for all secrets
+   - Rotate secrets regularly
+
+2. **Input Validation**
+   - Always validate user input
+   - Use Pydantic schemas for request validation
+   - Sanitize file paths and filenames
+   - Validate file types and sizes
+
+3. **Authentication & Authorization**
+   - Use strong password requirements
+   - Implement proper JWT token validation
+   - Check user permissions before operations
+   - Use policies and gates for authorization
+
+4. **File Operations**
+   - Validate file paths to prevent path traversal
+   - Check file types and sizes
+   - Sanitize filenames
+   - Use `app/core/file_security.py` utilities
+
+5. **Command Execution**
+   - Never execute user input as commands
+   - Use whitelists for allowed commands
+   - Avoid `shell=True` in subprocess calls
+   - Validate command parameters
+
+6. **Error Handling**
+   - Don't expose stack traces in production
+   - Use generic error messages
+   - Log errors securely
+   - Include request IDs for tracking
+
+7. **Rate Limiting**
+   - Use Redis for distributed rate limiting
+   - Set appropriate limits per endpoint
+   - Implement stricter limits for auth endpoints
+
+8. **Security Headers**
+   - Always include security headers
+   - Configure CSP properly
+   - Use HSTS in production with HTTPS
+
+9. **CORS Configuration**
+   - Never use wildcard (`*`) in production
+   - Specify exact origins
+   - Don't allow credentials with wildcard
+
+10. **Dependencies**
+    - Regularly update dependencies
+    - Scan for known vulnerabilities
+    - Use `pip-audit` or `safety` to check packages
+
+### Security Testing
+
+```bash
+# Check for known vulnerabilities
+pip install safety
+safety check
+
+# Or use pip-audit
+pip install pip-audit
+pip-audit
+
+# Run security linter
+pip install bandit
+bandit -r app/
+```
+
+See [Security Audit](SECURITY_AUDIT.md) for comprehensive security information.
 
 ### Security
 

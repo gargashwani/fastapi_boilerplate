@@ -51,28 +51,37 @@ class RedisCache:
     def _serialize(self, value: Any) -> bytes:
         """Serialize value for storage."""
         if self._serializer == 'pickle':
+            # WARNING: Pickle is unsafe and should only be used in trusted environments
+            # In production, prefer JSON serialization
+            if settings.APP_ENV == "production":
+                logger.warning("Using pickle serialization in production is not recommended for security reasons")
             return pickle.dumps(value)
         else:  # json
             try:
                 return json.dumps(value).encode('utf-8')
-            except (TypeError, ValueError):
-                # Fallback to pickle if JSON serialization fails
-                return pickle.dumps(value)
+            except (TypeError, ValueError) as e:
+                # Don't fallback to pickle - raise error instead for security
+                logger.error(f"JSON serialization failed: {e}. Value type: {type(value)}")
+                raise ValueError(f"Cannot serialize value of type {type(value)} to JSON. Use pickle serializer explicitly if needed.")
     
     def _deserialize(self, value: bytes) -> Any:
         """Deserialize value from storage."""
         if value is None:
             return None
         
-        # Try JSON first (more common)
+        # Only try JSON - no pickle fallback for security
         try:
             return json.loads(value.decode('utf-8'))
-        except (json.JSONDecodeError, UnicodeDecodeError):
-            # Fallback to pickle
-            try:
-                return pickle.loads(value)
-            except Exception as e:
-                logger.error(f"Failed to deserialize cache value: {e}")
+        except (json.JSONDecodeError, UnicodeDecodeError) as e:
+            # If JSON fails and serializer is pickle, try pickle
+            if self._serializer == 'pickle':
+                try:
+                    return pickle.loads(value)
+                except Exception as pickle_error:
+                    logger.error(f"Failed to deserialize cache value: {pickle_error}")
+                    return None
+            else:
+                logger.error(f"Failed to deserialize cache value (JSON only): {e}")
                 return None
     
     def get(self, key: str, default: Any = None) -> Any:

@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional, List
 from sqlalchemy import Boolean, Column, Integer, String, DateTime
 from sqlalchemy.orm import Session
@@ -15,8 +15,8 @@ class User(Base):
     full_name = Column(String, index=True)
     is_active = Column(Boolean(), default=True)
     is_superuser = Column(Boolean(), default=False)
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    updated_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
 
     @classmethod
     def get(cls, db: Session, id: int) -> Optional["User"]:

@@ -130,12 +130,22 @@ cp .env.example .env
      # DB_UNIX_SOCKET=/Applications/MAMP/tmp/mysql/mysql.sock
      ```
 
-6. Run database migrations:
+6. **Generate secure secrets** (IMPORTANT for production):
+   ```bash
+   # Generate APP_KEY
+   python -c "import secrets; print('APP_KEY=' + secrets.token_urlsafe(32))"
+   
+   # Generate JWT_SECRET
+   python -c "import secrets; print('JWT_SECRET=' + secrets.token_urlsafe(32))"
+   ```
+   Add these to your `.env` file. **Never use default values in production!**
+
+7. Run database migrations:
 ```bash
 alembic upgrade head
 ```
 
-7. Start the development server:
+8. Start the development server:
 ```bash
 python main.py
 ```
@@ -448,6 +458,9 @@ pytest --cov=app
 
 ## Documentation
 
+- [Security Guide](DOCS/SECURITY.md) - Security best practices and features
+- [Security Audit](SECURITY_AUDIT.md) - Comprehensive security audit report
+- [Security Fixes](SECURITY_FIXES.md) - Summary of security improvements
 - [Redis Usage Guide](DOCS/REDIS_USAGE.md) - Caching and message queue
 - [Task Scheduling Guide](DOCS/TASK_SCHEDULING.md) - Scheduled task management
 - [Broadcasting Guide](DOCS/BROADCASTING.md) - Real-time event broadcasting
@@ -504,11 +517,17 @@ pytest --cov=app
 - **Unified Interface**: Same API for all storage backends
 
 ### Security
-- **JWT Authentication**: Secure token-based auth
-- **Password Hashing**: bcrypt password encryption
+- **JWT Authentication**: Secure token-based auth with timezone-aware tokens
+- **Password Hashing**: bcrypt password encryption with strength requirements
 - **Authorization**: Policy and Gate-based access control
-- **CORS Support**: Configurable cross-origin requests
-- **Rate Limiting**: Built-in request throttling
+- **CORS Support**: Configurable cross-origin requests (validated in production)
+- **Rate Limiting**: Built-in request throttling with Redis support
+- **Security Headers**: X-Frame-Options, CSP, HSTS, and more
+- **Path Traversal Protection**: Secure file operations with validation
+- **File Upload Security**: Type, size, and content validation
+- **Command Injection Prevention**: Secure command execution in scheduler
+- **Secure Error Handling**: No information disclosure in production
+- **Request ID Tracking**: Unique IDs for all requests
 
 ## Contributing
 

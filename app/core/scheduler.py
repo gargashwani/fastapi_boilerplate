@@ -73,14 +73,29 @@ class Schedule:
         }
         return self
     
-    def exec(self, command: str) -> 'Schedule':
+    def exec(self, command: str, allowed_commands: Optional[List[str]] = None) -> 'Schedule':
         """
-        Schedule a shell command.
+        Schedule a shell command with security validation.
         Similar to Laravel's $schedule->exec().
+        
+        WARNING: Only use with trusted commands. User input should never reach this method.
         
         Args:
             command: Shell command to execute
+            allowed_commands: Optional whitelist of allowed commands (for security)
         """
+        # Security: Validate command if whitelist provided
+        if allowed_commands:
+            # Extract base command (first word)
+            base_cmd = command.split()[0] if command.split() else command
+            if base_cmd not in allowed_commands:
+                raise ValueError(f"Command '{base_cmd}' is not in allowed commands list")
+        
+        # Security: Basic validation - no shell metacharacters
+        dangerous_chars = [';', '&', '|', '`', '$', '(', ')', '<', '>', '\n', '\r']
+        if any(char in command for char in dangerous_chars):
+            raise ValueError("Command contains potentially dangerous characters")
+        
         self._current_job = {
             'type': 'exec',
             'command': command,
@@ -435,7 +450,15 @@ class Schedule:
                     job_config['func'](*job_config.get('args', []), **job_config.get('kwargs', {}))
                 elif job_config['type'] == 'exec':
                     import subprocess
-                    subprocess.run(job_config['command'], shell=True)
+                    import shlex
+                    # Security: Use shlex.split and avoid shell=True
+                    # Split command into list to avoid shell injection
+                    cmd_parts = shlex.split(job_config['command'])
+                    if cmd_parts:
+                        # Use subprocess without shell=True for better security
+                        subprocess.run(cmd_parts, check=False, capture_output=True)
+                    else:
+                        logger.error(f"Invalid command: {job_config['command']}")
                 
                 # After hook
                 if 'after' in job_config:
