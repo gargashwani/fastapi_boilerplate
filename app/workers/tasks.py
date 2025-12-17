@@ -1,7 +1,7 @@
 from app.core.celery_app import celery_app
 from app.core.config import settings
 from app.models.user import User
-from app.database.base import SessionLocal
+from app.core.database import SessionLocal
 
 @celery_app.task(name="send_welcome_email")
 def send_welcome_email(user_id: int):

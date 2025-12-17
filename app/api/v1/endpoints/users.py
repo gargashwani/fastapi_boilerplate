@@ -2,7 +2,8 @@ from typing import Any, List
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.core.security import get_current_user
-from app.database.base import get_db
+from app.core.database import get_db
+from app.core.cache import cache
 from app.models.user import User
 from app.schemas.user import UserResponse, UserUpdate
 from app.core.policies import UserPolicy
@@ -26,10 +27,14 @@ def update_user_me(
     current_user: User = Depends(get_current_user),
 ) -> Any:
     """
-    Update own user.
+    Update own user (with cache invalidation example).
     """
     UserPolicy.update(current_user, current_user.id)
     user = User.update(db, db_obj=current_user, obj_in=user_in)
+    
+    # Example: Invalidate cache after update
+    cache().forget(f"user:{user.id}")
+    
     return user
 
 @router.get("/", response_model=List[UserResponse])
@@ -53,13 +58,22 @@ def read_user(
     current_user: User = Depends(get_current_user),
 ) -> Any:
     """
-    Get a specific user.
+    Get a specific user (with caching example).
     """
-    user = User.get(db, id=user_id)
-    if not user:
+    UserPolicy.view(current_user, user_id)
+    
+    # Example: Cache user data for 5 minutes
+    cache_key = f"user:{user_id}"
+    user_data = cache().remember(
+        cache_key,
+        ttl=300,  # 5 minutes
+        callback=lambda: User.get(db, id=user_id)
+    )
+    
+    if not user_data:
         raise HTTPException(status_code=404, detail="User not found")
-    UserPolicy.view(current_user, user.id)
-    return user
+    
+    return user_data
 
 @router.delete("/{user_id}", response_model=UserResponse)
 def delete_user(
@@ -68,12 +82,16 @@ def delete_user(
     current_user: User = Depends(get_current_user),
 ) -> Any:
     """
-    Delete a user.
+    Delete a user (with cache invalidation example).
     """
     user = User.get(db, id=user_id)
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
     UserPolicy.delete(current_user, user.id)
+    
+    # Example: Invalidate cache before deletion
+    cache().forget(f"user:{user_id}")
+    
     db.delete(user)
     db.commit()
     return user 

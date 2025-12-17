@@ -1,10 +1,30 @@
 from celery import Celery
 from app.core.config import settings
 
+def get_redis_url(db: int = 0) -> str:
+    """
+    Build Redis URL from settings.
+    Supports password authentication.
+    
+    Args:
+        db: Redis database number
+        
+    Returns:
+        Redis connection URL
+    """
+    if settings.REDIS_PASSWORD:
+        return f"redis://:{settings.REDIS_PASSWORD}@{settings.REDIS_HOST}:{settings.REDIS_PORT}/{db}"
+    else:
+        return f"redis://{settings.REDIS_HOST}:{settings.REDIS_PORT}/{db}"
+
+# Use configured broker/backend or build from Redis settings
+broker_url = settings.CELERY_BROKER_URL or get_redis_url(settings.REDIS_DB)
+result_backend = settings.CELERY_RESULT_BACKEND or get_redis_url(settings.REDIS_DB)
+
 celery_app = Celery(
     "worker",
-    broker=f"redis://{settings.REDIS_HOST}:{settings.REDIS_PORT}/0",
-    backend=f"redis://{settings.REDIS_HOST}:{settings.REDIS_PORT}/0",
+    broker=broker_url,
+    backend=result_backend,
     include=["app.workers.tasks"]
 )
 

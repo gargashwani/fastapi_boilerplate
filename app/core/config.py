@@ -5,12 +5,20 @@ from functools import lru_cache
 
 class Settings(BaseSettings):
     # Database Configuration
-    DB_CONNECTION: str = "mysql+pymysql"
+    # Options: postgresql, postgres, mysql, mysql+pymysql
+    # Similar to Laravel's DB_CONNECTION
+    DB_CONNECTION: str = "postgresql"
     DB_HOST: str = "localhost"
-    DB_PORT: int = 8889  # MAMP's default MySQL port
+    DB_PORT: int = 5432  # PostgreSQL default port (use 3306 for MySQL, 8889 for MAMP MySQL)
     DB_DATABASE: str = "fastapi_boilerplate"
-    DB_USERNAME: str = "root"
-    DB_PASSWORD: str = "root"  # MAMP's default MySQL password
+    DB_USERNAME: str = "postgres"
+    DB_PASSWORD: str = "postgres"
+    
+    # Optional: MySQL Unix Socket (for MAMP or local MySQL)
+    DB_UNIX_SOCKET: Optional[str] = None
+    
+    # Optional: PostgreSQL SSL Mode (require, prefer, allow, disable)
+    DB_SSL_MODE: Optional[str] = None
 
     # Application Configuration
     APP_NAME: str = "FastAPI Boilerplate"
@@ -29,6 +37,11 @@ class Settings(BaseSettings):
     REDIS_PORT: int = 6379
     REDIS_DB: int = 0
     REDIS_PASSWORD: Optional[str] = None
+    
+    # Cache Configuration
+    CACHE_PREFIX: str = "cache:"
+    CACHE_DEFAULT_TTL: int = 3600  # 1 hour in seconds
+    CACHE_SERIALIZER: str = "json"  # Options: json, pickle
 
     # Rate Limiting Configuration
     RATE_LIMIT: int = 100
@@ -46,9 +59,10 @@ class Settings(BaseSettings):
     MAIL_FROM_ADDRESS: str = "hello@example.com"
     MAIL_FROM_NAME: str = "FastAPI Boilerplate"
 
-    # Celery Configuration
-    CELERY_BROKER_URL: str = "redis://localhost:6379/0"
-    CELERY_RESULT_BACKEND: str = "redis://localhost:6379/0"
+    # Celery Configuration (Message Queue)
+    # These will be auto-generated from Redis config if not set
+    CELERY_BROKER_URL: Optional[str] = None
+    CELERY_RESULT_BACKEND: Optional[str] = None
     CELERY_WORKER_CONCURRENCY: int = 4
     CELERY_TASK_TIME_LIMIT: int = 1800
     CELERY_TASK_SOFT_TIME_LIMIT: int = 1200

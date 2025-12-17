@@ -6,8 +6,9 @@ This document explains all the environment variables used in the FastAPI boilerp
 
 ### DB_CONNECTION
 - **Description**: Database connection type
-- **Options**: `postgresql`, `mysql`, `sqlite`
+- **Options**: `postgresql`, `postgres`, `mysql`, `mysql+pymysql`
 - **Default**: `postgresql`
+- **Note**: The same SQLAlchemy models work with both PostgreSQL and MySQL
 
 ### DB_HOST
 - **Description**: Database server host address
@@ -15,7 +16,7 @@ This document explains all the environment variables used in the FastAPI boilerp
 
 ### DB_PORT
 - **Description**: Database server port number
-- **Default**: `5432` (PostgreSQL default)
+- **Default**: `5432` (PostgreSQL), `3306` (MySQL), `8889` (MAMP MySQL)
 
 ### DB_DATABASE
 - **Description**: Database name
@@ -23,11 +24,23 @@ This document explains all the environment variables used in the FastAPI boilerp
 
 ### DB_USERNAME
 - **Description**: Database username
-- **Default**: `postgres`
+- **Default**: `postgres` (PostgreSQL), `root` (MySQL)
 
 ### DB_PASSWORD
 - **Description**: Database password
-- **Default**: `postgres`
+- **Default**: `postgres` (PostgreSQL), `root` (MySQL)
+
+### DB_UNIX_SOCKET
+- **Description**: MySQL Unix socket path (optional)
+- **Example**: `/Applications/MAMP/tmp/mysql/mysql.sock`
+- **Default**: `None`
+- **Note**: Only used for MySQL connections
+
+### DB_SSL_MODE
+- **Description**: PostgreSQL SSL mode (optional)
+- **Options**: `require`, `prefer`, `allow`, `disable`
+- **Default**: `None`
+- **Note**: Only used for PostgreSQL connections
 
 ## Application Configuration
 
@@ -87,6 +100,24 @@ This document explains all the environment variables used in the FastAPI boilerp
 - **Description**: Redis password (if required)
 - **Default**: Empty
 
+## Cache Configuration
+
+### CACHE_PREFIX
+- **Description**: Prefix for all cache keys
+- **Default**: `cache:`
+- **Example**: Keys will be stored as `cache:user:123`
+
+### CACHE_DEFAULT_TTL
+- **Description**: Default time-to-live for cached items in seconds
+- **Default**: `3600` (1 hour)
+- **Note**: Can be overridden per cache operation
+
+### CACHE_SERIALIZER
+- **Description**: Serialization method for cache values
+- **Options**: `json`, `pickle`
+- **Default**: `json`
+- **Note**: JSON is faster but limited to basic types. Pickle supports all Python objects.
+
 ## Rate Limiting Configuration
 
 ### RATE_LIMIT
@@ -135,15 +166,19 @@ This document explains all the environment variables used in the FastAPI boilerp
 - **Description**: Default sender name
 - **Default**: `${APP_NAME}`
 
-## Celery Configuration
+## Celery Configuration (Message Queue)
 
 ### CELERY_BROKER_URL
-- **Description**: Celery broker URL
-- **Default**: `redis://localhost:6379/0`
+- **Description**: Celery broker URL (optional)
+- **Default**: Auto-generated from Redis settings if not set
+- **Format**: `redis://[password@]host:port/db`
+- **Note**: If not set, will use Redis configuration from `REDIS_HOST`, `REDIS_PORT`, etc.
 
 ### CELERY_RESULT_BACKEND
-- **Description**: Celery result backend URL
-- **Default**: `redis://localhost:6379/0`
+- **Description**: Celery result backend URL (optional)
+- **Default**: Auto-generated from Redis settings if not set
+- **Format**: `redis://[password@]host:port/db`
+- **Note**: If not set, will use Redis configuration from `REDIS_HOST`, `REDIS_PORT`, etc.
 
 ### CELERY_WORKER_CONCURRENCY
 - **Description**: Number of worker processes

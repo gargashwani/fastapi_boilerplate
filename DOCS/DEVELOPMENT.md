@@ -4,7 +4,8 @@
 
 ### Prerequisites
 - Python 3.8+
-- PostgreSQL
+- PostgreSQL or MySQL
+- Redis (for caching and message queue)
 - pip
 - virtualenv (recommended)
 
@@ -29,14 +30,64 @@ Edit the `.env` file with your configuration.
 
 ### Database Setup
 
-1. Create a PostgreSQL database:
+**PostgreSQL:**
 ```bash
 createdb fastapi_boilerplate
 ```
 
-2. Run migrations:
+**MySQL:**
+```bash
+mysql -u root -p
+CREATE DATABASE fastapi_boilerplate;
+```
+
+2. Configure database in `.env`:
+```env
+# For PostgreSQL
+DB_CONNECTION=postgresql
+DB_HOST=localhost
+DB_PORT=5432
+DB_DATABASE=fastapi_boilerplate
+DB_USERNAME=postgres
+DB_PASSWORD=postgres
+
+# For MySQL
+DB_CONNECTION=mysql+pymysql
+DB_HOST=localhost
+DB_PORT=3306
+DB_DATABASE=fastapi_boilerplate
+DB_USERNAME=root
+DB_PASSWORD=root
+```
+
+3. Run migrations:
 ```bash
 alembic upgrade head
+```
+
+### Redis Setup
+
+**macOS (Homebrew):**
+```bash
+brew install redis
+brew services start redis
+```
+
+**Docker:**
+```bash
+docker run -d -p 6379:6379 redis:latest
+```
+
+**Linux:**
+```bash
+sudo apt-get install redis-server
+sudo systemctl start redis
+```
+
+Verify Redis is running:
+```bash
+redis-cli ping
+# Should return: PONG
 ```
 
 ## Development Workflow
@@ -66,6 +117,62 @@ alembic upgrade head
 #### Rolling back migrations
 ```bash
 alembic downgrade -1  # Roll back one migration
+```
+
+### Redis Caching
+
+The boilerplate includes a Laravel-like caching interface:
+
+```python
+from app.core.cache import cache
+
+# Store value
+cache().put("key", "value", ttl=3600)
+
+# Get value
+value = cache().get("key", default=None)
+
+# Cache-aside pattern (recommended)
+user = cache().remember(
+    f"user:{user_id}",
+    ttl=300,
+    callback=lambda: User.get(db, id=user_id)
+)
+
+# Invalidate cache
+cache().forget("key")
+```
+
+See [Redis Usage Guide](REDIS_USAGE.md) for more examples.
+
+### Background Tasks (Celery)
+
+**Start Celery Worker:**
+```bash
+# Development (with auto-reload)
+celery -A app.core.celery_app worker --loglevel=info --reload
+
+# Production
+celery -A app.core.celery_app worker --loglevel=info
+```
+
+**Monitor with Flower:**
+```bash
+celery -A app.core.celery_app flower
+# Access at http://localhost:5555
+```
+
+**Create Background Tasks:**
+```python
+from app.core.celery_app import celery_app
+
+@celery_app.task(name="send_email")
+def send_email_task(email: str, subject: str):
+    # Your task logic here
+    pass
+
+# Call the task
+send_email_task.delay("user@example.com", "Hello")
 ```
 
 ### Testing
@@ -153,8 +260,20 @@ docker run -p 8000:8000 fastapi_boilerplate
 
 1. Database connection errors
    - Check database credentials in `.env`
-   - Ensure PostgreSQL is running
+   - Ensure PostgreSQL/MySQL is running
    - Verify database exists
+   - For MySQL with MAMP, check `DB_UNIX_SOCKET` path
+
+2. Redis connection errors
+   - Ensure Redis is running: `redis-cli ping`
+   - Check Redis configuration in `.env`
+   - Verify Redis port (default: 6379)
+
+3. Celery worker not processing tasks
+   - Ensure Redis is running
+   - Check Celery worker is started
+   - Verify tasks are imported in `celery_app.py`
+   - Check Celery logs for errors
 
 2. Migration errors
    - Check for conflicting migrations

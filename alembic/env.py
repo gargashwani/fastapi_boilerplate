@@ -6,7 +6,7 @@ from logging.config import fileConfig
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 from alembic import context
-from app.database.base import Base
+from app.core.database import Base
 from app.core.config import settings
 
 config = context.config
@@ -17,7 +17,46 @@ if config.config_file_name is not None:
 target_metadata = Base.metadata
 
 def get_url():
-    return f"{settings.DB_CONNECTION}://{settings.DB_USERNAME}:{settings.DB_PASSWORD}@{settings.DB_HOST}:{settings.DB_PORT}/{settings.DB_DATABASE}"
+    """
+    Construct database URL for migrations.
+    Supports PostgreSQL and MySQL similar to Laravel's database configuration.
+    """
+    connection = settings.DB_CONNECTION.lower()
+    
+    # PostgreSQL connection strings
+    if connection in ["postgresql", "postgres"]:
+        return f"postgresql://{settings.DB_USERNAME}:{settings.DB_PASSWORD}@{settings.DB_HOST}:{settings.DB_PORT}/{settings.DB_DATABASE}"
+    
+    # MySQL connection strings
+    elif connection in ["mysql", "mysql+pymysql"]:
+        return f"mysql+pymysql://{settings.DB_USERNAME}:{settings.DB_PASSWORD}@{settings.DB_HOST}:{settings.DB_PORT}/{settings.DB_DATABASE}"
+    
+    # SQLite (if needed in future)
+    elif connection == "sqlite":
+        return f"sqlite:///{settings.DB_DATABASE}"
+    
+    # Default: use the connection string as-is
+    else:
+        return f"{settings.DB_CONNECTION}://{settings.DB_USERNAME}:{settings.DB_PASSWORD}@{settings.DB_HOST}:{settings.DB_PORT}/{settings.DB_DATABASE}"
+
+def get_connect_args():
+    """
+    Get connection arguments for migrations based on database type.
+    """
+    connection = settings.DB_CONNECTION.lower()
+    connect_args = {}
+    
+    # MySQL-specific: Unix socket (for MAMP or local MySQL)
+    if connection in ["mysql", "mysql+pymysql"]:
+        if hasattr(settings, 'DB_UNIX_SOCKET') and settings.DB_UNIX_SOCKET:
+            connect_args["unix_socket"] = settings.DB_UNIX_SOCKET
+    
+    # PostgreSQL-specific: SSL mode
+    if connection in ["postgresql", "postgres"]:
+        if hasattr(settings, 'DB_SSL_MODE') and settings.DB_SSL_MODE:
+            connect_args["sslmode"] = settings.DB_SSL_MODE
+    
+    return connect_args
 
 def run_migrations_offline():
     url = get_url()
@@ -38,9 +77,7 @@ def run_migrations_online():
         configuration,
         prefix="sqlalchemy.",
         poolclass=pool.NullPool,
-        connect_args={
-            "unix_socket": "/Applications/MAMP/tmp/mysql/mysql.sock"  # MAMP's MySQL socket
-        }
+        connect_args=get_connect_args()
     )
 
     with connectable.connect() as connection:
