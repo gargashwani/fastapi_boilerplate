@@ -53,6 +53,13 @@ fastapi_boilerplate/
 │   ├── REDIS_USAGE.md        # Redis caching & message queue guide
 │   ├── ENVIRONMENT.md        # Environment variables guide
 │   └── DEVELOPMENT.md        # Development guide
+├── public/                   # Publicly accessible files (like Laravel's public/)
+│   ├── storage/              # Public storage files (accessible via /storage/)
+│   ├── css/                  # CSS files
+│   ├── js/                   # JavaScript files
+│   └── images/               # Image files
+├── storage/                  # Private storage (not publicly accessible)
+│   └── app/                  # Application storage
 ├── tests/                    # Test files
 ├── .env.example              # Example environment variables
 ├── alembic.ini               # Alembic configuration
@@ -346,8 +353,12 @@ The boilerplate provides a Laravel-like Storage facade:
 ```python
 from app.core.storage import storage
 
-# Store a file
+# Store a file (private - in storage/app)
 storage().put('path/to/file.txt', 'content')
+
+# Store a public file (accessible via URL)
+storage('public').put('images/logo.png', image_content)
+# Accessible at: http://localhost:8000/storage/images/logo.png
 
 # Get file content
 content = storage().get('path/to/file.txt')
@@ -362,24 +373,13 @@ storage().delete('path/to/file.txt')
 # Get file URL
 url = storage().url('path/to/file.txt')
 
-# Copy file
-storage().copy('old/path.txt', 'new/path.txt')
-
-# Move file
-storage().move('old/path.txt', 'new/path.txt')
-
-# Get file size
-size = storage().size('path/to/file.txt')
-
-# Get MIME type
-mime = storage().mime_type('path/to/file.txt')
-
-# List files
-files = storage().files('directory/')
-
 # Use different disk
 storage('s3').put('file.txt', 'content')
 ```
+
+**Public vs Private Storage:**
+- **Private** (`storage/app`): Files NOT publicly accessible - use for sensitive data
+- **Public** (`public/storage`): Files publicly accessible via `/storage/` URL
 
 See [File Storage Guide](DOCS/FILE_STORAGE.md) for comprehensive examples.
 

@@ -148,6 +148,12 @@ ENV/
 env.bak/
 venv.bak/
 
+# Storage directories (keep structure, ignore files)
+storage/app/*
+!storage/app/.gitkeep
+public/storage/*
+!public/storage/.gitkeep
+
 # Spyder project settings
 .spyderproject
 .spyproject

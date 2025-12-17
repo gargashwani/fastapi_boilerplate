@@ -48,6 +48,18 @@ class Storage:
             # Create directory if it doesn't exist
             os.makedirs(root, exist_ok=True)
             return open_fs(f"osfs://{os.path.abspath(root)}")
+        
+        elif driver == 's3':
+            return self._create_s3_filesystem(disk_config)
+        
+        elif driver == 'ftp':
+            return self._create_ftp_filesystem(disk_config)
+        
+        elif driver == 'sftp':
+            return self._create_sftp_filesystem(disk_config)
+        
+        else:
+            raise ValueError(f"Unsupported storage driver: {driver}")
     
     def _get_disk_config(self) -> dict:
         """Get disk configuration from settings."""
@@ -55,6 +67,12 @@ class Storage:
             return {
                 'driver': 'local',
                 'root': settings.FILESYSTEM_ROOT,
+            }
+        elif self.disk == 'public':
+            # Public storage disk - files stored in public/storage
+            return {
+                'driver': 'local',
+                'root': settings.FILESYSTEM_PUBLIC_ROOT,
             }
         elif self.disk == 's3':
             return {
@@ -88,18 +106,6 @@ class Storage:
                 'driver': 'local',
                 'root': settings.FILESYSTEM_ROOT,
             }
-        
-        elif driver == 's3':
-            return self._create_s3_filesystem(disk_config)
-        
-        elif driver == 'ftp':
-            return self._create_ftp_filesystem(disk_config)
-        
-        elif driver == 'sftp':
-            return self._create_sftp_filesystem(disk_config)
-        
-        else:
-            raise ValueError(f"Unsupported storage driver: {driver}")
     
     def _create_s3_filesystem(self, config: dict) -> FS:
         """Create S3 filesystem."""
@@ -461,6 +467,12 @@ class Storage:
             if self.disk == 'local' or settings.FILESYSTEM_DISK == 'local':
                 base_url = settings.FILESYSTEM_URL or settings.APP_URL
                 # Remove trailing slash if present
+                base_url = base_url.rstrip('/')
+                return f"{base_url}/storage/{path}"
+            
+            # For public disk, return public URL
+            elif self.disk == 'public':
+                base_url = settings.FILESYSTEM_URL or settings.APP_URL
                 base_url = base_url.rstrip('/')
                 return f"{base_url}/storage/{path}"
             
