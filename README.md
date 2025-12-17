@@ -9,6 +9,7 @@ A modern, production-ready FastAPI boilerplate with a structure similar to Larav
 - Alembic database migrations
 - Redis caching (Laravel-like Cache facade)
 - Redis message queue with Celery
+- Task scheduling (Laravel-like Scheduler) - Cron-like task scheduling
 - File storage (Laravel-like Storage facade) - Local, S3, FTP, SFTP
 - Pydantic models and validation
 - Environment configuration (Laravel-like)
@@ -346,6 +347,40 @@ from app.workers.tasks import send_welcome_email
 send_welcome_email.delay(user.id)
 ```
 
+### Task Scheduling
+
+The boilerplate provides a Laravel-like task scheduler:
+
+```python
+from app.core.scheduler import schedule
+
+# Define tasks in app/console/kernel.py
+def schedule_tasks():
+    # Run every minute
+    schedule().job(cleanup_task).every_minute()
+    
+    # Run daily at specific time
+    schedule().job(send_report).daily_at('09:00')
+    
+    # Run hourly
+    schedule().job(process_queue).hourly()
+    
+    # Run weekly
+    schedule().job(backup).weekly_on('sunday', '02:00')
+```
+
+**Run the scheduler:**
+```bash
+python artisan schedule:run
+```
+
+**List scheduled tasks:**
+```bash
+python artisan schedule:list
+```
+
+See [Task Scheduling Guide](DOCS/TASK_SCHEDULING.md) for comprehensive examples.
+
 ### File Storage Usage
 
 The boilerplate provides a Laravel-like Storage facade:
@@ -396,6 +431,8 @@ pytest --cov=app
 ## Documentation
 
 - [Redis Usage Guide](DOCS/REDIS_USAGE.md) - Caching and message queue
+- [Task Scheduling Guide](DOCS/TASK_SCHEDULING.md) - Scheduled task management
+- [File Storage Guide](DOCS/FILE_STORAGE.md) - File storage system
 - [Environment Variables](DOCS/ENVIRONMENT.md) - Complete configuration guide
 - [Development Guide](DOCS/DEVELOPMENT.md) - Development workflow and best practices
 
@@ -417,6 +454,12 @@ pytest --cov=app
 - **Redis Backend**: Fast and reliable message broker
 - **Task Monitoring**: Flower dashboard included
 - **Retry Logic**: Built-in task retry support
+
+### Task Scheduling
+- **Laravel-like API**: Familiar `schedule().job()` syntax
+- **Multiple Frequencies**: Every minute, hourly, daily, weekly, monthly, etc.
+- **Task Types**: Commands, jobs, and shell commands
+- **Advanced Features**: Timezone support, overlap prevention, conditional execution
 
 ### File Storage
 - **Laravel-like API**: Familiar `storage().put()`, `storage().get()` methods

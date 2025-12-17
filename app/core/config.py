@@ -72,6 +72,9 @@ class Settings(BaseSettings):
     LOG_FILE: str = "logs/app.log"
     LOG_MAX_SIZE: int = 10485760
     LOG_BACKUP_COUNT: int = 5
+    
+    # Scheduler Configuration
+    APP_TIMEZONE: str = "UTC"  # Default timezone for scheduled tasks
 
     # Filesystem Configuration
     FILESYSTEM_DISK: str = "local"  # Options: local, s3, ftp, sftp

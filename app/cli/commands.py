@@ -482,5 +482,55 @@ def db_refresh():
     
     click.echo("Database refreshed successfully!")
 
+@app.command(name="schedule:run")
+def schedule_run():
+    """Run the scheduled tasks (similar to Laravel's schedule:run)"""
+    from app.core.scheduler import get_scheduler
+    from app.console.kernel import schedule_tasks
+    
+    click.echo("Loading scheduled tasks...")
+    
+    # Define tasks
+    schedule_tasks()
+    
+    # Start scheduler
+    scheduler = get_scheduler()
+    scheduler.start()
+    
+    click.echo("Scheduler started. Press Ctrl+C to stop.")
+    
+    try:
+        # Keep running
+        import time
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt:
+        click.echo("\nStopping scheduler...")
+        scheduler.shutdown()
+        click.echo("Scheduler stopped.")
+
+@app.command(name="schedule:list")
+def schedule_list():
+    """List all scheduled tasks"""
+    from app.core.scheduler import get_scheduler
+    from app.console.kernel import schedule_tasks
+    
+    # Define tasks
+    schedule_tasks()
+    
+    scheduler = get_scheduler()
+    jobs = scheduler.get_jobs()
+    
+    if not jobs:
+        click.echo("No scheduled tasks found.")
+        return
+    
+    click.echo(f"\nFound {len(jobs)} scheduled task(s):\n")
+    for job in jobs:
+        click.echo(f"  - {job.id}")
+        click.echo(f"    Trigger: {job.trigger}")
+        click.echo(f"    Next run: {job.next_run_time}")
+        click.echo()
+
 if __name__ == '__main__':
     app() 

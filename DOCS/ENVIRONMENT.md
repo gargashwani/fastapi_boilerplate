@@ -66,6 +66,12 @@ This document explains all the environment variables used in the FastAPI boilerp
 - **Description**: Application secret key for encryption
 - **Note**: Generate a secure random key for production
 
+### APP_TIMEZONE
+- **Description**: Default timezone for scheduled tasks
+- **Default**: `UTC`
+- **Examples**: `America/New_York`, `Europe/London`, `Asia/Tokyo`
+- **Note**: Used by the task scheduler
+
 ## JWT Configuration
 
 ### JWT_SECRET
