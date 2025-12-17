@@ -10,6 +10,7 @@ A modern, production-ready FastAPI boilerplate with a structure similar to Larav
 - Redis caching (Laravel-like Cache facade)
 - Redis message queue with Celery
 - Task scheduling (Laravel-like Scheduler) - Cron-like task scheduling
+- Real-time broadcasting (Laravel-like Broadcasting) - WebSocket support with Redis/Pusher/Ably
 - File storage (Laravel-like Storage facade) - Local, S3, FTP, SFTP
 - Pydantic models and validation
 - Environment configuration (Laravel-like)
@@ -29,20 +30,31 @@ fastapi_boilerplate/
 │   ├── api/                  # API routes
 │   │   └── v1/               # API version 1
 │   │       ├── endpoints/    # API endpoints
-│   │       │   ├── auth.py   # Authentication endpoints
-│   │       │   ├── users.py  # User endpoints
-│   │       │   └── files.py  # File storage endpoints
+│   │       │   ├── auth.py        # Authentication endpoints
+│   │       │   ├── users.py       # User endpoints
+│   │       │   ├── files.py       # File storage endpoints
+│   │       │   └── broadcasting.py # Broadcasting WebSocket endpoints
 │   │       └── api.py        # API router
 │   ├── core/                 # Core functionality
 │   │   ├── config.py         # Configuration settings
 │   │   ├── database.py       # Database configuration (PostgreSQL & MySQL)
 │   │   ├── cache.py          # Redis caching (Laravel-like)
 │   │   ├── storage.py        # File storage (Laravel-like Storage facade)
+│   │   ├── broadcasting.py  # Broadcasting system (Laravel-like)
+│   │   ├── channels.py       # Channel authorization
+│   │   ├── scheduler.py      # Task scheduler
 │   │   ├── celery_app.py     # Celery configuration
 │   │   ├── security.py       # Security utilities (JWT, password hashing)
 │   │   ├── middlewares.py    # Custom middlewares
 │   │   ├── policies.py       # Authorization policies
 │   │   └── gates.py          # Authorization gates
+│   ├── events/               # Broadcast events
+│   │   ├── base.py           # Base event classes
+│   │   └── user_events.py    # User broadcast events
+│   ├── routes/               # Route definitions
+│   │   └── channels.py       # Channel authorization routes
+│   ├── console/              # Console commands
+│   │   └── kernel.py         # Scheduled tasks definition
 │   ├── models/               # SQLAlchemy models
 │   │   └── user.py           # User model
 │   ├── schemas/              # Pydantic schemas
@@ -150,6 +162,10 @@ API documentation will be available at http://localhost:8000/docs
 - `GET /api/v1/files/list` - List files in directory
 - `POST /api/v1/files/copy` - Copy a file
 - `POST /api/v1/files/move` - Move a file
+
+### Broadcasting
+- `WS /api/v1/broadcasting/ws` - WebSocket connection endpoint
+- `POST /api/v1/broadcasting/auth` - Authorize private/presence channel access
 
 ### Documentation
 - `GET /docs` - Swagger UI documentation
@@ -432,6 +448,7 @@ pytest --cov=app
 
 - [Redis Usage Guide](DOCS/REDIS_USAGE.md) - Caching and message queue
 - [Task Scheduling Guide](DOCS/TASK_SCHEDULING.md) - Scheduled task management
+- [Broadcasting Guide](DOCS/BROADCASTING.md) - Real-time event broadcasting
 - [File Storage Guide](DOCS/FILE_STORAGE.md) - File storage system
 - [Environment Variables](DOCS/ENVIRONMENT.md) - Complete configuration guide
 - [Development Guide](DOCS/DEVELOPMENT.md) - Development workflow and best practices
@@ -460,6 +477,13 @@ pytest --cov=app
 - **Multiple Frequencies**: Every minute, hourly, daily, weekly, monthly, etc.
 - **Task Types**: Commands, jobs, and shell commands
 - **Advanced Features**: Timezone support, overlap prevention, conditional execution
+
+### Real-time Broadcasting
+- **Laravel-like API**: Familiar `broadcast().event()` syntax
+- **Multiple Drivers**: Redis, Pusher, Ably, Log, Null
+- **Channel Types**: Public, Private, Presence channels
+- **WebSocket Support**: Real-time bidirectional communication
+- **Channel Authorization**: Secure access control
 
 ### File Storage
 - **Laravel-like API**: Familiar `storage().put()`, `storage().get()` methods

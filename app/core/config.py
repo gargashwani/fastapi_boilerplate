@@ -75,6 +75,23 @@ class Settings(BaseSettings):
     
     # Scheduler Configuration
     APP_TIMEZONE: str = "UTC"  # Default timezone for scheduled tasks
+    
+    # Broadcasting Configuration
+    BROADCAST_DRIVER: str = "redis"  # Options: redis, pusher, ably, log, null
+    BROADCAST_CONNECTION: str = "default"  # Connection name for broadcasting
+    
+    # Pusher Configuration (for pusher driver)
+    PUSHER_APP_ID: Optional[str] = None
+    PUSHER_APP_KEY: Optional[str] = None
+    PUSHER_APP_SECRET: Optional[str] = None
+    PUSHER_APP_CLUSTER: str = "mt1"
+    PUSHER_HOST: Optional[str] = None
+    PUSHER_PORT: int = 443
+    PUSHER_SCHEME: str = "https"
+    PUSHER_ENCRYPTED: bool = True
+    
+    # Ably Configuration (for ably driver)
+    ABLY_KEY: Optional[str] = None
 
     # Filesystem Configuration
     FILESYSTEM_DISK: str = "local"  # Options: local, s3, ftp, sftp

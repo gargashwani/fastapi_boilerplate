@@ -4,9 +4,11 @@ from sqlalchemy.orm import Session
 from app.core.security import get_current_user
 from app.core.database import get_db
 from app.core.cache import cache
+from app.core.broadcasting import broadcast
 from app.models.user import User
 from app.schemas.user import UserResponse, UserUpdate
 from app.core.policies import UserPolicy
+from app.events.user_events import UserCreated, UserUpdated, UserDeleted
 
 router = APIRouter()
 
@@ -27,13 +29,17 @@ def update_user_me(
     current_user: User = Depends(get_current_user),
 ) -> Any:
     """
-    Update own user (with cache invalidation example).
+    Update own user (with cache invalidation and broadcasting example).
     """
     UserPolicy.update(current_user, current_user.id)
     user = User.update(db, db_obj=current_user, obj_in=user_in)
     
     # Example: Invalidate cache after update
     cache().forget(f"user:{user.id}")
+    
+    # Example: Broadcast user update event
+    event = UserUpdated(user)
+    broadcast().event(event)
     
     return user
 
@@ -82,7 +88,7 @@ def delete_user(
     current_user: User = Depends(get_current_user),
 ) -> Any:
     """
-    Delete a user (with cache invalidation example).
+    Delete a user (with cache invalidation and broadcasting example).
     """
     user = User.get(db, id=user_id)
     if not user:
@@ -91,6 +97,10 @@ def delete_user(
     
     # Example: Invalidate cache before deletion
     cache().forget(f"user:{user_id}")
+    
+    # Example: Broadcast user deletion event
+    event = UserDeleted(user_id)
+    broadcast().event(event)
     
     db.delete(user)
     db.commit()
