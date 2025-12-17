@@ -11,6 +11,7 @@ A modern, production-ready FastAPI boilerplate with a structure similar to Larav
 - Redis message queue with Celery
 - Task scheduling (Laravel-like Scheduler) - Cron-like task scheduling
 - Real-time broadcasting (Laravel-like Broadcasting) - WebSocket support with Redis/Pusher/Ably
+- HTTP client (Laravel-like Http facade) - Fluent HTTP requests with retries, middleware, and testing
 - File storage (Laravel-like Storage facade) - Local, S3, FTP, SFTP
 - Pydantic models and validation
 - Environment configuration (Laravel-like)
@@ -42,6 +43,7 @@ fastapi_boilerplate/
 │   │   ├── storage.py        # File storage (Laravel-like Storage facade)
 │   │   ├── broadcasting.py  # Broadcasting system (Laravel-like)
 │   │   ├── channels.py       # Channel authorization
+│   │   ├── http.py           # HTTP client (Laravel-like)
 │   │   ├── scheduler.py      # Task scheduler
 │   │   ├── celery_app.py     # Celery configuration
 │   │   ├── security.py       # Security utilities (JWT, password hashing)
@@ -449,6 +451,7 @@ pytest --cov=app
 - [Redis Usage Guide](DOCS/REDIS_USAGE.md) - Caching and message queue
 - [Task Scheduling Guide](DOCS/TASK_SCHEDULING.md) - Scheduled task management
 - [Broadcasting Guide](DOCS/BROADCASTING.md) - Real-time event broadcasting
+- [HTTP Client Guide](DOCS/HTTP_CLIENT.md) - HTTP client for making requests
 - [File Storage Guide](DOCS/FILE_STORAGE.md) - File storage system
 - [Environment Variables](DOCS/ENVIRONMENT.md) - Complete configuration guide
 - [Development Guide](DOCS/DEVELOPMENT.md) - Development workflow and best practices
@@ -484,6 +487,15 @@ pytest --cov=app
 - **Channel Types**: Public, Private, Presence channels
 - **WebSocket Support**: Real-time bidirectional communication
 - **Channel Authorization**: Secure access control
+
+### HTTP Client
+- **Laravel-like API**: Familiar `http().get()`, `http().post()` syntax
+- **Fluent Interface**: Chain methods for easy configuration
+- **Authentication**: Basic auth, Bearer tokens
+- **Retry Logic**: Automatic retries on failure
+- **Middleware**: Custom request/response processing
+- **Concurrent Requests**: Pool and batch multiple requests
+- **Testing Support**: Fake responses and request recording
 
 ### File Storage
 - **Laravel-like API**: Familiar `storage().put()`, `storage().get()` methods
