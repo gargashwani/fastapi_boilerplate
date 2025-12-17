@@ -211,6 +211,81 @@ This document explains all the environment variables used in the FastAPI boilerp
 - **Description**: Number of backup logs to keep
 - **Default**: `5`
 
+## Filesystem Configuration
+
+### FILESYSTEM_DISK
+- **Description**: Default storage driver
+- **Options**: `local`, `s3`, `ftp`, `sftp`
+- **Default**: `local`
+
+### FILESYSTEM_ROOT
+- **Description**: Root directory for local storage
+- **Default**: `storage/app`
+
+### FILESYSTEM_URL
+- **Description**: Public URL for local storage
+- **Default**: `None` (uses APP_URL/storage)
+
+### AWS_ACCESS_KEY_ID
+- **Description**: AWS access key for S3 storage
+- **Default**: `None`
+- **Note**: Required for S3 driver
+
+### AWS_SECRET_ACCESS_KEY
+- **Description**: AWS secret key for S3 storage
+- **Default**: `None`
+- **Note**: Required for S3 driver
+
+### AWS_DEFAULT_REGION
+- **Description**: AWS region for S3 bucket
+- **Default**: `us-east-1`
+
+### AWS_BUCKET
+- **Description**: S3 bucket name
+- **Default**: `None`
+- **Note**: Required for S3 driver
+
+### AWS_ENDPOINT
+- **Description**: Custom S3 endpoint (for S3-compatible services)
+- **Default**: `None`
+- **Example**: `https://nyc3.digitaloceanspaces.com` (DigitalOcean Spaces)
+
+### FTP_HOST
+- **Description**: FTP server host
+- **Default**: `localhost`
+
+### FTP_PORT
+- **Description**: FTP server port
+- **Default**: `21`
+
+### FTP_USERNAME
+- **Description**: FTP username
+- **Default**: `None`
+
+### FTP_PASSWORD
+- **Description**: FTP password
+- **Default**: `None`
+
+### SFTP_HOST
+- **Description**: SFTP server host
+- **Default**: `localhost`
+
+### SFTP_PORT
+- **Description**: SFTP server port
+- **Default**: `22`
+
+### SFTP_USERNAME
+- **Description**: SFTP username
+- **Default**: `None`
+
+### SFTP_PASSWORD
+- **Description**: SFTP password
+- **Default**: `None`
+
+### SFTP_KEY
+- **Description**: Path to SSH private key file
+- **Default**: `None`
+
 ## Setting Up Environment Variables
 
 1. Copy the `.env.example` file to `.env`:

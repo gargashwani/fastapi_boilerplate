@@ -9,6 +9,7 @@ A modern, production-ready FastAPI boilerplate with a structure similar to Larav
 - Alembic database migrations
 - Redis caching (Laravel-like Cache facade)
 - Redis message queue with Celery
+- File storage (Laravel-like Storage facade) - Local, S3, FTP, SFTP
 - Pydantic models and validation
 - Environment configuration (Laravel-like)
 - CORS support
@@ -28,12 +29,14 @@ fastapi_boilerplate/
 │   │   └── v1/               # API version 1
 │   │       ├── endpoints/    # API endpoints
 │   │       │   ├── auth.py   # Authentication endpoints
-│   │       │   └── users.py  # User endpoints
+│   │       │   ├── users.py  # User endpoints
+│   │       │   └── files.py  # File storage endpoints
 │   │       └── api.py        # API router
 │   ├── core/                 # Core functionality
 │   │   ├── config.py         # Configuration settings
 │   │   ├── database.py       # Database configuration (PostgreSQL & MySQL)
 │   │   ├── cache.py          # Redis caching (Laravel-like)
+│   │   ├── storage.py        # File storage (Laravel-like Storage facade)
 │   │   ├── celery_app.py     # Celery configuration
 │   │   ├── security.py       # Security utilities (JWT, password hashing)
 │   │   ├── middlewares.py    # Custom middlewares
@@ -131,6 +134,15 @@ API documentation will be available at http://localhost:8000/docs
 - `GET /api/v1/users/{user_id}` - Get specific user
 - `DELETE /api/v1/users/{user_id}` - Delete user (admin only)
 
+### Files
+- `POST /api/v1/files/upload` - Upload a file
+- `GET /api/v1/files/download/{file_path}` - Download a file
+- `GET /api/v1/files/info/{file_path}` - Get file information
+- `DELETE /api/v1/files/delete/{file_path}` - Delete a file
+- `GET /api/v1/files/list` - List files in directory
+- `POST /api/v1/files/copy` - Copy a file
+- `POST /api/v1/files/move` - Move a file
+
 ### Documentation
 - `GET /docs` - Swagger UI documentation
 - `GET /redoc` - ReDoc documentation
@@ -165,6 +177,47 @@ DB_PASSWORD=root
 ```
 
 The same SQLAlchemy models work with both databases - no code changes needed!
+
+### File Storage Configuration
+
+The boilerplate provides a Laravel-like file storage system supporting multiple drivers:
+
+**Local Storage (Default):**
+```env
+FILESYSTEM_DISK=local
+FILESYSTEM_ROOT=storage/app
+FILESYSTEM_URL=
+```
+
+**Amazon S3:**
+```env
+FILESYSTEM_DISK=s3
+AWS_ACCESS_KEY_ID=your-access-key
+AWS_SECRET_ACCESS_KEY=your-secret-key
+AWS_DEFAULT_REGION=us-east-1
+AWS_BUCKET=your-bucket-name
+```
+
+**FTP:**
+```env
+FILESYSTEM_DISK=ftp
+FTP_HOST=ftp.example.com
+FTP_PORT=21
+FTP_USERNAME=your-username
+FTP_PASSWORD=your-password
+```
+
+**SFTP:**
+```env
+FILESYSTEM_DISK=sftp
+SFTP_HOST=sftp.example.com
+SFTP_PORT=22
+SFTP_USERNAME=your-username
+SFTP_PASSWORD=your-password
+SFTP_KEY=/path/to/private/key
+```
+
+Switch between storage drivers by changing `FILESYSTEM_DISK` - same API for all!
 
 ### Redis Configuration
 
@@ -286,6 +339,50 @@ from app.workers.tasks import send_welcome_email
 send_welcome_email.delay(user.id)
 ```
 
+### File Storage Usage
+
+The boilerplate provides a Laravel-like Storage facade:
+
+```python
+from app.core.storage import storage
+
+# Store a file
+storage().put('path/to/file.txt', 'content')
+
+# Get file content
+content = storage().get('path/to/file.txt')
+
+# Check if file exists
+if storage().exists('path/to/file.txt'):
+    print("File exists")
+
+# Delete a file
+storage().delete('path/to/file.txt')
+
+# Get file URL
+url = storage().url('path/to/file.txt')
+
+# Copy file
+storage().copy('old/path.txt', 'new/path.txt')
+
+# Move file
+storage().move('old/path.txt', 'new/path.txt')
+
+# Get file size
+size = storage().size('path/to/file.txt')
+
+# Get MIME type
+mime = storage().mime_type('path/to/file.txt')
+
+# List files
+files = storage().files('directory/')
+
+# Use different disk
+storage('s3').put('file.txt', 'content')
+```
+
+See [File Storage Guide](DOCS/FILE_STORAGE.md) for comprehensive examples.
+
 ### Running Tests
 
 ```bash
@@ -320,6 +417,12 @@ pytest --cov=app
 - **Redis Backend**: Fast and reliable message broker
 - **Task Monitoring**: Flower dashboard included
 - **Retry Logic**: Built-in task retry support
+
+### File Storage
+- **Laravel-like API**: Familiar `storage().put()`, `storage().get()` methods
+- **Multiple Drivers**: Local, S3, FTP, SFTP support
+- **Easy Switching**: Change driver via configuration
+- **Unified Interface**: Same API for all storage backends
 
 ### Security
 - **JWT Authentication**: Secure token-based auth

@@ -73,6 +73,32 @@ class Settings(BaseSettings):
     LOG_MAX_SIZE: int = 10485760
     LOG_BACKUP_COUNT: int = 5
 
+    # Filesystem Configuration
+    FILESYSTEM_DISK: str = "local"  # Options: local, s3, ftp, sftp
+    FILESYSTEM_ROOT: str = "storage/app"  # Local storage root directory (private)
+    FILESYSTEM_PUBLIC_ROOT: str = "public/storage"  # Public storage root directory (publicly accessible)
+    FILESYSTEM_URL: Optional[str] = None  # Public URL for local storage (defaults to APP_URL/storage)
+    
+    # AWS S3 Configuration (for s3 disk)
+    AWS_ACCESS_KEY_ID: Optional[str] = None
+    AWS_SECRET_ACCESS_KEY: Optional[str] = None
+    AWS_DEFAULT_REGION: str = "us-east-1"
+    AWS_BUCKET: Optional[str] = None
+    AWS_ENDPOINT: Optional[str] = None  # Optional: for S3-compatible services (e.g., DigitalOcean Spaces)
+    
+    # FTP Configuration (for ftp disk)
+    FTP_HOST: str = "localhost"
+    FTP_PORT: int = 21
+    FTP_USERNAME: Optional[str] = None
+    FTP_PASSWORD: Optional[str] = None
+    
+    # SFTP Configuration (for sftp disk)
+    SFTP_HOST: str = "localhost"
+    SFTP_PORT: int = 22
+    SFTP_USERNAME: Optional[str] = None
+    SFTP_PASSWORD: Optional[str] = None
+    SFTP_KEY: Optional[str] = None  # Path to SSH private key
+
     class Config:
         env_file = ".env"
         case_sensitive = True
