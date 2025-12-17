@@ -12,7 +12,7 @@ from apscheduler.jobstores.memory import MemoryJobStore
 from apscheduler.executors.pool import ThreadPoolExecutor
 from apscheduler.events import EVENT_JOB_EXECUTED, EVENT_JOB_ERROR
 import logging
-from app.core.config import settings
+from config import settings
 
 logger = logging.getLogger(__name__)
 

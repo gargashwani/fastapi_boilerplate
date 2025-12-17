@@ -6,7 +6,7 @@ import os
 from pathlib import Path
 from typing import Optional
 from fastapi import HTTPException
-from app.core.config import settings
+from config import settings
 
 # File upload configuration
 ALLOWED_EXTENSIONS = {

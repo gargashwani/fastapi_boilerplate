@@ -7,7 +7,7 @@ import pickle
 from typing import Any, Optional, Union, Callable
 from redis import Redis, ConnectionPool
 from redis.exceptions import RedisError
-from app.core.config import settings
+from config import settings
 import logging
 
 logger = logging.getLogger(__name__)

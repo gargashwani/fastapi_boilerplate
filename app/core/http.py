@@ -10,7 +10,7 @@ from functools import wraps
 import httpx
 from httpx import Response, Request, Timeout
 import logging
-from app.core.config import settings
+from config import settings
 
 logger = logging.getLogger(__name__)
 

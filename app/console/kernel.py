@@ -3,7 +3,7 @@ Task Scheduler Kernel
 Define your scheduled tasks here, similar to Laravel's app/Console/Kernel.php
 """
 from app.core.scheduler import schedule
-from app.workers.tasks import send_welcome_email, process_user_data
+from app.jobs.tasks import send_welcome_email, process_user_data
 import logging
 
 logger = logging.getLogger(__name__)

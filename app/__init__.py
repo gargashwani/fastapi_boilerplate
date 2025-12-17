@@ -2,9 +2,9 @@ from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import Response
-from app.core.config import settings
-from app.api.v1.api import api_router
-from app.core.middlewares import LoggingMiddleware, RateLimitMiddleware
+from config import settings
+from routes.api import register_api_routes
+from app.http.middleware import LoggingMiddleware, RateLimitMiddleware
 from app.core.error_handler import global_exception_handler
 import os
 import uuid
@@ -96,5 +96,6 @@ storage_public_dir = os.path.join(public_dir, "storage")
 if os.path.exists(storage_public_dir):
     app.mount("/storage", StaticFiles(directory=storage_public_dir), name="storage")
 
-# Include API router
+# Include API routes (Laravel-like routes/api.php)
+api_router = register_api_routes()
 app.include_router(api_router, prefix="/api/v1") 

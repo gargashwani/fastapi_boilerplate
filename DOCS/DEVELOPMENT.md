@@ -193,7 +193,7 @@ pytest --cov=app
 
 1. Create a new model in `app/models/`
 2. Create corresponding schemas in `app/schemas/`
-3. Create API endpoints in `app/api/v1/endpoints/`
+3. Create API controllers in `app/api/v1/controllers/`
 4. Add the new router to `app/api/v1/api.py`
 5. Create database migration if needed
 

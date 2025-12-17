@@ -14,7 +14,7 @@ from app.core.file_security import (
     validate_file_size, validate_mime_type, get_file_mime_type,
     MAX_FILE_SIZE
 )
-from app.core.config import settings
+from config import settings
 from app.models.user import User
 import io
 import os

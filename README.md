@@ -30,14 +30,13 @@ fastapi_boilerplate/
 ├── app/                      # Application package
 │   ├── api/                  # API routes
 │   │   └── v1/               # API version 1
-│   │       ├── endpoints/    # API endpoints
-│   │       │   ├── auth.py        # Authentication endpoints
-│   │       │   ├── users.py       # User endpoints
-│   │       │   ├── files.py       # File storage endpoints
-│   │       │   └── broadcasting.py # Broadcasting WebSocket endpoints
+│   │       ├── controllers/    # API controllers (Laravel-like)
+│   │       │   ├── auth.py        # Authentication controller
+│   │       │   ├── users.py       # User controller
+│   │       │   ├── files.py       # File storage controller
+│   │       │   └── broadcasting.py # Broadcasting WebSocket controller
 │   │       └── api.py        # API router
 │   ├── core/                 # Core functionality
-│   │   ├── config.py         # Configuration settings
 │   │   ├── database.py       # Database configuration (PostgreSQL & MySQL)
 │   │   ├── cache.py          # Redis caching (Laravel-like)
 │   │   ├── storage.py        # File storage (Laravel-like Storage facade)
@@ -47,22 +46,29 @@ fastapi_boilerplate/
 │   │   ├── scheduler.py      # Task scheduler
 │   │   ├── celery_app.py     # Celery configuration
 │   │   ├── security.py       # Security utilities (JWT, password hashing)
-│   │   ├── middlewares.py    # Custom middlewares
 │   │   ├── policies.py       # Authorization policies
 │   │   └── gates.py          # Authorization gates
+│   ├── http/                  # HTTP layer (Laravel-like)
+│   │   └── middleware/        # HTTP middleware
+│   │       ├── logging.py    # Logging middleware
+│   │       └── rate_limit.py # Rate limit middleware
 │   ├── events/               # Broadcast events
 │   │   ├── base.py           # Base event classes
 │   │   └── user_events.py    # User broadcast events
-│   ├── routes/               # Route definitions
-│   │   └── channels.py       # Channel authorization routes
-│   ├── console/              # Console commands
+│   ├── console/              # Console commands (Laravel-like)
+│   │   ├── commands/         # Console command files
+│   │   │   ├── serve.py      # Serve command
+│   │   │   ├── migration.py  # Migration commands
+│   │   │   ├── make.py       # Make commands
+│   │   │   └── ...           # Other commands
+│   │   ├── templates/        # Command templates
 │   │   └── kernel.py         # Scheduled tasks definition
 │   ├── models/               # SQLAlchemy models
 │   │   └── user.py           # User model
 │   ├── schemas/              # Pydantic schemas
 │   │   ├── token.py          # Token schemas
 │   │   └── user.py           # User schemas
-│   └── workers/              # Background tasks
+│   └── jobs/                 # Background jobs (Laravel-like)
 │       └── tasks.py          # Celery tasks
 ├── DOCS/                     # Documentation
 │   ├── REDIS_USAGE.md        # Redis caching & message queue guide
@@ -75,6 +81,16 @@ fastapi_boilerplate/
 │   └── images/               # Image files
 ├── storage/                  # Private storage (not publicly accessible)
 │   └── app/                  # Application storage
+├── config/                   # Configuration files (Laravel-like)
+│   ├── __init__.py           # Main settings
+│   ├── app.py                # Application config
+│   ├── database.py           # Database config
+│   ├── cache.py              # Cache config
+│   └── ...                   # Other config files
+├── routes/                   # Route definitions (Laravel-like)
+│   ├── api.py                # API routes (routes/api.php equivalent)
+│   ├── web.py                # Web routes (routes/web.php equivalent)
+│   └── channels.py           # Channel authorization routes
 ├── tests/                    # Test files
 ├── .env.example              # Example environment variables
 ├── alembic.ini               # Alembic configuration
@@ -369,7 +385,7 @@ celery -A app.core.celery_app flower
 
 **Using Tasks:**
 ```python
-from app.workers.tasks import send_welcome_email
+from app.jobs.tasks import send_welcome_email
 
 # Queue a background task
 send_welcome_email.delay(user.id)

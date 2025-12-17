@@ -1,5 +1,5 @@
 from app.core.celery_app import celery_app
-from app.core.config import settings
+from config import settings
 from app.models.user import User
 from app.core.database import SessionLocal
 

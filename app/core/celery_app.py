@@ -1,5 +1,5 @@
 from celery import Celery
-from app.core.config import settings
+from config import settings
 
 def get_redis_url(db: int = 0) -> str:
     """
@@ -25,7 +25,7 @@ celery_app = Celery(
     "worker",
     broker=broker_url,
     backend=result_backend,
-    include=["app.workers.tasks"]
+    include=["app.jobs.tasks"]
 )
 
 celery_app.conf.update(

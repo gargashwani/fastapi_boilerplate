@@ -8,7 +8,7 @@ import json
 import asyncio
 from redis import Redis
 from redis.exceptions import RedisError
-from app.core.config import settings
+from config import settings
 from app.core.security import get_current_user
 from app.core.database import get_db
 from app.models.user import User
@@ -170,7 +170,7 @@ async def websocket_endpoint(websocket: WebSocket, token: Optional[str] = Query(
     try:
         from jose import jwt
         from jose.exceptions import JWTError
-        from app.core.config import settings
+        from config import settings
         from app.core.database import get_db
         from app.models.user import User
         
@@ -263,7 +263,7 @@ async def authorize_channel(
     Similar to Laravel's broadcasting/auth endpoint.
     """
     from app.core.channels import get_channel_manager
-    from app.routes.channels import register_channels
+    from routes.channels import register_channels
     
     # Register channels (should be done once, but safe to call multiple times)
     register_channels()

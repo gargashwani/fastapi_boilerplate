@@ -8,7 +8,7 @@ from typing import Dict, Any, Optional, List, Callable
 from redis import Redis
 from redis.exceptions import RedisError
 import logging
-from app.core.config import settings
+from config import settings
 from app.events.base import ShouldBroadcast
 
 logger = logging.getLogger(__name__)

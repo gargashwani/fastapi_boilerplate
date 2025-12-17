@@ -4,7 +4,7 @@ Provides secure error handling that doesn't expose sensitive information.
 """
 from fastapi import HTTPException, Request
 from fastapi.responses import JSONResponse
-from app.core.config import settings
+from config import settings
 import logging
 import traceback
 

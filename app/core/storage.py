@@ -9,7 +9,7 @@ from pathlib import Path
 from fs import open_fs
 from fs.base import FS
 from fs.errors import ResourceNotFound, FileExpected
-from app.core.config import settings
+from config import settings
 import logging
 
 logger = logging.getLogger(__name__)

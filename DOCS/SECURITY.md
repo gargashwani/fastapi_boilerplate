@@ -107,7 +107,7 @@ class UserCreate(BaseModel):
 File uploads are automatically validated:
 
 ```python
-from app.api.v1.endpoints.files import upload_file
+from app.api.v1.controllers.files import upload_file
 
 # Automatic validation includes:
 # - File type (extension and MIME type)
