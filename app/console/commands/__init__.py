@@ -19,6 +19,8 @@ from app.console.commands.logs import view_logs, clear_logs
 from app.console.commands.schedule import schedule_run, schedule_list
 from app.console.commands.seeder import db_seed, db_refresh
 from app.console.commands.docs import generate_docs
+from app.console.commands.database import db_create, db_drop
+from app.console.commands.database import db_create, db_drop
 
 @click.group()
 def app():
@@ -50,6 +52,8 @@ app.add_command(generate_docs)
 app.add_command(make_seeder)
 app.add_command(db_seed)
 app.add_command(db_refresh)
+app.add_command(db_create)
+app.add_command(db_drop)
 app.add_command(schedule_run)
 app.add_command(schedule_list)
 

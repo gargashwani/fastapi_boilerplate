@@ -103,7 +103,7 @@ def db_create(database):
         click.echo("Supported: postgresql, mysql")
         sys.exit(1)
 
-@click.command()
+@click.command(name="db:drop")
 @click.option('--database', default=None, help='Database name (defaults to DB_DATABASE from .env)')
 @click.confirmation_option(prompt='Are you sure you want to drop the database?')
 def db_drop(database):

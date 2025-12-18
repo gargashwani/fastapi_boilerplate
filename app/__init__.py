@@ -54,7 +54,20 @@ async def add_security_headers(request: Request, call_next):
         response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains; preload"
     
     # Content Security Policy
-    response.headers["Content-Security-Policy"] = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline';"
+    # Allow Swagger UI CDN resources for /docs and /redoc endpoints
+    if request.url.path in ["/docs", "/redoc", "/openapi.json"]:
+        # More permissive CSP for API docs
+        response.headers["Content-Security-Policy"] = (
+            "default-src 'self'; "
+            "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net; "
+            "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; "
+            "img-src 'self' data: https:; "
+            "font-src 'self' https://cdn.jsdelivr.net; "
+            "connect-src 'self';"
+        )
+    else:
+        # Strict CSP for other endpoints
+        response.headers["Content-Security-Policy"] = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline';"
     
     # Permissions Policy
     response.headers["Permissions-Policy"] = "geolocation=(), microphone=(), camera=()"
