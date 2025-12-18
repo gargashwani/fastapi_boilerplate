@@ -1,7 +1,7 @@
 site_name: FastAPI Laravel-Style Boilerplate
 site_description: A modern FastAPI microservices boilerplate inspired by Laravel.
-site_author: yourusername
-site_url: https://yourusername.github.io/fastapi_boilerplate/
+site_author: gargashwani
+site_url: https://gargashwani.github.io/fastapi_boilerplate/
 
 docs_dir: docs
 
@@ -44,8 +44,10 @@ markdown_extensions:
 
 nav:
   - Home: index.md
+  - Roadmap: ROADMAP.md
   - Getting Started:
       - Introduction: DEVELOPMENT.md
+      - Quick Start (5 Min): tutorial_5min.md
       - Environment: ENVIRONMENT.md
       - Requirements: REQUIREMENTS.md
   - Architecture:
@@ -69,4 +71,5 @@ nav:
   - API Reference: API.md
   - Deployment: DEPLOYMENT.md
   - Contributing: CONTRIBUTING.md
+  - Support: SUPPORT.md
   - License: LICENSE.md
