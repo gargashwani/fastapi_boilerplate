@@ -32,6 +32,7 @@ class Settings(BaseSettings):
     APP_URL: str = os.getenv("APP_URL", "http://localhost:8000")
     APP_KEY: str = os.getenv("APP_KEY", "your-secret-key-here-change-in-production")
     APP_TIMEZONE: str = os.getenv("APP_TIMEZONE", "UTC")
+    ENABLE_METRICS: bool = os.getenv("ENABLE_METRICS", "true").lower() == "true"
 
     # JWT Configuration
     JWT_SECRET: str = os.getenv(

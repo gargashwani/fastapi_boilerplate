@@ -1,3 +1,4 @@
+from urllib.parse import quote_plus
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
@@ -11,14 +12,16 @@ def get_database_url() -> str:
     Supports PostgreSQL and MySQL similar to Laravel's database configuration.
     """
     connection = settings.DB_CONNECTION.lower()
+    user = quote_plus(settings.DB_USERNAME)
+    password = quote_plus(settings.DB_PASSWORD)
 
     # PostgreSQL connection strings
     if connection in ["postgresql", "postgres"]:
-        return f"postgresql://{settings.DB_USERNAME}:{settings.DB_PASSWORD}@{settings.DB_HOST}:{settings.DB_PORT}/{settings.DB_DATABASE}"
+        return f"postgresql://{user}:{password}@{settings.DB_HOST}:{settings.DB_PORT}/{settings.DB_DATABASE}"
 
     # MySQL connection strings
     elif connection in ["mysql", "mysql+pymysql"]:
-        return f"mysql+pymysql://{settings.DB_USERNAME}:{settings.DB_PASSWORD}@{settings.DB_HOST}:{settings.DB_PORT}/{settings.DB_DATABASE}"
+        return f"mysql+pymysql://{user}:{password}@{settings.DB_HOST}:{settings.DB_PORT}/{settings.DB_DATABASE}"
 
     # SQLite (if needed in future)
     elif connection == "sqlite":
@@ -26,7 +29,7 @@ def get_database_url() -> str:
 
     # Default: use the connection string as-is
     else:
-        return f"{settings.DB_CONNECTION}://{settings.DB_USERNAME}:{settings.DB_PASSWORD}@{settings.DB_HOST}:{settings.DB_PORT}/{settings.DB_DATABASE}"
+        return f"{settings.DB_CONNECTION}://{user}:{password}@{settings.DB_HOST}:{settings.DB_PORT}/{settings.DB_DATABASE}"
 
 
 def get_connect_args() -> dict:

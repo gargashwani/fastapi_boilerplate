@@ -39,7 +39,7 @@ Most FastAPI projects start as a single `main.py` and grow into a chaotic mess. 
 ## 🚀 Getting Started
 
 ### 🐳 Option 1: Docker (Recommended)
-Launch the entire stack (App, DB, Redis, Worker, Flower) with a single command:
+Launch the core stack (App, DB, Redis, Worker, Flower) with a single command:
 
 ```bash
 # 1. Clone the repo
@@ -49,11 +49,18 @@ git clone https://github.com/yourusername/fastapi_boilerplate.git && cd fastapi_
 cp .env.example .env
 
 # 3. Start everything
-docker-compose up -d
+docker compose up -d
 ```
-The API will be available at [http://localhost:8000](http://localhost:8000) and the API docs at [/docs](http://localhost:8000/docs).
 
-### 🐍 Option 2: Local Installation (Recommended)
+#### 📊 Optional: Metrics (Prometheus & Grafana)
+Metrics are optional and grouped under a Docker Compose profile. To start the metrics stack alongside the app:
+
+```bash
+docker compose --profile metrics up -d
+```
+The API will be available at [http://localhost:8000](http://localhost:8000), Prometheus at [http://localhost:9090](http://localhost:9090), and Grafana at [http://localhost:3000](http://localhost:3000).
+
+### 🐍 Option 2: Local Installation
 If you prefer running without Docker:
 
 1. **Install uv** (if not already installed):
@@ -70,16 +77,22 @@ If you prefer running without Docker:
    uv sync
    ```
 
-3. **Run Interactive Installer:**
+3. **Configure Dependencies:**
+   Ensure you have **PostgreSQL** (or MySQL) and **Redis** running locally. Update your `.env` with the connection details.
+
+4. **Run Interactive Installer:**
    ```bash
    # This handles .env creation, APP_KEY generation, and migrations
    uv run python artisan install
    ```
 
-4. **Start the server:**
+5. **Start the server:**
    ```bash
    uv run python artisan serve
    ```
+
+> [!TIP]
+> You can disable Prometheus metrics exposure by setting `ENABLE_METRICS=false` in your `.env`.
 
 ---
 
@@ -226,6 +239,7 @@ Authorization: Bearer <access_token>
 ### Documentation
 - `GET /docs` - Swagger UI documentation
 - `GET /redoc` - ReDoc documentation
+- `GET /metrics` - Prometheus metrics (if `ENABLE_METRICS=true`)
 - `GET /` - API welcome message
 
 ## Configuration
@@ -254,6 +268,11 @@ DB_USERNAME=root
 DB_PASSWORD=root
 # Optional: For MAMP
 # DB_UNIX_SOCKET=/Applications/MAMP/tmp/mysql/mysql.sock
+```
+
+**Metrics:**
+```env
+ENABLE_METRICS=true # Set to false to disable Prometheus instrumentation
 ```
 
 The same SQLAlchemy models work with both databases - no code changes needed!

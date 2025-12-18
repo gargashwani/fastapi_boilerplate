@@ -99,6 +99,8 @@ services:
 
   prometheus:
     image: prom/prometheus:latest
+    profiles:
+      - metrics
     volumes:
       - ./docker/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
       - prometheus_data:/prometheus
@@ -112,6 +114,8 @@ services:
 
   grafana:
     image: grafana/grafana:latest
+    profiles:
+      - metrics
     ports:
       - "3000:3000"
     volumes:
