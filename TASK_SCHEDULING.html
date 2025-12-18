@@ -1,0 +1,2828 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A modern FastAPI microservices boilerplate inspired by Laravel.">
+      
+      
+        <meta name="author" content="gargashwani">
+      
+      
+        <link rel="canonical" href="https://gargashwani.github.io/fastapi_boilerplate/TASK_SCHEDULING.html">
+      
+      
+        <link rel="prev" href="REDIS_USAGE.html">
+      
+      
+        <link rel="next" href="BROADCASTING.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Task Scheduling - FastAPI Laravel-Style Boilerplate</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#task-scheduling-guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="index.html" title="FastAPI Laravel-Style Boilerplate" class="md-header__button md-logo" aria-label="FastAPI Laravel-Style Boilerplate" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            FastAPI Laravel-Style Boilerplate
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Task Scheduling
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="index.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="DEVELOPMENT.html" class="md-tabs__link">
+          
+  
+  
+  Getting Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="ARCHITECTURE.html" class="md-tabs__link">
+          
+  
+  
+  Architecture
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="CLI.html" class="md-tabs__link">
+          
+  
+  
+  Core Features
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="SECURITY.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Security
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="artisan_commands.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  CLI Reference
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="API.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  API Reference
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="DEPLOYMENT.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Deployment
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="CONTRIBUTING.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Contributing
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="SUPPORT.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Support
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="LICENSE.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  License
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="index.html" title="FastAPI Laravel-Style Boilerplate" class="md-nav__button md-logo" aria-label="FastAPI Laravel-Style Boilerplate" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    FastAPI Laravel-Style Boilerplate
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="DEVELOPMENT.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="tutorial_5min.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start (5 Min)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="ENVIRONMENT.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Environment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="REQUIREMENTS.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Requirements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Architecture
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="ARCHITECTURE.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Features
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Core Features
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="CLI.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Artisan CLI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="AUTHENTICATION.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Authentication
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="DATABASE.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Database
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="MODELS.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Models
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="CONTROLLERS.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Controllers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="SERVICES.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Services
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="SCHEMAS.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schemas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="MIDDLEWARE.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Middleware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="REDIS_USAGE.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Redis & Caching
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Task Scheduling
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="TASK_SCHEDULING.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Task Scheduling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Table of Contents
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Introduction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Features
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#defining-schedules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Defining Schedules
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#schedule-frequency-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Schedule Frequency Options
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Schedule Frequency Options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#minute-based-frequencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Minute-based Frequencies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hourly-frequencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hourly Frequencies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#daily-frequencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Daily Frequencies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#weekly-frequencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Weekly Frequencies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#monthly-frequencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Monthly Frequencies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#other-frequencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Other Frequencies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-cron-expression" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Custom Cron Expression
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task Types
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task Types">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scheduling-jobs-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scheduling Jobs (Functions)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scheduling-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scheduling Commands
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scheduling-shell-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scheduling Shell Commands
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-modifiers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task Modifiers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task Modifiers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#timezone" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Timezone
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#without-overlapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Without Overlapping
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#on-one-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        On One Server
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run-in-background" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Run in Background
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conditional-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conditional Execution
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-hooks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task Hooks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#output-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Output Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-the-scheduler" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running the Scheduler
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Running the Scheduler">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#development" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Development
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#production" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Production
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#list-scheduled-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        List Scheduled Tasks
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-1-daily-cleanup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 1: Daily Cleanup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-2-hourly-queue-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 2: Hourly Queue Processing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-3-weekly-backup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 3: Weekly Backup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-4-cache-clearing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 4: Cache Clearing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-5-conditional-task" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 5: Conditional Task
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-6-task-with-hooks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 6: Task with Hooks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-7-multiple-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 7: Multiple Tasks
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Best Practices
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task-not-running" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task Not Running
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-overlapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task Overlapping
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-running-on-multiple-servers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task Running on Multiple Servers
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#additional-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Additional Resources
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="BROADCASTING.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Broadcasting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="FILE_STORAGE.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File Storage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="HTTP_CLIENT.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HTTP Client
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="SECURITY.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="artisan_commands.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="API.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="DEPLOYMENT.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="CONTRIBUTING.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="SUPPORT.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Support
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="LICENSE.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    License
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Table of Contents
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Introduction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Features
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#defining-schedules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Defining Schedules
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#schedule-frequency-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Schedule Frequency Options
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Schedule Frequency Options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#minute-based-frequencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Minute-based Frequencies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hourly-frequencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hourly Frequencies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#daily-frequencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Daily Frequencies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#weekly-frequencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Weekly Frequencies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#monthly-frequencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Monthly Frequencies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#other-frequencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Other Frequencies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-cron-expression" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Custom Cron Expression
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task Types
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task Types">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scheduling-jobs-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scheduling Jobs (Functions)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scheduling-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scheduling Commands
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scheduling-shell-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scheduling Shell Commands
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-modifiers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task Modifiers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task Modifiers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#timezone" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Timezone
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#without-overlapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Without Overlapping
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#on-one-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        On One Server
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run-in-background" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Run in Background
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conditional-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conditional Execution
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-hooks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task Hooks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#output-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Output Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-the-scheduler" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running the Scheduler
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Running the Scheduler">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#development" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Development
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#production" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Production
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#list-scheduled-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        List Scheduled Tasks
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-1-daily-cleanup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 1: Daily Cleanup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-2-hourly-queue-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 2: Hourly Queue Processing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-3-weekly-backup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 3: Weekly Backup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-4-cache-clearing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 4: Cache Clearing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-5-conditional-task" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 5: Conditional Task
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-6-task-with-hooks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 6: Task with Hooks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-7-multiple-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 7: Multiple Tasks
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Best Practices
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task-not-running" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task Not Running
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-overlapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task Overlapping
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-running-on-multiple-servers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task Running on Multiple Servers
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#additional-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Additional Resources
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="task-scheduling-guide">Task Scheduling Guide</h1>
+<p>This guide explains how to use the Laravel-like task scheduling system in this FastAPI boilerplate.</p>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#defining-schedules">Defining Schedules</a></li>
+<li><a href="#schedule-frequency-options">Schedule Frequency Options</a></li>
+<li><a href="#task-types">Task Types</a></li>
+<li><a href="#task-modifiers">Task Modifiers</a></li>
+<li><a href="#running-the-scheduler">Running the Scheduler</a></li>
+<li><a href="#examples">Examples</a></li>
+</ol>
+<h2 id="introduction">Introduction</h2>
+<p>The boilerplate provides a powerful task scheduling system similar to Laravel's scheduler. Tasks are defined in <code>app/console/kernel.py</code> and can be scheduled to run at specific intervals.</p>
+<h3 id="key-features">Key Features</h3>
+<ul>
+<li><strong>Laravel-like API</strong>: Familiar scheduling syntax</li>
+<li><strong>Multiple Frequency Options</strong>: Every minute, hourly, daily, weekly, etc.</li>
+<li><strong>Task Types</strong>: Commands, jobs, and shell commands</li>
+<li><strong>Timezone Support</strong>: Schedule tasks in specific timezones</li>
+<li><strong>Overlap Prevention</strong>: Prevent tasks from overlapping</li>
+<li><strong>Conditional Execution</strong>: Run tasks based on conditions</li>
+<li><strong>Task Hooks</strong>: Before and after callbacks</li>
+</ul>
+<h2 id="defining-schedules">Defining Schedules</h2>
+<p>All scheduled tasks are defined in <code>app/console/kernel.py</code> in the <code>schedule_tasks()</code> function:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">app.core.scheduler</span><span class="w"> </span><span class="kn">import</span> <span class="n">schedule</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="k">def</span><span class="w"> </span><span class="nf">schedule_tasks</span><span class="p">():</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Define all scheduled tasks here.&quot;&quot;&quot;</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="c1"># Schedule a task to run every minute</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">example_task</span><span class="p">)</span><span class="o">.</span><span class="n">every_minute</span><span class="p">()</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="c1"># Schedule a task to run daily</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">cleanup_old_files</span><span class="p">)</span><span class="o">.</span><span class="n">daily</span><span class="p">()</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    <span class="c1"># Schedule a task to run hourly</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    <span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">process_queue</span><span class="p">)</span><span class="o">.</span><span class="n">hourly</span><span class="p">()</span>
+</code></pre></div>
+<h2 id="schedule-frequency-options">Schedule Frequency Options</h2>
+<h3 id="minute-based-frequencies">Minute-based Frequencies</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">task</span><span class="p">)</span><span class="o">.</span><span class="n">every_minute</span><span class="p">()</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">task</span><span class="p">)</span><span class="o">.</span><span class="n">every_two_minutes</span><span class="p">()</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">task</span><span class="p">)</span><span class="o">.</span><span class="n">every_five_minutes</span><span class="p">()</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">task</span><span class="p">)</span><span class="o">.</span><span class="n">every_ten_minutes</span><span class="p">()</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">task</span><span class="p">)</span><span class="o">.</span><span class="n">every_fifteen_minutes</span><span class="p">()</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">task</span><span class="p">)</span><span class="o">.</span><span class="n">every_thirty_minutes</span><span class="p">()</span>
+</code></pre></div>
+<h3 id="hourly-frequencies">Hourly Frequencies</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">task</span><span class="p">)</span><span class="o">.</span><span class="n">hourly</span><span class="p">()</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">task</span><span class="p">)</span><span class="o">.</span><span class="n">hourly_at</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>  <span class="c1"># At :30 past the hour</span>
+</code></pre></div>
+<h3 id="daily-frequencies">Daily Frequencies</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">task</span><span class="p">)</span><span class="o">.</span><span class="n">daily</span><span class="p">()</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">task</span><span class="p">)</span><span class="o">.</span><span class="n">daily_at</span><span class="p">(</span><span class="s1">&#39;09:00&#39;</span><span class="p">)</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">task</span><span class="p">)</span><span class="o">.</span><span class="n">daily_at</span><span class="p">(</span><span class="s1">&#39;14:30&#39;</span><span class="p">)</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">task</span><span class="p">)</span><span class="o">.</span><span class="n">twice_daily</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">)</span>  <span class="c1"># At 1:00 and 13:00</span>
+</code></pre></div>
+<h3 id="weekly-frequencies">Weekly Frequencies</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">task</span><span class="p">)</span><span class="o">.</span><span class="n">weekly</span><span class="p">()</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">task</span><span class="p">)</span><span class="o">.</span><span class="n">weekly_on</span><span class="p">(</span><span class="s1">&#39;monday&#39;</span><span class="p">,</span> <span class="s1">&#39;09:00&#39;</span><span class="p">)</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">task</span><span class="p">)</span><span class="o">.</span><span class="n">weekly_on</span><span class="p">(</span><span class="s1">&#39;friday&#39;</span><span class="p">,</span> <span class="s1">&#39;17:00&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="monthly-frequencies">Monthly Frequencies</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">task</span><span class="p">)</span><span class="o">.</span><span class="n">monthly</span><span class="p">()</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">task</span><span class="p">)</span><span class="o">.</span><span class="n">monthly_on</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="s1">&#39;09:00&#39;</span><span class="p">)</span>  <span class="c1"># 15th of month at 9 AM</span>
+</code></pre></div>
+<h3 id="other-frequencies">Other Frequencies</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">task</span><span class="p">)</span><span class="o">.</span><span class="n">quarterly</span><span class="p">()</span>  <span class="c1"># Every 3 months</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">task</span><span class="p">)</span><span class="o">.</span><span class="n">yearly</span><span class="p">()</span>     <span class="c1"># January 1st</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">task</span><span class="p">)</span><span class="o">.</span><span class="n">every</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>    <span class="c1"># Every 30 seconds</span>
+</code></pre></div>
+<h3 id="custom-cron-expression">Custom Cron Expression</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">task</span><span class="p">)</span><span class="o">.</span><span class="n">cron</span><span class="p">(</span><span class="s1">&#39;0 0 * * *&#39;</span><span class="p">)</span>  <span class="c1"># Daily at midnight</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">task</span><span class="p">)</span><span class="o">.</span><span class="n">cron</span><span class="p">(</span><span class="s1">&#39;0 */6 * * *&#39;</span><span class="p">)</span>  <span class="c1"># Every 6 hours</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">task</span><span class="p">)</span><span class="o">.</span><span class="n">cron</span><span class="p">(</span><span class="s1">&#39;0 9 * * 1-5&#39;</span><span class="p">)</span>  <span class="c1"># 9 AM on weekdays</span>
+</code></pre></div>
+<h2 id="task-types">Task Types</h2>
+<h3 id="scheduling-jobs-functions">Scheduling Jobs (Functions)</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">send_daily_report</span><span class="p">():</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Send daily report.&quot;&quot;&quot;</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>    <span class="c1"># Your logic here</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>    <span class="k">pass</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">send_daily_report</span><span class="p">)</span><span class="o">.</span><span class="n">daily_at</span><span class="p">(</span><span class="s1">&#39;09:00&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="scheduling-commands">Scheduling Commands</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Schedule an Artisan command</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="s1">&#39;cache:clear&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">daily</span><span class="p">()</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="s1">&#39;backup:run&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">daily_at</span><span class="p">(</span><span class="s1">&#39;02:00&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="scheduling-shell-commands">Scheduling Shell Commands</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># Schedule a shell command</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">exec</span><span class="p">(</span><span class="s1">&#39;python manage.py cleanup&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">daily</span><span class="p">()</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">exec</span><span class="p">(</span><span class="s1">&#39;php artisan backup:run&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">hourly</span><span class="p">()</span>
+</code></pre></div>
+<h2 id="task-modifiers">Task Modifiers</h2>
+<h3 id="timezone">Timezone</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">task</span><span class="p">)</span><span class="o">.</span><span class="n">daily_at</span><span class="p">(</span><span class="s1">&#39;09:00&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">timezone</span><span class="p">(</span><span class="s1">&#39;America/New_York&#39;</span><span class="p">)</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">task</span><span class="p">)</span><span class="o">.</span><span class="n">hourly</span><span class="p">()</span><span class="o">.</span><span class="n">timezone</span><span class="p">(</span><span class="s1">&#39;Europe/London&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="without-overlapping">Without Overlapping</h3>
+<p>Prevent task from overlapping with previous execution:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">long_running_task</span><span class="p">)</span><span class="o">.</span><span class="n">hourly</span><span class="p">()</span><span class="o">.</span><span class="n">without_overlapping</span><span class="p">()</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">task</span><span class="p">)</span><span class="o">.</span><span class="n">daily</span><span class="p">()</span><span class="o">.</span><span class="n">without_overlapping</span><span class="p">(</span><span class="n">expiration</span><span class="o">=</span><span class="mi">120</span><span class="p">)</span>  <span class="c1"># 2 hours expiration</span>
+</code></pre></div>
+<h3 id="on-one-server">On One Server</h3>
+<p>Run task on only one server (for multi-server deployments):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">task</span><span class="p">)</span><span class="o">.</span><span class="n">daily</span><span class="p">()</span><span class="o">.</span><span class="n">on_one_server</span><span class="p">()</span>
+</code></pre></div>
+<h3 id="run-in-background">Run in Background</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">task</span><span class="p">)</span><span class="o">.</span><span class="n">daily</span><span class="p">()</span><span class="o">.</span><span class="n">run_in_background</span><span class="p">()</span>
+</code></pre></div>
+<h3 id="conditional-execution">Conditional Execution</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># Run only when condition is true</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">task</span><span class="p">)</span><span class="o">.</span><span class="n">daily</span><span class="p">()</span><span class="o">.</span><span class="n">when</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">some_condition</span><span class="p">())</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="c1"># Skip when condition is true</span>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">task</span><span class="p">)</span><span class="o">.</span><span class="n">daily</span><span class="p">()</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">maintenance_mode</span><span class="p">())</span>
+</code></pre></div>
+<h3 id="task-hooks">Task Hooks</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">before_task</span><span class="p">():</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Task is about to run&quot;</span><span class="p">)</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="k">def</span><span class="w"> </span><span class="nf">after_task</span><span class="p">():</span>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Task completed&quot;</span><span class="p">)</span>
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">task</span><span class="p">)</span><span class="o">.</span><span class="n">daily</span><span class="p">()</span><span class="o">.</span><span class="n">before</span><span class="p">(</span><span class="n">before_task</span><span class="p">)</span><span class="o">.</span><span class="n">after</span><span class="p">(</span><span class="n">after_task</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="output-management">Output Management</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># Append output to file</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">task</span><span class="p">)</span><span class="o">.</span><span class="n">daily</span><span class="p">()</span><span class="o">.</span><span class="n">append_output_to</span><span class="p">(</span><span class="s1">&#39;logs/task.log&#39;</span><span class="p">)</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="c1"># Send output to file (overwrite)</span>
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">task</span><span class="p">)</span><span class="o">.</span><span class="n">daily</span><span class="p">()</span><span class="o">.</span><span class="n">send_output_to</span><span class="p">(</span><span class="s1">&#39;logs/task.log&#39;</span><span class="p">)</span>
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="c1"># Email output</span>
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">task</span><span class="p">)</span><span class="o">.</span><span class="n">daily</span><span class="p">()</span><span class="o">.</span><span class="n">email_output_to</span><span class="p">(</span><span class="s1">&#39;admin@example.com&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="running-the-scheduler">Running the Scheduler</h2>
+<h3 id="development">Development</h3>
+<p>Run the scheduler manually:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>python<span class="w"> </span>artisan<span class="w"> </span>schedule:run
+</code></pre></div>
+<p>Or use the CLI:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>./artisan<span class="w"> </span>schedule:run
+</code></pre></div>
+<h3 id="production">Production</h3>
+<p>For production, you should run the scheduler as a background service. The scheduler needs to run continuously.</p>
+<p><strong>Option 1: Using systemd (Linux)</strong></p>
+<p>Create <code>/etc/systemd/system/scheduler.service</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="k">[Unit]</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="na">Description</span><span class="o">=</span><span class="s">FastAPI Task Scheduler</span>
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="na">After</span><span class="o">=</span><span class="s">network.target</span>
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="k">[Service]</span>
+<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="na">Type</span><span class="o">=</span><span class="s">simple</span>
+<a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a><span class="na">User</span><span class="o">=</span><span class="s">www-data</span>
+<a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a><span class="na">WorkingDirectory</span><span class="o">=</span><span class="s">/path/to/your/app</span>
+<a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a><span class="na">ExecStart</span><span class="o">=</span><span class="s">/path/to/venv/bin/python artisan schedule:run</span>
+<a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a><span class="na">Restart</span><span class="o">=</span><span class="s">always</span>
+<a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a>
+<a id="__codelineno-20-12" name="__codelineno-20-12" href="#__codelineno-20-12"></a><span class="k">[Install]</span>
+<a id="__codelineno-20-13" name="__codelineno-20-13" href="#__codelineno-20-13"></a><span class="na">WantedBy</span><span class="o">=</span><span class="s">multi-user.target</span>
+</code></pre></div>
+<p>Enable and start:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>scheduler
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>scheduler
+</code></pre></div>
+<p><strong>Option 2: Using Supervisor</strong></p>
+<p>Create <code>/etc/supervisor/conf.d/scheduler.conf</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="k">[program:scheduler]</span>
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="na">command</span><span class="o">=</span><span class="s">/path/to/venv/bin/python artisan schedule:run</span>
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="na">directory</span><span class="o">=</span><span class="s">/path/to/your/app</span>
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="na">autostart</span><span class="o">=</span><span class="s">true</span>
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a><span class="na">autorestart</span><span class="o">=</span><span class="s">true</span>
+<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a><span class="na">user</span><span class="o">=</span><span class="s">www-data</span>
+</code></pre></div>
+<p><strong>Option 3: Using Docker</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="c"># In your Dockerfile or docker-compose.yml</span>
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="k">CMD</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;python&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;artisan&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;schedule:run&quot;</span><span class="p">]</span>
+</code></pre></div>
+<h3 id="list-scheduled-tasks">List Scheduled Tasks</h3>
+<p>View all scheduled tasks:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>python<span class="w"> </span>artisan<span class="w"> </span>schedule:list
+</code></pre></div>
+<h2 id="examples">Examples</h2>
+<h3 id="example-1-daily-cleanup">Example 1: Daily Cleanup</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">cleanup_old_files</span><span class="p">():</span>
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Clean up old files daily.&quot;&quot;&quot;</span>
+<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>    <span class="kn">from</span><span class="w"> </span><span class="nn">app.core.storage</span><span class="w"> </span><span class="kn">import</span> <span class="n">storage</span>
+<a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a>    <span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+<a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a>
+<a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a>    <span class="n">cutoff</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<a id="__codelineno-25-7" name="__codelineno-25-7" href="#__codelineno-25-7"></a>    <span class="n">files</span> <span class="o">=</span> <span class="n">storage</span><span class="p">()</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="s1">&#39;uploads/&#39;</span><span class="p">)</span>
+<a id="__codelineno-25-8" name="__codelineno-25-8" href="#__codelineno-25-8"></a>
+<a id="__codelineno-25-9" name="__codelineno-25-9" href="#__codelineno-25-9"></a>    <span class="k">for</span> <span class="n">file_path</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+<a id="__codelineno-25-10" name="__codelineno-25-10" href="#__codelineno-25-10"></a>        <span class="n">last_modified</span> <span class="o">=</span> <span class="n">storage</span><span class="p">()</span><span class="o">.</span><span class="n">last_modified</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+<a id="__codelineno-25-11" name="__codelineno-25-11" href="#__codelineno-25-11"></a>        <span class="k">if</span> <span class="n">last_modified</span> <span class="ow">and</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">last_modified</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">cutoff</span><span class="p">:</span>
+<a id="__codelineno-25-12" name="__codelineno-25-12" href="#__codelineno-25-12"></a>            <span class="n">storage</span><span class="p">()</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+<a id="__codelineno-25-13" name="__codelineno-25-13" href="#__codelineno-25-13"></a>
+<a id="__codelineno-25-14" name="__codelineno-25-14" href="#__codelineno-25-14"></a><span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">cleanup_old_files</span><span class="p">)</span><span class="o">.</span><span class="n">daily_at</span><span class="p">(</span><span class="s1">&#39;02:00&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="example-2-hourly-queue-processing">Example 2: Hourly Queue Processing</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">process_queue</span><span class="p">():</span>
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Process queued items hourly.&quot;&quot;&quot;</span>
+<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>    <span class="kn">from</span><span class="w"> </span><span class="nn">app.workers.tasks</span><span class="w"> </span><span class="kn">import</span> <span class="n">process_pending_tasks</span>
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a>    <span class="n">process_pending_tasks</span><span class="p">()</span>
+<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a>
+<a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a><span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">process_queue</span><span class="p">)</span><span class="o">.</span><span class="n">hourly</span><span class="p">()</span>
+</code></pre></div>
+<h3 id="example-3-weekly-backup">Example 3: Weekly Backup</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">weekly_backup</span><span class="p">():</span>
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Run weekly backup.&quot;&quot;&quot;</span>
+<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>    <span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
+<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a>    <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s1">&#39;python&#39;</span><span class="p">,</span> <span class="s1">&#39;backup.py&#39;</span><span class="p">])</span>
+<a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a>
+<a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a><span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">weekly_backup</span><span class="p">)</span><span class="o">.</span><span class="n">weekly_on</span><span class="p">(</span><span class="s1">&#39;sunday&#39;</span><span class="p">,</span> <span class="s1">&#39;02:00&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="example-4-cache-clearing">Example 4: Cache Clearing</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">clear_cache</span><span class="p">():</span>
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Clear cache every 5 minutes.&quot;&quot;&quot;</span>
+<a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>    <span class="kn">from</span><span class="w"> </span><span class="nn">app.core.cache</span><span class="w"> </span><span class="kn">import</span> <span class="n">cache</span>
+<a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a>    <span class="n">cache</span><span class="p">()</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+<a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a>
+<a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a><span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">clear_cache</span><span class="p">)</span><span class="o">.</span><span class="n">every_five_minutes</span><span class="p">()</span>
+</code></pre></div>
+<h3 id="example-5-conditional-task">Example 5: Conditional Task</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">send_notification</span><span class="p">():</span>
+<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Send notification only during business hours.&quot;&quot;&quot;</span>
+<a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>    <span class="c1"># Your notification logic</span>
+<a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a>    <span class="k">pass</span>
+<a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a>
+<a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a><span class="k">def</span><span class="w"> </span><span class="nf">is_business_hours</span><span class="p">():</span>
+<a id="__codelineno-29-7" name="__codelineno-29-7" href="#__codelineno-29-7"></a>    <span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<a id="__codelineno-29-8" name="__codelineno-29-8" href="#__codelineno-29-8"></a>    <span class="n">hour</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">hour</span>
+<a id="__codelineno-29-9" name="__codelineno-29-9" href="#__codelineno-29-9"></a>    <span class="k">return</span> <span class="mi">9</span> <span class="o">&lt;=</span> <span class="n">hour</span> <span class="o">&lt;=</span> <span class="mi">17</span>
+<a id="__codelineno-29-10" name="__codelineno-29-10" href="#__codelineno-29-10"></a>
+<a id="__codelineno-29-11" name="__codelineno-29-11" href="#__codelineno-29-11"></a><span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">send_notification</span><span class="p">)</span><span class="o">.</span><span class="n">every_minute</span><span class="p">()</span><span class="o">.</span><span class="n">when</span><span class="p">(</span><span class="n">is_business_hours</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="example-6-task-with-hooks">Example 6: Task with Hooks</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">before_backup</span><span class="p">():</span>
+<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Starting backup...&quot;</span><span class="p">)</span>
+<a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>
+<a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a><span class="k">def</span><span class="w"> </span><span class="nf">after_backup</span><span class="p">():</span>
+<a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a>    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Backup completed!&quot;</span><span class="p">)</span>
+<a id="__codelineno-30-6" name="__codelineno-30-6" href="#__codelineno-30-6"></a>
+<a id="__codelineno-30-7" name="__codelineno-30-7" href="#__codelineno-30-7"></a><span class="k">def</span><span class="w"> </span><span class="nf">run_backup</span><span class="p">():</span>
+<a id="__codelineno-30-8" name="__codelineno-30-8" href="#__codelineno-30-8"></a>    <span class="c1"># Backup logic</span>
+<a id="__codelineno-30-9" name="__codelineno-30-9" href="#__codelineno-30-9"></a>    <span class="k">pass</span>
+<a id="__codelineno-30-10" name="__codelineno-30-10" href="#__codelineno-30-10"></a>
+<a id="__codelineno-30-11" name="__codelineno-30-11" href="#__codelineno-30-11"></a><span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">run_backup</span><span class="p">)</span><span class="o">.</span><span class="n">daily</span><span class="p">()</span><span class="o">.</span><span class="n">before</span><span class="p">(</span><span class="n">before_backup</span><span class="p">)</span><span class="o">.</span><span class="n">after</span><span class="p">(</span><span class="n">after_backup</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="example-7-multiple-tasks">Example 7: Multiple Tasks</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">schedule_tasks</span><span class="p">():</span>
+<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>    <span class="c1"># Cleanup tasks</span>
+<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>    <span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">cleanup_old_files</span><span class="p">)</span><span class="o">.</span><span class="n">daily_at</span><span class="p">(</span><span class="s1">&#39;02:00&#39;</span><span class="p">)</span>
+<a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a>    <span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">cleanup_logs</span><span class="p">)</span><span class="o">.</span><span class="n">weekly</span><span class="p">()</span>
+<a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a>
+<a id="__codelineno-31-6" name="__codelineno-31-6" href="#__codelineno-31-6"></a>    <span class="c1"># Processing tasks</span>
+<a id="__codelineno-31-7" name="__codelineno-31-7" href="#__codelineno-31-7"></a>    <span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">process_queue</span><span class="p">)</span><span class="o">.</span><span class="n">every_five_minutes</span><span class="p">()</span>
+<a id="__codelineno-31-8" name="__codelineno-31-8" href="#__codelineno-31-8"></a>    <span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">process_payments</span><span class="p">)</span><span class="o">.</span><span class="n">hourly</span><span class="p">()</span>
+<a id="__codelineno-31-9" name="__codelineno-31-9" href="#__codelineno-31-9"></a>
+<a id="__codelineno-31-10" name="__codelineno-31-10" href="#__codelineno-31-10"></a>    <span class="c1"># Reporting tasks</span>
+<a id="__codelineno-31-11" name="__codelineno-31-11" href="#__codelineno-31-11"></a>    <span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">send_daily_report</span><span class="p">)</span><span class="o">.</span><span class="n">daily_at</span><span class="p">(</span><span class="s1">&#39;09:00&#39;</span><span class="p">)</span>
+<a id="__codelineno-31-12" name="__codelineno-31-12" href="#__codelineno-31-12"></a>    <span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">send_weekly_report</span><span class="p">)</span><span class="o">.</span><span class="n">weekly_on</span><span class="p">(</span><span class="s1">&#39;monday&#39;</span><span class="p">,</span> <span class="s1">&#39;09:00&#39;</span><span class="p">)</span>
+<a id="__codelineno-31-13" name="__codelineno-31-13" href="#__codelineno-31-13"></a>
+<a id="__codelineno-31-14" name="__codelineno-31-14" href="#__codelineno-31-14"></a>    <span class="c1"># Maintenance tasks</span>
+<a id="__codelineno-31-15" name="__codelineno-31-15" href="#__codelineno-31-15"></a>    <span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">clear_cache</span><span class="p">)</span><span class="o">.</span><span class="n">every_fifteen_minutes</span><span class="p">()</span>
+<a id="__codelineno-31-16" name="__codelineno-31-16" href="#__codelineno-31-16"></a>    <span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">optimize_database</span><span class="p">)</span><span class="o">.</span><span class="n">monthly</span><span class="p">()</span>
+</code></pre></div>
+<h2 id="best-practices">Best Practices</h2>
+<ol>
+<li><strong>Keep Tasks Lightweight</strong>: Schedule tasks should complete quickly</li>
+<li><strong>Use Background Jobs</strong>: For long-running tasks, queue them instead</li>
+<li><strong>Handle Errors</strong>: Always include error handling in scheduled tasks</li>
+<li><strong>Log Everything</strong>: Log task execution for debugging</li>
+<li><strong>Use Without Overlapping</strong>: For tasks that might take longer than the interval</li>
+<li><strong>Test Locally</strong>: Test scheduled tasks before deploying</li>
+<li><strong>Monitor Execution</strong>: Set up monitoring for scheduled tasks</li>
+</ol>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="task-not-running">Task Not Running</h3>
+<ol>
+<li>Check if scheduler is running: <code>python artisan schedule:list</code></li>
+<li>Check logs for errors</li>
+<li>Verify task is defined in <code>kernel.py</code></li>
+<li>Check timezone settings</li>
+</ol>
+<h3 id="task-overlapping">Task Overlapping</h3>
+<p>Use <code>without_overlapping()</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">task</span><span class="p">)</span><span class="o">.</span><span class="n">hourly</span><span class="p">()</span><span class="o">.</span><span class="n">without_overlapping</span><span class="p">()</span>
+</code></pre></div>
+<h3 id="task-running-on-multiple-servers">Task Running on Multiple Servers</h3>
+<p>Use <code>on_one_server()</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">task</span><span class="p">)</span><span class="o">.</span><span class="n">daily</span><span class="p">()</span><span class="o">.</span><span class="n">on_one_server</span><span class="p">()</span>
+</code></pre></div>
+<h2 id="additional-resources">Additional Resources</h2>
+<ul>
+<li><a href="https://apscheduler.readthedocs.io/">APScheduler Documentation</a></li>
+<li><a href="https://laravel.com/docs/scheduling">Laravel Task Scheduling</a></li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

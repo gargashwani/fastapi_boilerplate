@@ -1,0 +1,3168 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A modern FastAPI microservices boilerplate inspired by Laravel.">
+      
+      
+        <meta name="author" content="gargashwani">
+      
+      
+        <link rel="canonical" href="https://gargashwani.github.io/fastapi_boilerplate/index.html">
+      
+      
+      
+        <link rel="next" href="DEVELOPMENT.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>FastAPI Laravel-Style Boilerplate</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#fastapi-laravel-style-boilerplate" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="index.html" title="FastAPI Laravel-Style Boilerplate" class="md-header__button md-logo" aria-label="FastAPI Laravel-Style Boilerplate" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            FastAPI Laravel-Style Boilerplate
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Home
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="index.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="DEVELOPMENT.html" class="md-tabs__link">
+          
+  
+  
+  Getting Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="ARCHITECTURE.html" class="md-tabs__link">
+          
+  
+  
+  Architecture
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="CLI.html" class="md-tabs__link">
+          
+  
+  
+  Core Features
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="SECURITY.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Security
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="artisan_commands.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  CLI Reference
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="API.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  API Reference
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="DEPLOYMENT.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Deployment
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="CONTRIBUTING.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Contributing
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="SUPPORT.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Support
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="LICENSE.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  License
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="index.html" title="FastAPI Laravel-Style Boilerplate" class="md-nav__button md-logo" aria-label="FastAPI Laravel-Style Boilerplate" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    FastAPI Laravel-Style Boilerplate
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="index.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#why-this-boilerplate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔥 Why This Boilerplate?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tech-stack" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🛠️ Tech Stack
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🚀 Getting Started
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚀 Getting Started">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-1-docker-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🐳 Option 1: Docker (Recommended)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-2-local-installation-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🐍 Option 2: Local Installation (Recommended)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#artisan-cli-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎮 Artisan CLI Usage
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#authentication-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Authentication Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Authentication Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#register-a-new-user" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Register a New User
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#login" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Login
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-the-authorization-token" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using the Authorization Token
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#password-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Password Requirements
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-endpoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API Endpoints
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="API Endpoints">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Authentication
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#users-authentication-required" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Users (Authentication Required)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#files-authentication-required" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Files (Authentication Required)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#broadcasting-authentication-required" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Broadcasting (Authentication Required)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Documentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#database-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Database Selection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file-storage-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        File Storage Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#redis-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Redis Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#development" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Development
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Development">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prerequisites
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-the-development-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running the Development Server
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#database-migrations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Database Migrations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#redis-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Redis Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-redis-cache" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using Redis Cache
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#background-tasks-celery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Background Tasks (Celery)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-scheduling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task Scheduling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file-storage-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        File Storage Usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running Tests
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#documentation_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Documentation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-features-explained" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Features Explained
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Key Features Explained">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#database-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Database Support
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#redis-caching" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Redis Caching
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#message-queue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Message Queue
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-scheduling_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task Scheduling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#real-time-broadcasting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Real-time Broadcasting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#http-client" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HTTP Client
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file-storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        File Storage
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#security" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contributing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contributing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#license" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        License
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="DEVELOPMENT.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="tutorial_5min.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start (5 Min)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="ENVIRONMENT.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Environment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="REQUIREMENTS.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Requirements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Architecture
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="ARCHITECTURE.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Features
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Core Features
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="CLI.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Artisan CLI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="AUTHENTICATION.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Authentication
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="DATABASE.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Database
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="MODELS.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Models
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="CONTROLLERS.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Controllers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="SERVICES.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Services
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="SCHEMAS.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schemas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="MIDDLEWARE.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Middleware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="REDIS_USAGE.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Redis & Caching
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="TASK_SCHEDULING.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Task Scheduling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="BROADCASTING.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Broadcasting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="FILE_STORAGE.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File Storage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="HTTP_CLIENT.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HTTP Client
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="SECURITY.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="artisan_commands.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="API.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="DEPLOYMENT.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="CONTRIBUTING.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="SUPPORT.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Support
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="LICENSE.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    License
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#why-this-boilerplate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔥 Why This Boilerplate?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tech-stack" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🛠️ Tech Stack
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🚀 Getting Started
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚀 Getting Started">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-1-docker-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🐳 Option 1: Docker (Recommended)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-2-local-installation-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🐍 Option 2: Local Installation (Recommended)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#artisan-cli-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎮 Artisan CLI Usage
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#authentication-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Authentication Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Authentication Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#register-a-new-user" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Register a New User
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#login" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Login
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-the-authorization-token" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using the Authorization Token
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#password-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Password Requirements
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-endpoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API Endpoints
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="API Endpoints">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Authentication
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#users-authentication-required" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Users (Authentication Required)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#files-authentication-required" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Files (Authentication Required)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#broadcasting-authentication-required" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Broadcasting (Authentication Required)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Documentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#database-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Database Selection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file-storage-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        File Storage Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#redis-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Redis Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#development" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Development
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Development">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prerequisites
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-the-development-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running the Development Server
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#database-migrations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Database Migrations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#redis-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Redis Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-redis-cache" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using Redis Cache
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#background-tasks-celery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Background Tasks (Celery)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-scheduling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task Scheduling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file-storage-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        File Storage Usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running Tests
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#documentation_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Documentation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-features-explained" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Features Explained
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Key Features Explained">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#database-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Database Support
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#redis-caching" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Redis Caching
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#message-queue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Message Queue
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-scheduling_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task Scheduling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#real-time-broadcasting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Real-time Broadcasting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#http-client" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HTTP Client
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file-storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        File Storage
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#security" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contributing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contributing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#license" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        License
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="fastapi-laravel-style-boilerplate">🚀 FastAPI Laravel-Style Boilerplate</h1>
+<p><a href="https://github.com/gargashwani/fastapi_boilerplate/actions"><img alt="CI" src="https://github.com/gargashwani/fastapi_boilerplate/actions/workflows/ci.yml/badge.svg" /></a>
+<a href="https://opensource.org/licenses/MIT"><img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" /></a>
+<a href="https://fastapi.tiangolo.com"><img alt="FastAPI" src="https://img.shields.io/badge/FastAPI-005571?style=flat&amp;logo=fastapi" /></a>
+<a href="https://www.python.org/downloads/"><img alt="Python 3.10+" src="https://img.shields.io/badge/python-3.10+-blue.svg" /></a></p>
+<p><strong>The "batteries-included" developer experience of Laravel, powered by the high-performance async capabilities of FastAPI.</strong></p>
+<p>This boilerplate is designed for developers who love Laravel's elegant syntax, clear structure, and powerful CLI, but want to build their next high-performance microservice or AI platform using Python.</p>
+<hr />
+<h2 id="why-this-boilerplate">🔥 Why This Boilerplate?</h2>
+<p>Most FastAPI projects start as a single <code>main.py</code> and grow into a chaotic mess. This project brings <strong>opinionated structure</strong> and <strong>production-ready patterns</strong> out of the box:</p>
+<ul>
+<li>🏛️ <strong>Domain-Driven Design</strong>: Clear separation of Controllers, Models, Services, and Jobs.</li>
+<li>🛠️ <strong>Artisan CLI</strong>: A powerful command-line interface for migrations, code generation, and task management.</li>
+<li>📡 <strong>Real-time Broadcasting</strong>: Laravel-like WebSocket channels (Public/Private/Presence).</li>
+<li>📦 <strong>Unified Storage</strong>: Fluent API for Local, S3, FTP, and SFTP.</li>
+<li>⚡ <strong>Redis Everything</strong>: Caching (Laravel-like Cache facade) and Task Queuing (Celery) pre-configured.</li>
+<li>🛡️ <strong>Security First</strong>: JWT auth, RBAC (Policies &amp; Gates), Rate Limiting, and CORS protection.</li>
+</ul>
+<hr />
+<h2 id="tech-stack">🛠️ Tech Stack</h2>
+<ul>
+<li><strong>Framework</strong>: <a href="https://fastapi.tiangolo.com/">FastAPI</a></li>
+<li><strong>ORM</strong>: <a href="https://www.sqlalchemy.org/">SQLAlchemy 2.0</a> (PostgreSQL &amp; MySQL support)</li>
+<li><strong>Migrations</strong>: <a href="https://alembic.sqlalchemy.org/">Alembic</a></li>
+<li><strong>Validation</strong>: <a href="https://docs.pydantic.dev/">Pydantic v2</a></li>
+<li><strong>Task Queue</strong>: <a href="https://docs.celeryq.dev/">Celery</a> with <a href="https://redis.io/">Redis</a></li>
+<li><strong>Testing</strong>: <a href="https://docs.pytest.org/">Pytest</a> with Coverage</li>
+<li><strong>Linting</strong>: <a href="https://github.com/astral-sh/ruff">Ruff</a> (The fastest Python linter)</li>
+</ul>
+<hr />
+<h2 id="getting-started">🚀 Getting Started</h2>
+<h3 id="option-1-docker-recommended">🐳 Option 1: Docker (Recommended)</h3>
+<p>Launch the entire stack (App, DB, Redis, Worker, Flower) with a single command:</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># 1. Clone the repo</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/yourusername/fastapi_boilerplate.git<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>fastapi_boilerplate
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># 2. Setup environment</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>cp<span class="w"> </span>.env.example<span class="w"> </span>.env
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="c1"># 3. Start everything</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>docker-compose<span class="w"> </span>up<span class="w"> </span>-d
+</code></pre></div>
+The API will be available at <a href="http://localhost:8000">http://localhost:8000</a> and the API docs at <a href="http://localhost:8000/docs">/docs</a>.</p>
+<h3 id="option-2-local-installation-recommended">🐍 Option 2: Local Installation (Recommended)</h3>
+<p>If you prefer running without Docker:</p>
+<ol>
+<li>
+<p><strong>Install uv</strong> (if not already installed):
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>curl<span class="w"> </span>-LsSf<span class="w"> </span>https://astral.sh/uv/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>sh
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Setup environment &amp; dependencies:</strong>
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Clone the repo</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/yourusername/fastapi_boilerplate.git<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>fastapi_boilerplate
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Install dependencies and setup venv</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>uv<span class="w"> </span>sync
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Run Interactive Installer:</strong>
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># This handles .env creation, APP_KEY generation, and migrations</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>artisan<span class="w"> </span>install
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Start the server:</strong>
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>artisan<span class="w"> </span>serve
+</code></pre></div></p>
+</li>
+</ol>
+<hr />
+<h2 id="artisan-cli-usage">🎮 Artisan CLI Usage</h2>
+<p>Just like Laravel, we provide an <code>artisan.py</code> script to speed up development:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Generate a new Controller</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>python<span class="w"> </span>artisan<span class="w"> </span>make:controller<span class="w"> </span>UserProfile
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># Run database migrations</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>python<span class="w"> </span>artisan<span class="w"> </span>migrate
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1"># List all scheduled tasks</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>python<span class="w"> </span>artisan<span class="w"> </span>schedule:list
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="c1"># Generate secure APP_KEY</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>python<span class="w"> </span>artisan<span class="w"> </span>key:generate
+</code></pre></div>
+<h2 id="authentication-examples">Authentication Examples</h2>
+<h3 id="register-a-new-user">Register a New User</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8000/api/v1/auth/register<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="s1">    &quot;email&quot;: &quot;user@example.com&quot;,</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="s1">    &quot;password&quot;: &quot;Test@12345&quot;,</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="s1">    &quot;full_name&quot;: &quot;John Doe&quot;,</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="s1">    &quot;is_active&quot;: true,</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="s1">    &quot;is_superuser&quot;: false</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="s1">  }&#39;</span>
+</code></pre></div>
+<p><strong>Response:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="p">{</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span><span class="nt">&quot;email&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;user@example.com&quot;</span><span class="p">,</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">  </span><span class="nt">&quot;full_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;John Doe&quot;</span><span class="p">,</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">  </span><span class="nt">&quot;is_active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">  </span><span class="nt">&quot;is_superuser&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">  </span><span class="nt">&quot;created_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-12-18T07:40:47.076834&quot;</span><span class="p">,</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">  </span><span class="nt">&quot;updated_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-12-18T07:40:47.076838&quot;</span>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="p">}</span>
+</code></pre></div></p>
+<p><strong>Note:</strong> After registration, use the <code>/api/v1/auth/login</code> endpoint to get an authorization token.</p>
+<h3 id="login">Login</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8000/api/v1/auth/login<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/x-www-form-urlencoded&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">  </span>-d<span class="w"> </span><span class="s2">&quot;username=user@example.com&amp;password=Test@12345&quot;</span>
+</code></pre></div>
+<p><strong>Response:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="p">{</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span><span class="nt">&quot;access_token&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...&quot;</span><span class="p">,</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span><span class="nt">&quot;token_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bearer&quot;</span><span class="p">,</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">  </span><span class="nt">&quot;user&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">    </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">    </span><span class="nt">&quot;email&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;user@example.com&quot;</span><span class="p">,</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">    </span><span class="nt">&quot;full_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;John Doe&quot;</span><span class="p">,</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">    </span><span class="nt">&quot;is_active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">    </span><span class="nt">&quot;is_superuser&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">    </span><span class="nt">&quot;created_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-12-18T07:40:47.076834&quot;</span><span class="p">,</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="w">    </span><span class="nt">&quot;updated_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-12-18T07:40:47.076838&quot;</span>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="p">}</span>
+</code></pre></div></p>
+<h3 id="using-the-authorization-token">Using the Authorization Token</h3>
+<p><strong>All API endpoints (except <code>/api/v1/auth/login</code> and <code>/api/v1/auth/register</code>) require authentication.</strong></p>
+<p>After login, use the <code>access_token</code> in the Authorization header for all subsequent requests:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span>http://localhost:8000/api/v1/users/me<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...&quot;</span>
+</code></pre></div>
+<p><strong>Without authentication, you'll receive:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="p">{</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">  </span><span class="nt">&quot;detail&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Not authenticated&quot;</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="p">}</span>
+</code></pre></div></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Endpoint</th>
+<th style="text-align: left;">Status</th>
+<th style="text-align: left;">Access</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>/api/v1/users/*</code></td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">Requires authentication</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>/api/v1/files/*</code></td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">Requires authentication</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>/api/v1/broadcasting/*</code></td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">Requires authentication</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>/api/v1/auth/login</code></td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">Public (no authentication)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>/api/v1/auth/register</code></td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">Public (no authentication)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="password-requirements">Password Requirements</h3>
+<ul>
+<li>Minimum 8 characters</li>
+<li>Maximum 512 characters (bcrypt limitation handled automatically)</li>
+<li>At least one uppercase letter (A-Z)</li>
+<li>At least one lowercase letter (a-z)</li>
+<li>At least one digit (0-9)</li>
+</ul>
+<h2 id="api-endpoints">API Endpoints</h2>
+<h3 id="authentication">Authentication</h3>
+<p><strong>Public Endpoints (No authentication required):</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Method</th>
+<th style="text-align: left;">Endpoint</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>POST</code></td>
+<td style="text-align: left;"><code>/api/v1/auth/register</code></td>
+<td style="text-align: left;">Register a new user (returns user info only)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>POST</code></td>
+<td style="text-align: left;"><code>/api/v1/auth/login</code></td>
+<td style="text-align: left;">Login and get access token + user info</td>
+</tr>
+</tbody>
+</table>
+<p><strong>All other endpoints require authentication.</strong> Include the <code>Authorization</code> header:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>Authorization: Bearer &lt;access_token&gt;
+</code></pre></div></p>
+<h3 id="users-authentication-required">Users (Authentication Required)</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Method</th>
+<th style="text-align: left;">Endpoint</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>GET</code></td>
+<td style="text-align: left;"><code>/api/v1/users/me</code></td>
+<td style="text-align: left;">Get current user</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>PUT</code></td>
+<td style="text-align: left;"><code>/api/v1/users/me</code></td>
+<td style="text-align: left;">Update current user</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>GET</code></td>
+<td style="text-align: left;"><code>/api/v1/users</code></td>
+<td style="text-align: left;">Get all users (admin only)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>GET</code></td>
+<td style="text-align: left;"><code>/api/v1/users/{user_id}</code></td>
+<td style="text-align: left;">Get specific user</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>DELETE</code></td>
+<td style="text-align: left;"><code>/api/v1/users/{user_id}</code></td>
+<td style="text-align: left;">Delete user (admin only)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="files-authentication-required">Files (Authentication Required)</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Method</th>
+<th style="text-align: left;">Endpoint</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>POST</code></td>
+<td style="text-align: left;"><code>/api/v1/files/upload</code></td>
+<td style="text-align: left;">Upload a file</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>GET</code></td>
+<td style="text-align: left;"><code>/api/v1/files/download/{file_path}</code></td>
+<td style="text-align: left;">Download a file</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>GET</code></td>
+<td style="text-align: left;"><code>/api/v1/files/info/{file_path}</code></td>
+<td style="text-align: left;">Get file information</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>DELETE</code></td>
+<td style="text-align: left;"><code>/api/v1/files/delete/{file_path}</code></td>
+<td style="text-align: left;">Delete a file</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>GET</code></td>
+<td style="text-align: left;"><code>/api/v1/files/list</code></td>
+<td style="text-align: left;">List files in directory</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>POST</code></td>
+<td style="text-align: left;"><code>/api/v1/files/copy</code></td>
+<td style="text-align: left;">Copy a file</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>POST</code></td>
+<td style="text-align: left;"><code>/api/v1/files/move</code></td>
+<td style="text-align: left;">Move a file</td>
+</tr>
+</tbody>
+</table>
+<h3 id="broadcasting-authentication-required">Broadcasting (Authentication Required)</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Method</th>
+<th style="text-align: left;">Endpoint</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>WS</code></td>
+<td style="text-align: left;"><code>/api/v1/broadcasting/ws</code></td>
+<td style="text-align: left;">WebSocket connection endpoint (requires token in query parameter: <code>?token=&lt;access_token&gt;</code>)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>POST</code></td>
+<td style="text-align: left;"><code>/api/v1/broadcasting/auth</code></td>
+<td style="text-align: left;">Authorize private/presence channel access</td>
+</tr>
+</tbody>
+</table>
+<h3 id="documentation">Documentation</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Method</th>
+<th style="text-align: left;">Endpoint</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>GET</code></td>
+<td style="text-align: left;"><code>/docs</code></td>
+<td style="text-align: left;">Swagger UI documentation</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>GET</code></td>
+<td style="text-align: left;"><code>/redoc</code></td>
+<td style="text-align: left;">ReDoc documentation</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>GET</code></td>
+<td style="text-align: left;"><code>/</code></td>
+<td style="text-align: left;">API welcome message</td>
+</tr>
+</tbody>
+</table>
+<h2 id="configuration">Configuration</h2>
+<h3 id="database-selection">Database Selection</h3>
+<p>The boilerplate supports both <strong>PostgreSQL</strong> and <strong>MySQL</strong>. Switch between them by changing <code>DB_CONNECTION</code> in your <code>.env</code> file:</p>
+<p><strong>PostgreSQL (Default):</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>DB_CONNECTION=postgresql
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>DB_HOST=localhost
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>DB_PORT=5432
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>DB_DATABASE=fastapi_boilerplate
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>DB_USERNAME=postgres
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>DB_PASSWORD=postgres
+</code></pre></div></p>
+<p><strong>MySQL:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>DB_CONNECTION=mysql+pymysql
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>DB_HOST=localhost
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>DB_PORT=3306
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>DB_DATABASE=fastapi_boilerplate
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>DB_USERNAME=root
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>DB_PASSWORD=root
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a># Optional: For MAMP
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a># DB_UNIX_SOCKET=/Applications/MAMP/tmp/mysql/mysql.sock
+</code></pre></div></p>
+<p>The same SQLAlchemy models work with both databases - no code changes needed!</p>
+<h3 id="file-storage-configuration">File Storage Configuration</h3>
+<p>The boilerplate provides a Laravel-like file storage system supporting multiple drivers:</p>
+<p><strong>Local Storage (Default):</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>FILESYSTEM_DISK=local
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>FILESYSTEM_ROOT=storage/app
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>FILESYSTEM_URL=
+</code></pre></div></p>
+<p><strong>Amazon S3:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>FILESYSTEM_DISK=s3
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>AWS_ACCESS_KEY_ID=your-access-key
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>AWS_SECRET_ACCESS_KEY=your-secret-key
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>AWS_DEFAULT_REGION=us-east-1
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>AWS_BUCKET=your-bucket-name
+</code></pre></div></p>
+<p><strong>FTP:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>FILESYSTEM_DISK=ftp
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>FTP_HOST=ftp.example.com
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>FTP_PORT=21
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>FTP_USERNAME=your-username
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>FTP_PASSWORD=your-password
+</code></pre></div></p>
+<p><strong>SFTP:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>FILESYSTEM_DISK=sftp
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>SFTP_HOST=sftp.example.com
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>SFTP_PORT=22
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>SFTP_USERNAME=your-username
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>SFTP_PASSWORD=your-password
+<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>SFTP_KEY=/path/to/private/key
+</code></pre></div></p>
+<p>Switch between storage drivers by changing <code>FILESYSTEM_DISK</code> - same API for all!</p>
+<h3 id="redis-configuration">Redis Configuration</h3>
+<p>Redis is used for both <strong>caching</strong> and <strong>message queue</strong>. Configure in <code>.env</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>REDIS_HOST=localhost
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>REDIS_PORT=6379
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>REDIS_DB=0
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>REDIS_PASSWORD=
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a># Cache Configuration
+<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>CACHE_PREFIX=cache:
+<a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>CACHE_DEFAULT_TTL=3600
+<a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a>CACHE_SERIALIZER=json
+</code></pre></div>
+<h2 id="development">Development</h2>
+<h3 id="prerequisites">Prerequisites</h3>
+<ul>
+<li>Python 3.8+</li>
+<li>PostgreSQL or MySQL</li>
+<li>Redis (for caching and message queue)</li>
+<li>pip and virtualenv</li>
+</ul>
+<h3 id="running-the-development-server">Running the Development Server</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>python<span class="w"> </span>main.py
+</code></pre></div>
+<p>The API will be available at:
+- API: http://localhost:8000
+- Swagger UI: http://localhost:8000/docs
+- ReDoc: http://localhost:8000/redoc</p>
+<h3 id="database-migrations">Database Migrations</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="c1"># Create a new migration</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>alembic<span class="w"> </span>revision<span class="w"> </span>--autogenerate<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;description&quot;</span>
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="c1"># Apply migrations</span>
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>alembic<span class="w"> </span>upgrade<span class="w"> </span>head
+<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>
+<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a><span class="c1"># Rollback one migration</span>
+<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>alembic<span class="w"> </span>downgrade<span class="w"> </span>-1
+</code></pre></div>
+<h3 id="redis-setup">Redis Setup</h3>
+<p><strong>macOS (Homebrew):</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>brew<span class="w"> </span>install<span class="w"> </span>redis
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>brew<span class="w"> </span>services<span class="w"> </span>start<span class="w"> </span>redis
+</code></pre></div></p>
+<p><strong>Docker:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>-p<span class="w"> </span><span class="m">6379</span>:6379<span class="w"> </span>redis:latest
+</code></pre></div></p>
+<p><strong>Linux:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>redis-server
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>redis
+</code></pre></div></p>
+<h3 id="using-redis-cache">Using Redis Cache</h3>
+<p>The boilerplate provides a Laravel-like caching interface:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">app.core.cache</span><span class="w"> </span><span class="kn">import</span> <span class="n">cache</span>
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>
+<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a><span class="c1"># Basic operations</span>
+<a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a><span class="n">cache</span><span class="p">()</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;key&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="n">ttl</span><span class="o">=</span><span class="mi">3600</span><span class="p">)</span>
+<a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a><span class="n">value</span> <span class="o">=</span> <span class="n">cache</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;key&quot;</span><span class="p">)</span>
+<a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a><span class="n">cache</span><span class="p">()</span><span class="o">.</span><span class="n">forget</span><span class="p">(</span><span class="s2">&quot;key&quot;</span><span class="p">)</span>
+<a id="__codelineno-25-7" name="__codelineno-25-7" href="#__codelineno-25-7"></a>
+<a id="__codelineno-25-8" name="__codelineno-25-8" href="#__codelineno-25-8"></a><span class="c1"># Cache-aside pattern (recommended)</span>
+<a id="__codelineno-25-9" name="__codelineno-25-9" href="#__codelineno-25-9"></a><span class="n">user</span> <span class="o">=</span> <span class="n">cache</span><span class="p">()</span><span class="o">.</span><span class="n">remember</span><span class="p">(</span>
+<a id="__codelineno-25-10" name="__codelineno-25-10" href="#__codelineno-25-10"></a>    <span class="sa">f</span><span class="s2">&quot;user:</span><span class="si">{</span><span class="n">user_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+<a id="__codelineno-25-11" name="__codelineno-25-11" href="#__codelineno-25-11"></a>    <span class="n">ttl</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
+<a id="__codelineno-25-12" name="__codelineno-25-12" href="#__codelineno-25-12"></a>    <span class="n">callback</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">User</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">user_id</span><span class="p">)</span>
+<a id="__codelineno-25-13" name="__codelineno-25-13" href="#__codelineno-25-13"></a><span class="p">)</span>
+<a id="__codelineno-25-14" name="__codelineno-25-14" href="#__codelineno-25-14"></a>
+<a id="__codelineno-25-15" name="__codelineno-25-15" href="#__codelineno-25-15"></a><span class="c1"># Advanced operations</span>
+<a id="__codelineno-25-16" name="__codelineno-25-16" href="#__codelineno-25-16"></a><span class="n">cache</span><span class="p">()</span><span class="o">.</span><span class="n">increment</span><span class="p">(</span><span class="s2">&quot;counter&quot;</span><span class="p">)</span>
+<a id="__codelineno-25-17" name="__codelineno-25-17" href="#__codelineno-25-17"></a><span class="n">cache</span><span class="p">()</span><span class="o">.</span><span class="n">forever</span><span class="p">(</span><span class="s2">&quot;key&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">)</span>
+<a id="__codelineno-25-18" name="__codelineno-25-18" href="#__codelineno-25-18"></a><span class="n">tagged</span> <span class="o">=</span> <span class="n">cache</span><span class="p">()</span><span class="o">.</span><span class="n">tags</span><span class="p">(</span><span class="s2">&quot;users&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>See <a href="REDIS_USAGE.html">Redis Usage Guide</a> for comprehensive examples.</p>
+<h3 id="background-tasks-celery">Background Tasks (Celery)</h3>
+<p><strong>Start Celery Worker:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="c1"># Development (with auto-reload)</span>
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>celery<span class="w"> </span>-A<span class="w"> </span>app.core.celery_app<span class="w"> </span>worker<span class="w"> </span>--loglevel<span class="o">=</span>info<span class="w"> </span>--reload
+<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="c1"># Production</span>
+<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a>celery<span class="w"> </span>-A<span class="w"> </span>app.core.celery_app<span class="w"> </span>worker<span class="w"> </span>--loglevel<span class="o">=</span>info
+</code></pre></div></p>
+<p><strong>Monitor with Flower:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>celery<span class="w"> </span>-A<span class="w"> </span>app.core.celery_app<span class="w"> </span>flower
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a><span class="c1"># Access at http://localhost:5555</span>
+</code></pre></div></p>
+<p><strong>Using Tasks:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">app.jobs.tasks</span><span class="w"> </span><span class="kn">import</span> <span class="n">send_welcome_email</span>
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>
+<a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a><span class="c1"># Queue a background task</span>
+<a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a><span class="n">send_welcome_email</span><span class="o">.</span><span class="n">delay</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</code></pre></div></p>
+<h3 id="task-scheduling">Task Scheduling</h3>
+<p>The boilerplate provides a Laravel-like task scheduler:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">app.core.scheduler</span><span class="w"> </span><span class="kn">import</span> <span class="n">schedule</span>
+<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>
+<a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a><span class="c1"># Define tasks in app/console/kernel.py</span>
+<a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a><span class="k">def</span><span class="w"> </span><span class="nf">schedule_tasks</span><span class="p">():</span>
+<a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a>    <span class="c1"># Run every minute</span>
+<a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a>    <span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">cleanup_task</span><span class="p">)</span><span class="o">.</span><span class="n">every_minute</span><span class="p">()</span>
+<a id="__codelineno-29-7" name="__codelineno-29-7" href="#__codelineno-29-7"></a>
+<a id="__codelineno-29-8" name="__codelineno-29-8" href="#__codelineno-29-8"></a>    <span class="c1"># Run daily at specific time</span>
+<a id="__codelineno-29-9" name="__codelineno-29-9" href="#__codelineno-29-9"></a>    <span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">send_report</span><span class="p">)</span><span class="o">.</span><span class="n">daily_at</span><span class="p">(</span><span class="s1">&#39;09:00&#39;</span><span class="p">)</span>
+<a id="__codelineno-29-10" name="__codelineno-29-10" href="#__codelineno-29-10"></a>
+<a id="__codelineno-29-11" name="__codelineno-29-11" href="#__codelineno-29-11"></a>    <span class="c1"># Run hourly</span>
+<a id="__codelineno-29-12" name="__codelineno-29-12" href="#__codelineno-29-12"></a>    <span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">process_queue</span><span class="p">)</span><span class="o">.</span><span class="n">hourly</span><span class="p">()</span>
+<a id="__codelineno-29-13" name="__codelineno-29-13" href="#__codelineno-29-13"></a>
+<a id="__codelineno-29-14" name="__codelineno-29-14" href="#__codelineno-29-14"></a>    <span class="c1"># Run weekly</span>
+<a id="__codelineno-29-15" name="__codelineno-29-15" href="#__codelineno-29-15"></a>    <span class="n">schedule</span><span class="p">()</span><span class="o">.</span><span class="n">job</span><span class="p">(</span><span class="n">backup</span><span class="p">)</span><span class="o">.</span><span class="n">weekly_on</span><span class="p">(</span><span class="s1">&#39;sunday&#39;</span><span class="p">,</span> <span class="s1">&#39;02:00&#39;</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Run the scheduler:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>python<span class="w"> </span>artisan<span class="w"> </span>schedule:run
+</code></pre></div></p>
+<p><strong>List scheduled tasks:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>python<span class="w"> </span>artisan<span class="w"> </span>schedule:list
+</code></pre></div></p>
+<p>See <a href="TASK_SCHEDULING.html">Task Scheduling Guide</a> for comprehensive examples.</p>
+<h3 id="file-storage-usage">File Storage Usage</h3>
+<p>The boilerplate provides a Laravel-like Storage facade:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">app.core.storage</span><span class="w"> </span><span class="kn">import</span> <span class="n">storage</span>
+<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>
+<a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a><span class="c1"># Store a file (private - in storage/app)</span>
+<a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a><span class="n">storage</span><span class="p">()</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s1">&#39;path/to/file.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;content&#39;</span><span class="p">)</span>
+<a id="__codelineno-32-5" name="__codelineno-32-5" href="#__codelineno-32-5"></a>
+<a id="__codelineno-32-6" name="__codelineno-32-6" href="#__codelineno-32-6"></a><span class="c1"># Store a public file (accessible via URL)</span>
+<a id="__codelineno-32-7" name="__codelineno-32-7" href="#__codelineno-32-7"></a><span class="n">storage</span><span class="p">(</span><span class="s1">&#39;public&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s1">&#39;images/logo.png&#39;</span><span class="p">,</span> <span class="n">image_content</span><span class="p">)</span>
+<a id="__codelineno-32-8" name="__codelineno-32-8" href="#__codelineno-32-8"></a><span class="c1"># Accessible at: http://localhost:8000/storage/images/logo.png</span>
+<a id="__codelineno-32-9" name="__codelineno-32-9" href="#__codelineno-32-9"></a>
+<a id="__codelineno-32-10" name="__codelineno-32-10" href="#__codelineno-32-10"></a><span class="c1"># Get file content</span>
+<a id="__codelineno-32-11" name="__codelineno-32-11" href="#__codelineno-32-11"></a><span class="n">content</span> <span class="o">=</span> <span class="n">storage</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;path/to/file.txt&#39;</span><span class="p">)</span>
+<a id="__codelineno-32-12" name="__codelineno-32-12" href="#__codelineno-32-12"></a>
+<a id="__codelineno-32-13" name="__codelineno-32-13" href="#__codelineno-32-13"></a><span class="c1"># Check if file exists</span>
+<a id="__codelineno-32-14" name="__codelineno-32-14" href="#__codelineno-32-14"></a><span class="k">if</span> <span class="n">storage</span><span class="p">()</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s1">&#39;path/to/file.txt&#39;</span><span class="p">):</span>
+<a id="__codelineno-32-15" name="__codelineno-32-15" href="#__codelineno-32-15"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;File exists&quot;</span><span class="p">)</span>
+<a id="__codelineno-32-16" name="__codelineno-32-16" href="#__codelineno-32-16"></a>
+<a id="__codelineno-32-17" name="__codelineno-32-17" href="#__codelineno-32-17"></a><span class="c1"># Delete a file</span>
+<a id="__codelineno-32-18" name="__codelineno-32-18" href="#__codelineno-32-18"></a><span class="n">storage</span><span class="p">()</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s1">&#39;path/to/file.txt&#39;</span><span class="p">)</span>
+<a id="__codelineno-32-19" name="__codelineno-32-19" href="#__codelineno-32-19"></a>
+<a id="__codelineno-32-20" name="__codelineno-32-20" href="#__codelineno-32-20"></a><span class="c1"># Get file URL</span>
+<a id="__codelineno-32-21" name="__codelineno-32-21" href="#__codelineno-32-21"></a><span class="n">url</span> <span class="o">=</span> <span class="n">storage</span><span class="p">()</span><span class="o">.</span><span class="n">url</span><span class="p">(</span><span class="s1">&#39;path/to/file.txt&#39;</span><span class="p">)</span>
+<a id="__codelineno-32-22" name="__codelineno-32-22" href="#__codelineno-32-22"></a>
+<a id="__codelineno-32-23" name="__codelineno-32-23" href="#__codelineno-32-23"></a><span class="c1"># Use different disk</span>
+<a id="__codelineno-32-24" name="__codelineno-32-24" href="#__codelineno-32-24"></a><span class="n">storage</span><span class="p">(</span><span class="s1">&#39;s3&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s1">&#39;file.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;content&#39;</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Public vs Private Storage:</strong>
+- <strong>Private</strong> (<code>storage/app</code>): Files NOT publicly accessible - use for sensitive data
+- <strong>Public</strong> (<code>public/storage</code>): Files publicly accessible via <code>/storage/</code> URL</p>
+<p>See <a href="FILE_STORAGE.html">File Storage Guide</a> for comprehensive examples.</p>
+<h3 id="running-tests">Running Tests</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="c1"># Run all tests</span>
+<a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a>pytest
+<a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a>
+<a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a><span class="c1"># With coverage</span>
+<a id="__codelineno-33-5" name="__codelineno-33-5" href="#__codelineno-33-5"></a>pytest<span class="w"> </span>--cov<span class="o">=</span>app
+</code></pre></div>
+<h2 id="documentation_1">Documentation</h2>
+<ul>
+<li><a href="SECURITY.html">Security Guide</a> - Security best practices and features</li>
+<li><a href="REDIS_USAGE.html">Redis Usage Guide</a> - Caching and message queue</li>
+<li><a href="TASK_SCHEDULING.html">Task Scheduling Guide</a> - Scheduled task management</li>
+<li><a href="BROADCASTING.html">Broadcasting Guide</a> - Real-time event broadcasting</li>
+<li><a href="HTTP_CLIENT.html">HTTP Client Guide</a> - HTTP client for making requests</li>
+<li><a href="FILE_STORAGE.html">File Storage Guide</a> - File storage system</li>
+<li><a href="ENVIRONMENT.html">Environment Variables</a> - Complete configuration guide</li>
+<li><a href="DEVELOPMENT.html">Development Guide</a> - Development workflow and best practices</li>
+</ul>
+<h2 id="key-features-explained">Key Features Explained</h2>
+<h3 id="database-support">Database Support</h3>
+<ul>
+<li><strong>PostgreSQL &amp; MySQL</strong>: Switch databases via configuration - same ORM, same code</li>
+<li><strong>Alembic Migrations</strong>: Version-controlled database schema changes</li>
+<li><strong>Connection Pooling</strong>: Optimized database connections</li>
+</ul>
+<h3 id="redis-caching">Redis Caching</h3>
+<ul>
+<li><strong>Laravel-like API</strong>: Familiar <code>cache().get()</code>, <code>cache().put()</code>, <code>cache().remember()</code> methods</li>
+<li><strong>Automatic Serialization</strong>: JSON and pickle support</li>
+<li><strong>Tagged Cache</strong>: Group related cache keys</li>
+<li><strong>TTL Support</strong>: Automatic expiration</li>
+</ul>
+<h3 id="message-queue">Message Queue</h3>
+<ul>
+<li><strong>Celery Integration</strong>: Background task processing</li>
+<li><strong>Redis Backend</strong>: Fast and reliable message broker</li>
+<li><strong>Task Monitoring</strong>: Flower dashboard included</li>
+<li><strong>Retry Logic</strong>: Built-in task retry support</li>
+</ul>
+<h3 id="task-scheduling_1">Task Scheduling</h3>
+<ul>
+<li><strong>Laravel-like API</strong>: Familiar <code>schedule().job()</code> syntax</li>
+<li><strong>Multiple Frequencies</strong>: Every minute, hourly, daily, weekly, monthly, etc.</li>
+<li><strong>Task Types</strong>: Commands, jobs, and shell commands</li>
+<li><strong>Advanced Features</strong>: Timezone support, overlap prevention, conditional execution</li>
+</ul>
+<h3 id="real-time-broadcasting">Real-time Broadcasting</h3>
+<ul>
+<li><strong>Laravel-like API</strong>: Familiar <code>broadcast().event()</code> syntax</li>
+<li><strong>Multiple Drivers</strong>: Redis, Pusher, Ably, Log, Null</li>
+<li><strong>Channel Types</strong>: Public, Private, Presence channels</li>
+<li><strong>WebSocket Support</strong>: Real-time bidirectional communication</li>
+<li><strong>Channel Authorization</strong>: Secure access control</li>
+</ul>
+<h3 id="http-client">HTTP Client</h3>
+<ul>
+<li><strong>Laravel-like API</strong>: Familiar <code>http().get()</code>, <code>http().post()</code> syntax</li>
+<li><strong>Fluent Interface</strong>: Chain methods for easy configuration</li>
+<li><strong>Authentication</strong>: Basic auth, Bearer tokens</li>
+<li><strong>Retry Logic</strong>: Automatic retries on failure</li>
+<li><strong>Middleware</strong>: Custom request/response processing</li>
+<li><strong>Concurrent Requests</strong>: Pool and batch multiple requests</li>
+<li><strong>Testing Support</strong>: Fake responses and request recording</li>
+</ul>
+<h3 id="file-storage">File Storage</h3>
+<ul>
+<li><strong>Laravel-like API</strong>: Familiar <code>storage().put()</code>, <code>storage().get()</code> methods</li>
+<li><strong>Multiple Drivers</strong>: Local, S3, FTP, SFTP support</li>
+<li><strong>Easy Switching</strong>: Change driver via configuration</li>
+<li><strong>Unified Interface</strong>: Same API for all storage backends</li>
+</ul>
+<h3 id="security">Security</h3>
+<ul>
+<li><strong>JWT Authentication</strong>: Secure token-based auth with timezone-aware tokens</li>
+<li><strong>Password Hashing</strong>: bcrypt password encryption with strength requirements</li>
+<li><strong>Authorization</strong>: Policy and Gate-based access control</li>
+<li><strong>CORS Support</strong>: Configurable cross-origin requests (validated in production)</li>
+<li><strong>Rate Limiting</strong>: Built-in request throttling with Redis support</li>
+<li><strong>Security Headers</strong>: X-Frame-Options, CSP, HSTS, and more</li>
+<li><strong>Path Traversal Protection</strong>: Secure file operations with validation</li>
+<li><strong>File Upload Security</strong>: Type, size, and content validation</li>
+<li><strong>Command Injection Prevention</strong>: Secure command execution in scheduler</li>
+<li><strong>Secure Error Handling</strong>: No information disclosure in production</li>
+<li><strong>Request ID Tracking</strong>: Unique IDs for all requests</li>
+</ul>
+<h2 id="contributing">Contributing</h2>
+<ol>
+<li>Fork the repository</li>
+<li>Create your feature branch (<code>git checkout -b feature/amazing-feature</code>)</li>
+<li>Commit your changes (<code>git commit -m 'Add some amazing feature'</code>)</li>
+<li>Push to the branch (<code>git push origin feature/amazing-feature</code>)</li>
+<li>Open a Pull Request</li>
+</ol>
+<h2 id="license">License</h2>
+<p>This project is licensed under the MIT License - see the LICENSE file for details. </p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
