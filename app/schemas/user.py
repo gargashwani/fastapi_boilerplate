@@ -1,7 +1,7 @@
 import re
 from datetime import datetime
 
-from pydantic import BaseModel, EmailStr, validator
+from pydantic import BaseModel, EmailStr, field_validator
 
 
 class UserBase(BaseModel):
@@ -15,8 +15,9 @@ class UserCreate(UserBase):
     email: EmailStr
     password: str
 
-    @validator("password")
-    def validate_password(cls, v):
+    @field_validator("password")
+    @classmethod
+    def validate_password(cls, v: str) -> str:
         """Validate password strength."""
         if len(v) < 8:
             raise ValueError("Password must be at least 8 characters long")
@@ -39,8 +40,9 @@ class UserCreate(UserBase):
 class UserUpdate(UserBase):
     password: str | None = None
 
-    @validator("password")
-    def validate_password(cls, v):
+    @field_validator("password")
+    @classmethod
+    def validate_password(cls, v: str | None) -> str | None:
         """Validate password strength if provided."""
         if v is None:
             return v

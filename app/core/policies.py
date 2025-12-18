@@ -61,7 +61,7 @@ class Policy:
 class UserPolicy(Policy):
     @staticmethod
     def view_any(user: User) -> bool:
-        if not super().view_any(user):
+        if not Policy.view_any(user):
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail="Not authorized to view users",
@@ -70,7 +70,7 @@ class UserPolicy(Policy):
 
     @staticmethod
     def view(user: User, resource_user_id: int) -> bool:
-        if not super().view(user, resource_user_id):
+        if not Policy.view(user, resource_user_id):
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail="Not authorized to view this user",
@@ -79,7 +79,7 @@ class UserPolicy(Policy):
 
     @staticmethod
     def update(user: User, resource_user_id: int) -> bool:
-        if not super().update(user, resource_user_id):
+        if not Policy.update(user, resource_user_id):
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail="Not authorized to update this user",
@@ -88,7 +88,7 @@ class UserPolicy(Policy):
 
     @staticmethod
     def delete(user: User, resource_user_id: int) -> bool:
-        if not super().delete(user, resource_user_id):
+        if not Policy.delete(user, resource_user_id):
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail="Not authorized to delete this user",

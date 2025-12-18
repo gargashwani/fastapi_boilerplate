@@ -57,7 +57,7 @@ class User(Base):
 
     @classmethod
     def update(cls, db: Session, db_obj: "User", obj_in: UserUpdate) -> "User":
-        update_data = obj_in.dict(exclude_unset=True)
+        update_data = obj_in.model_dump(exclude_unset=True)
         if "password" in update_data:
             hashed_password = get_password_hash(update_data["password"])
             del update_data["password"]

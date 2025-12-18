@@ -76,10 +76,18 @@ def read_user(
 
     # Example: Cache user data for 5 minutes
     cache_key = f"user:{user_id}"
+    
+    def get_user_data():
+        user = User.get(db, id=user_id)
+        if user:
+            # Convert User model to UserResponse schema for JSON serialization
+            return UserResponse.model_validate(user).model_dump()
+        return None
+    
     user_data = cache().remember(
         cache_key,
         ttl=300,  # 5 minutes
-        callback=lambda: User.get(db, id=user_id),
+        callback=get_user_data,
     )
 
     if not user_data:
