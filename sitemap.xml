@@ -1,111 +1,111 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-         <loc>https://gargashwani.github.io/fastapi_boilerplate/index.html</loc>
+         <loc>https://gargashwani.github.io/fastapi_boilerplate_documentation/index.html</loc>
          <lastmod>2025-12-18</lastmod>
     </url>
     <url>
-         <loc>https://gargashwani.github.io/fastapi_boilerplate/API.html</loc>
+         <loc>https://gargashwani.github.io/fastapi_boilerplate_documentation/API.html</loc>
          <lastmod>2025-12-18</lastmod>
     </url>
     <url>
-         <loc>https://gargashwani.github.io/fastapi_boilerplate/ARCHITECTURE.html</loc>
+         <loc>https://gargashwani.github.io/fastapi_boilerplate_documentation/ARCHITECTURE.html</loc>
          <lastmod>2025-12-18</lastmod>
     </url>
     <url>
-         <loc>https://gargashwani.github.io/fastapi_boilerplate/AUTHENTICATION.html</loc>
+         <loc>https://gargashwani.github.io/fastapi_boilerplate_documentation/AUTHENTICATION.html</loc>
          <lastmod>2025-12-18</lastmod>
     </url>
     <url>
-         <loc>https://gargashwani.github.io/fastapi_boilerplate/BROADCASTING.html</loc>
+         <loc>https://gargashwani.github.io/fastapi_boilerplate_documentation/BROADCASTING.html</loc>
          <lastmod>2025-12-18</lastmod>
     </url>
     <url>
-         <loc>https://gargashwani.github.io/fastapi_boilerplate/CLI.html</loc>
+         <loc>https://gargashwani.github.io/fastapi_boilerplate_documentation/CLI.html</loc>
          <lastmod>2025-12-18</lastmod>
     </url>
     <url>
-         <loc>https://gargashwani.github.io/fastapi_boilerplate/CONTRIBUTING.html</loc>
+         <loc>https://gargashwani.github.io/fastapi_boilerplate_documentation/CONTRIBUTING.html</loc>
          <lastmod>2025-12-18</lastmod>
     </url>
     <url>
-         <loc>https://gargashwani.github.io/fastapi_boilerplate/CONTROLLERS.html</loc>
+         <loc>https://gargashwani.github.io/fastapi_boilerplate_documentation/CONTROLLERS.html</loc>
          <lastmod>2025-12-18</lastmod>
     </url>
     <url>
-         <loc>https://gargashwani.github.io/fastapi_boilerplate/DATABASE.html</loc>
+         <loc>https://gargashwani.github.io/fastapi_boilerplate_documentation/DATABASE.html</loc>
          <lastmod>2025-12-18</lastmod>
     </url>
     <url>
-         <loc>https://gargashwani.github.io/fastapi_boilerplate/DEPLOYMENT.html</loc>
+         <loc>https://gargashwani.github.io/fastapi_boilerplate_documentation/DEPLOYMENT.html</loc>
          <lastmod>2025-12-18</lastmod>
     </url>
     <url>
-         <loc>https://gargashwani.github.io/fastapi_boilerplate/DEVELOPMENT.html</loc>
+         <loc>https://gargashwani.github.io/fastapi_boilerplate_documentation/DEVELOPMENT.html</loc>
          <lastmod>2025-12-18</lastmod>
     </url>
     <url>
-         <loc>https://gargashwani.github.io/fastapi_boilerplate/ENVIRONMENT.html</loc>
+         <loc>https://gargashwani.github.io/fastapi_boilerplate_documentation/ENVIRONMENT.html</loc>
          <lastmod>2025-12-18</lastmod>
     </url>
     <url>
-         <loc>https://gargashwani.github.io/fastapi_boilerplate/FILE_STORAGE.html</loc>
+         <loc>https://gargashwani.github.io/fastapi_boilerplate_documentation/FILE_STORAGE.html</loc>
          <lastmod>2025-12-18</lastmod>
     </url>
     <url>
-         <loc>https://gargashwani.github.io/fastapi_boilerplate/HTTP_CLIENT.html</loc>
+         <loc>https://gargashwani.github.io/fastapi_boilerplate_documentation/HTTP_CLIENT.html</loc>
          <lastmod>2025-12-18</lastmod>
     </url>
     <url>
-         <loc>https://gargashwani.github.io/fastapi_boilerplate/LICENSE.html</loc>
+         <loc>https://gargashwani.github.io/fastapi_boilerplate_documentation/LICENSE.html</loc>
          <lastmod>2025-12-18</lastmod>
     </url>
     <url>
-         <loc>https://gargashwani.github.io/fastapi_boilerplate/MIDDLEWARE.html</loc>
+         <loc>https://gargashwani.github.io/fastapi_boilerplate_documentation/MIDDLEWARE.html</loc>
          <lastmod>2025-12-18</lastmod>
     </url>
     <url>
-         <loc>https://gargashwani.github.io/fastapi_boilerplate/MODELS.html</loc>
+         <loc>https://gargashwani.github.io/fastapi_boilerplate_documentation/MODELS.html</loc>
          <lastmod>2025-12-18</lastmod>
     </url>
     <url>
-         <loc>https://gargashwani.github.io/fastapi_boilerplate/README_ORIGINAL.html</loc>
+         <loc>https://gargashwani.github.io/fastapi_boilerplate_documentation/README_ORIGINAL.html</loc>
          <lastmod>2025-12-18</lastmod>
     </url>
     <url>
-         <loc>https://gargashwani.github.io/fastapi_boilerplate/REDIS_USAGE.html</loc>
+         <loc>https://gargashwani.github.io/fastapi_boilerplate_documentation/REDIS_USAGE.html</loc>
          <lastmod>2025-12-18</lastmod>
     </url>
     <url>
-         <loc>https://gargashwani.github.io/fastapi_boilerplate/REQUIREMENTS.html</loc>
+         <loc>https://gargashwani.github.io/fastapi_boilerplate_documentation/REQUIREMENTS.html</loc>
          <lastmod>2025-12-18</lastmod>
     </url>
     <url>
-         <loc>https://gargashwani.github.io/fastapi_boilerplate/SCHEMAS.html</loc>
+         <loc>https://gargashwani.github.io/fastapi_boilerplate_documentation/SCHEMAS.html</loc>
          <lastmod>2025-12-18</lastmod>
     </url>
     <url>
-         <loc>https://gargashwani.github.io/fastapi_boilerplate/SECURITY.html</loc>
+         <loc>https://gargashwani.github.io/fastapi_boilerplate_documentation/SECURITY.html</loc>
          <lastmod>2025-12-18</lastmod>
     </url>
     <url>
-         <loc>https://gargashwani.github.io/fastapi_boilerplate/SERVICES.html</loc>
+         <loc>https://gargashwani.github.io/fastapi_boilerplate_documentation/SERVICES.html</loc>
          <lastmod>2025-12-18</lastmod>
     </url>
     <url>
-         <loc>https://gargashwani.github.io/fastapi_boilerplate/SUPPORT.html</loc>
+         <loc>https://gargashwani.github.io/fastapi_boilerplate_documentation/SUPPORT.html</loc>
          <lastmod>2025-12-18</lastmod>
     </url>
     <url>
-         <loc>https://gargashwani.github.io/fastapi_boilerplate/TASK_SCHEDULING.html</loc>
+         <loc>https://gargashwani.github.io/fastapi_boilerplate_documentation/TASK_SCHEDULING.html</loc>
          <lastmod>2025-12-18</lastmod>
     </url>
     <url>
-         <loc>https://gargashwani.github.io/fastapi_boilerplate/artisan_commands.html</loc>
+         <loc>https://gargashwani.github.io/fastapi_boilerplate_documentation/artisan_commands.html</loc>
          <lastmod>2025-12-18</lastmod>
     </url>
     <url>
-         <loc>https://gargashwani.github.io/fastapi_boilerplate/tutorial_5min.html</loc>
+         <loc>https://gargashwani.github.io/fastapi_boilerplate_documentation/tutorial_5min.html</loc>
          <lastmod>2025-12-18</lastmod>
     </url>
 </urlset>
