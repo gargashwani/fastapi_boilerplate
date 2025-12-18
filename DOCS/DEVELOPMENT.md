@@ -115,9 +115,15 @@ curl -X POST http://localhost:8000/api/v1/auth/register \
 ```
 
 **Response includes:**
-- `access_token`: JWT token for API authentication
-- `token_type`: "bearer"
-- `user`: Complete user information
+- `id`: User ID
+- `email`: User email
+- `full_name`: User full name
+- `is_active`: Active status
+- `is_superuser`: Superuser status
+- `created_at`: Creation timestamp
+- `updated_at`: Update timestamp
+
+**Note:** After registration, use the `/api/v1/auth/login` endpoint to get an authorization token.
 
 ### Login
 

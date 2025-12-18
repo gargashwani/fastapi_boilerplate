@@ -41,15 +41,15 @@ def login(
         "user": user,
     }
 
-@router.post("/register", response_model=TokenWithUser)
+@router.post("/register", response_model=UserResponse)
 def register(
     *,
     db: Session = Depends(get_db),
     user_in: UserCreate,
 ) -> Any:
     """
-    Create new user and automatically log them in.
-    Returns authorization token and user information.
+    Create new user.
+    Returns user information only. Use /login endpoint to get authorization token.
     """
     user = User.get_by_email(db, email=user_in.email)
     if user:
@@ -67,12 +67,4 @@ def register(
     event = UserCreated(user)
     broadcast().event(event)
     
-    # Automatically log in the user after registration
-    access_token_expires = timedelta(minutes=settings.JWT_EXPIRATION)
-    return {
-        "access_token": security.create_access_token(
-            user.id, expires_delta=access_token_expires
-        ),
-        "token_type": "bearer",
-        "user": user,
-    } 
+    return user 

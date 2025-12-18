@@ -188,21 +188,17 @@ curl -X POST http://localhost:8000/api/v1/auth/register \
 **Response:**
 ```json
 {
-  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-  "token_type": "bearer",
-  "user": {
-    "id": 1,
-    "email": "user@example.com",
-    "full_name": "John Doe",
-    "is_active": true,
-    "is_superuser": false,
-    "created_at": "2025-12-18T07:40:47.076834",
-    "updated_at": "2025-12-18T07:40:47.076838"
-  }
+  "id": 1,
+  "email": "user@example.com",
+  "full_name": "John Doe",
+  "is_active": true,
+  "is_superuser": false,
+  "created_at": "2025-12-18T07:40:47.076834",
+  "updated_at": "2025-12-18T07:40:47.076838"
 }
 ```
 
-**Note:** Registration automatically logs in the user and returns an authorization token.
+**Note:** After registration, use the `/api/v1/auth/login` endpoint to get an authorization token.
 
 ### Login
 
@@ -233,7 +229,7 @@ curl -X POST http://localhost:8000/api/v1/auth/login \
 
 **All API endpoints (except `/api/v1/auth/login` and `/api/v1/auth/register`) require authentication.**
 
-After login or registration, use the `access_token` in the Authorization header for all subsequent requests:
+After login, use the `access_token` in the Authorization header for all subsequent requests:
 
 ```bash
 curl -X GET http://localhost:8000/api/v1/users/me \
@@ -267,7 +263,7 @@ curl -X GET http://localhost:8000/api/v1/users/me \
 ### Authentication
 
 **Public Endpoints (No authentication required):**
-- `POST /api/v1/auth/register` - Register a new user (returns token + user info)
+- `POST /api/v1/auth/register` - Register a new user (returns user info only)
 - `POST /api/v1/auth/login` - Login and get access token + user info
 
 **All other endpoints require authentication.** Include the `Authorization` header:

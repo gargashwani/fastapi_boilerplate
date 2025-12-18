@@ -43,21 +43,17 @@ Request body:
 Response:
 ```json
 {
-    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-    "token_type": "bearer",
-    "user": {
-        "id": 1,
-        "email": "user@example.com",
-        "full_name": "string",
-        "is_active": true,
-        "is_superuser": false,
-        "created_at": "2025-12-18T07:40:47.076834",
-        "updated_at": "2025-12-18T07:40:47.076838"
-    }
+    "id": 1,
+    "email": "user@example.com",
+    "full_name": "string",
+    "is_active": true,
+    "is_superuser": false,
+    "created_at": "2025-12-18T07:40:47.076834",
+    "updated_at": "2025-12-18T07:40:47.076838"
 }
 ```
 
-**Note:** Registration automatically logs in the user and returns an authorization token for immediate API access.
+**Note:** After registration, use the `/api/v1/auth/login` endpoint to get an authorization token.
 
 ### Login
 ```http
@@ -99,7 +95,7 @@ To authenticate, include the `Authorization` header in your requests:
 Authorization: Bearer <access_token>
 ```
 
-Where `<access_token>` is the token received from login or register endpoints.
+Where `<access_token>` is the token received from the login endpoint.
 
 **Example:**
 ```bash
