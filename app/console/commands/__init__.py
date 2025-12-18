@@ -33,6 +33,7 @@ from app.console.commands.schedule import schedule_list, schedule_run
 from app.console.commands.seeder import db_refresh, db_seed
 from app.console.commands.serve import serve
 from app.console.commands.test import test
+from app.console.commands.user import list_users, promote_user
 
 
 @click.group()
@@ -70,5 +71,7 @@ app.add_command(db_create)
 app.add_command(db_drop)
 app.add_command(schedule_run)
 app.add_command(schedule_list)
+app.add_command(promote_user)
+app.add_command(list_users)
 
 __all__ = ["app"]

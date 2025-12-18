@@ -109,6 +109,7 @@ def delete_user(
     Delete a user (with cache invalidation and broadcasting example).
     """
     user = User.get(db, id=user_id)
+   
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
     UserPolicy.delete(current_user, user.id)

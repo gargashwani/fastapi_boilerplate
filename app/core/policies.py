@@ -4,6 +4,8 @@ from app.core.gates import Gate
 from app.models.user import User
 
 
+
+
 class Policy:
     @staticmethod
     def before(user: User, *args, **kwargs) -> bool:
@@ -55,7 +57,10 @@ class Policy:
         """
         if not Gate.before(user):
             return False
-        return Gate.owns_resource(user, resource_user_id) or Gate.can_manage_users(user)
+        # Check if user owns the resource or can manage users
+        owns = Gate.owns_resource(user, resource_user_id)
+        can_manage = Gate.can_manage_users(user)
+        return owns or can_manage
 
 
 class UserPolicy(Policy):

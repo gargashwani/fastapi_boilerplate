@@ -1,5 +1,6 @@
 import base64
 import hashlib
+import logging
 from datetime import datetime, timedelta, timezone
 from typing import Any
 
@@ -12,6 +13,8 @@ from sqlalchemy.orm import Session
 
 from app.core.database import get_db
 from config import settings
+
+logger = logging.getLogger(__name__)
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/v1/auth/login")
@@ -101,13 +104,16 @@ def get_current_user(
         payload = jwt.decode(
             token, settings.JWT_SECRET, algorithms=[settings.JWT_ALGORITHM]
         )
-        user_id = payload.get("sub")
-        if user_id is None:
+        user_id_str = payload.get("sub")
+        if user_id_str is None:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Could not validate credentials",
             )
-    except JWTError:
+        # Convert user_id to int (JWT stores it as string)
+        user_id = int(user_id_str)
+    except (JWTError, ValueError, TypeError) as e:
+        logger.error(f"Error decoding token or parsing user_id: {e}")
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Could not validate credentials",
@@ -115,4 +121,15 @@ def get_current_user(
     user = User.get(db, id=user_id)
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
+    
+    # Refresh the user object to ensure we have the latest data from the database
+    # This is important if user permissions were changed after the token was issued
+    try:
+        db.refresh(user)
+        logger.debug(f"Loaded user {user.id} (email: {user.email}, is_superuser: {user.is_superuser})")
+    except Exception as e:
+        logger.warning(f"Could not refresh user object: {e}")
+        # If refresh fails, expire the object to force reload on next access
+        db.expire(user)
+    
     return user
