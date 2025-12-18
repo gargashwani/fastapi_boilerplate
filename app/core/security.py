@@ -1,3 +1,4 @@
+import base64
 import hashlib
 from datetime import datetime, timedelta, timezone
 from typing import Any
@@ -44,7 +45,7 @@ def _prepare_password_for_bcrypt(password: str) -> str:
         password: Plain text password
 
     Returns:
-        Password ready for bcrypt (either original or SHA-256 hash)
+        Password ready for bcrypt (either original or base64-encoded SHA-256 hash)
     """
     password_bytes = password.encode("utf-8")
 
@@ -52,10 +53,12 @@ def _prepare_password_for_bcrypt(password: str) -> str:
     if len(password_bytes) <= BCRYPT_MAX_LENGTH:
         return password
 
-    # For longer passwords, pre-hash with SHA-256
-    # This creates a 32-byte hash (64 hex characters) which is well under the limit
-    sha256_hash = hashlib.sha256(password_bytes).hexdigest()
-    return sha256_hash
+    # For longer passwords, pre-hash with SHA-256 and encode as base64
+    # SHA-256 produces 32 bytes, base64 encoding produces 44 characters (~44 bytes)
+    # This is well under the 72-byte limit
+    sha256_hash = hashlib.sha256(password_bytes).digest()
+    base64_hash = base64.b64encode(sha256_hash).decode("utf-8")
+    return base64_hash
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
