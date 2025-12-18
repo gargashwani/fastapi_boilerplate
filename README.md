@@ -169,20 +169,120 @@ python main.py
 The API will be available at http://localhost:8000
 API documentation will be available at http://localhost:8000/docs
 
+## Authentication Examples
+
+### Register a New User
+
+```bash
+curl -X POST http://localhost:8000/api/v1/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "user@example.com",
+    "password": "Test@12345",
+    "full_name": "John Doe",
+    "is_active": true,
+    "is_superuser": false
+  }'
+```
+
+**Response:**
+```json
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "token_type": "bearer",
+  "user": {
+    "id": 1,
+    "email": "user@example.com",
+    "full_name": "John Doe",
+    "is_active": true,
+    "is_superuser": false,
+    "created_at": "2025-12-18T07:40:47.076834",
+    "updated_at": "2025-12-18T07:40:47.076838"
+  }
+}
+```
+
+**Note:** Registration automatically logs in the user and returns an authorization token.
+
+### Login
+
+```bash
+curl -X POST http://localhost:8000/api/v1/auth/login \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "username=user@example.com&password=Test@12345"
+```
+
+**Response:**
+```json
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "token_type": "bearer",
+  "user": {
+    "id": 1,
+    "email": "user@example.com",
+    "full_name": "John Doe",
+    "is_active": true,
+    "is_superuser": false,
+    "created_at": "2025-12-18T07:40:47.076834",
+    "updated_at": "2025-12-18T07:40:47.076838"
+  }
+}
+```
+
+### Using the Authorization Token
+
+**All API endpoints (except `/api/v1/auth/login` and `/api/v1/auth/register`) require authentication.**
+
+After login or registration, use the `access_token` in the Authorization header for all subsequent requests:
+
+```bash
+curl -X GET http://localhost:8000/api/v1/users/me \
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+```
+
+**Without authentication, you'll receive:**
+```json
+{
+  "detail": "Not authenticated"
+}
+```
+
+**All endpoints are protected by default:**
+- ✅ `/api/v1/users/*` - Requires authentication
+- ✅ `/api/v1/files/*` - Requires authentication
+- ✅ `/api/v1/broadcasting/*` - Requires authentication
+- ❌ `/api/v1/auth/login` - Public (no authentication)
+- ❌ `/api/v1/auth/register` - Public (no authentication)
+
+### Password Requirements
+
+- Minimum 8 characters
+- Maximum 512 characters (bcrypt limitation handled automatically)
+- At least one uppercase letter (A-Z)
+- At least one lowercase letter (a-z)
+- At least one digit (0-9)
+
 ## API Endpoints
 
 ### Authentication
-- `POST /api/v1/auth/register` - Register a new user
-- `POST /api/v1/auth/login` - Login and get access token
 
-### Users
+**Public Endpoints (No authentication required):**
+- `POST /api/v1/auth/register` - Register a new user (returns token + user info)
+- `POST /api/v1/auth/login` - Login and get access token + user info
+
+**All other endpoints require authentication.** Include the `Authorization` header:
+```
+Authorization: Bearer <access_token>
+```
+
+### Users (Authentication Required)
 - `GET /api/v1/users/me` - Get current user
 - `PUT /api/v1/users/me` - Update current user
 - `GET /api/v1/users` - Get all users (admin only)
 - `GET /api/v1/users/{user_id}` - Get specific user
 - `DELETE /api/v1/users/{user_id}` - Delete user (admin only)
 
-### Files
+### Files (Authentication Required)
 - `POST /api/v1/files/upload` - Upload a file
 - `GET /api/v1/files/download/{file_path}` - Download a file
 - `GET /api/v1/files/info/{file_path}` - Get file information
@@ -191,8 +291,8 @@ API documentation will be available at http://localhost:8000/docs
 - `POST /api/v1/files/copy` - Copy a file
 - `POST /api/v1/files/move` - Move a file
 
-### Broadcasting
-- `WS /api/v1/broadcasting/ws` - WebSocket connection endpoint
+### Broadcasting (Authentication Required)
+- `WS /api/v1/broadcasting/ws` - WebSocket connection endpoint (requires token in query parameter: `?token=<access_token>`)
 - `POST /api/v1/broadcasting/auth` - Authorize private/presence channel access
 
 ### Documentation

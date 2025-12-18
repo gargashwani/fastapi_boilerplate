@@ -98,6 +98,75 @@ python main.py
 ```
 The server will be available at http://localhost:8000
 
+## Authentication
+
+### Register a New User
+
+The registration endpoint automatically logs in the user and returns an authorization token:
+
+```bash
+curl -X POST http://localhost:8000/api/v1/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "user@example.com",
+    "password": "Test@12345",
+    "full_name": "John Doe"
+  }'
+```
+
+**Response includes:**
+- `access_token`: JWT token for API authentication
+- `token_type`: "bearer"
+- `user`: Complete user information
+
+### Login
+
+```bash
+curl -X POST http://localhost:8000/api/v1/auth/login \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "username=user@example.com&password=Test@12345"
+```
+
+**Response includes:**
+- `access_token`: JWT token for API authentication
+- `token_type`: "bearer"
+- `user`: Complete user information
+
+### Using Authentication Tokens
+
+**⚠️ IMPORTANT: All API endpoints require authentication EXCEPT login and register.**
+
+All protected endpoints require the `Authorization` header:
+
+```bash
+curl -X GET http://localhost:8000/api/v1/users/me \
+  -H "Authorization: Bearer <access_token>"
+```
+
+**Protected Endpoints (Require Token):**
+- All `/api/v1/users/*` endpoints
+- All `/api/v1/files/*` endpoints
+- All `/api/v1/broadcasting/*` endpoints
+
+**Public Endpoints (No Token Required):**
+- `POST /api/v1/auth/register`
+- `POST /api/v1/auth/login`
+
+**Without a valid token, you'll receive:**
+```json
+{
+  "detail": "Not authenticated"
+}
+```
+
+### Password Requirements
+
+- Minimum 8 characters
+- Maximum 512 characters (bcrypt limitation handled automatically)
+- At least one uppercase letter
+- At least one lowercase letter
+- At least one digit
+
 ### API Documentation
 - Swagger UI: http://localhost:8000/docs
 - ReDoc: http://localhost:8000/redoc
