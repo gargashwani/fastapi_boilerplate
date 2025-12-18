@@ -5,6 +5,7 @@ Laravel-like broadcasting using WebSockets and Redis pub/sub.
 import json
 import asyncio
 from typing import Dict, Any, Optional, List, Callable
+from abc import ABC, abstractmethod
 from redis import Redis
 from redis.exceptions import RedisError
 import logging

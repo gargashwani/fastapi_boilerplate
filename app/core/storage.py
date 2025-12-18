@@ -6,13 +6,31 @@ Supports local filesystem, S3, FTP, SFTP, and more.
 import os
 from typing import Optional, BinaryIO, Union, List
 from pathlib import Path
-from fs import open_fs
-from fs.base import FS
-from fs.errors import ResourceNotFound, FileExpected
 from config import settings
 import logging
 
 logger = logging.getLogger(__name__)
+
+# Lazy import helper - avoids import errors during migrations
+def _ensure_fs_imported():
+    """Ensure fs modules are imported, raise error if not available."""
+    global open_fs, FS
+    if open_fs is None:
+        try:
+            from fs import open_fs as _open_fs
+            from fs.base import FS as _FS
+            open_fs = _open_fs
+            FS = _FS
+        except ImportError:
+            raise ImportError(
+                "PyFilesystem2 (fs) is required for file storage. "
+                "Install with: pip install fs fs-s3fs boto3"
+            )
+    return open_fs, FS
+
+# Initialize as None - will be imported lazily when Storage is actually used
+open_fs = None
+FS = None
 
 class Storage:
     """
@@ -39,6 +57,9 @@ class Storage:
     
     def _create_filesystem(self) -> FS:
         """Create filesystem instance based on disk configuration."""
+        # Ensure fs modules are imported
+        _open_fs, _FS = _ensure_fs_imported()
+        
         # Get disk configuration from settings
         disk_config = self._get_disk_config()
         driver = disk_config.get('driver', 'local')
@@ -47,7 +68,7 @@ class Storage:
             root = disk_config.get('root', settings.FILESYSTEM_ROOT)
             # Create directory if it doesn't exist
             os.makedirs(root, exist_ok=True)
-            return open_fs(f"osfs://{os.path.abspath(root)}")
+            return _open_fs(f"osfs://{os.path.abspath(root)}")
         
         elif driver == 's3':
             return self._create_s3_filesystem(disk_config)
