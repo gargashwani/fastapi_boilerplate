@@ -1,9 +1,14 @@
 # 🚀 FastAPI Laravel-Style Boilerplate
 
-[![CI](https://github.com/yourusername/fastapi_boilerplate/actions/workflows/ci.yml/badge.svg)](https://github.com/yourusername/fastapi_boilerplate/actions)
+[![GitHub stars](https://img.shields.io/github/stars/gargashwani/fastapi_boilerplate?style=social)](https://github.com/gargashwani/fastapi_boilerplate)
+[![GitHub forks](https://img.shields.io/github/forks/gargashwani/fastapi_boilerplate?style=social)](https://github.com/gargashwani/fastapi_boilerplate/fork)
+[![GitHub issues](https://img.shields.io/github/issues/gargashwani/fastapi_boilerplate)](https://github.com/gargashwani/fastapi_boilerplate/issues)
+[![GitHub pull requests](https://img.shields.io/github/issues-pr/gargashwani/fastapi_boilerplate)](https://github.com/gargashwani/fastapi_boilerplate/pulls)
+[![Documentation](https://img.shields.io/badge/docs-live-brightgreen)](https://gargashwani.github.io/fastapi_boilerplate/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=flat&logo=fastapi)](https://fastapi.tiangolo.com)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![Docker](https://img.shields.io/badge/docker-ready-blue?logo=docker)](https://github.com/gargashwani/fastapi_boilerplate)
 
 **The "batteries-included" developer experience of Laravel, powered by the high-performance async capabilities of FastAPI.**
 
@@ -43,7 +48,7 @@ Launch the core stack (App, DB, Redis, Worker, Flower) with a single command:
 
 ```bash
 # 1. Clone the repo
-git clone https://github.com/yourusername/fastapi_boilerplate.git && cd fastapi_boilerplate
+git clone https://github.com/gargashwani/fastapi_boilerplate.git && cd fastapi_boilerplate
 
 # 2. Setup environment
 cp .env.example .env
@@ -62,7 +67,7 @@ The API will be available at [http://localhost:8000](http://localhost:8000), Pro
 1. **Setup environment & dependencies:**
    ```bash
    # Clone the repo
-   git clone https://github.com/yourusername/fastapi_boilerplate.git && cd fastapi_boilerplate
+   git clone https://github.com/gargashwani/fastapi_boilerplate.git && cd fastapi_boilerplate
 
    # Create virtual environment
    python -m venv venv
