@@ -9,6 +9,7 @@ from app.console.commands.cache import clear_cache
 from app.console.commands.database import db_create, db_drop
 from app.console.commands.docs import generate_docs
 from app.console.commands.key_generate import key_generate
+from app.console.commands.install import install
 from app.console.commands.logs import clear_logs, view_logs
 from app.console.commands.make import (
     make_controller,
@@ -43,6 +44,7 @@ def app():
 
 # Register all commands
 app.add_command(serve)
+app.add_command(install)
 app.add_command(key_generate)
 app.add_command(make_migration)
 app.add_command(migrate)

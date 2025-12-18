@@ -1,71 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Services - FastAPI Boilerplate Documentation</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-</head>
-<body>
-    <div class="topbar">
-        <div class="topbar-left">
-            <button class="sidebar-toggle">
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="search-box">
-                <input type="text" placeholder="Search documentation...">
-                <i class="fas fa-search"></i>
-            </div>
-        </div>
-        <div class="topbar-right">
-            <div class="theme-switch-wrapper">
-                <label class="theme-switch" for="checkbox">
-                    <input type="checkbox" id="checkbox" />
-                    <div class="slider round">
-                        <i class="fas fa-sun"></i>
-                        <i class="fas fa-moon"></i>
-                    </div>
-                </label>
-            </div>
-            <a href="https://github.com/your-repo" class="github-link" target="_blank">
-                <i class="fab fa-github"></i>
-                <span>GitHub</span>
-            </a>
-        </div>
-    </div>
-    <div class="container">
-        <nav class="sidebar">
-            <div class="logo">
-                <h1>FastAPI Boilerplate</h1>
-            </div>
-            <ul class="nav-links">
-                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
-                <li><a href="getting-started.html"><i class="fas fa-rocket"></i> Getting Started</a></li>
-                <li><a href="requirements.html"><i class="fas fa-list-check"></i> Requirements</a></li>
-                <li><a href="architecture.html"><i class="fas fa-sitemap"></i> Architecture</a></li>
-                <li><a href="authentication.html"><i class="fas fa-shield-alt"></i> Authentication</a></li>
-                <li><a href="database.html"><i class="fas fa-database"></i> Database</a></li>
-                <li><a href="models.html"><i class="fas fa-table"></i> Models</a></li>
-                <li><a href="controllers.html"><i class="fas fa-cogs"></i> Controllers</a></li>
-                <li><a href="services.html" class="active"><i class="fas fa-server"></i> Services</a></li>
-                <li><a href="schemas.html"><i class="fas fa-code"></i> Schemas</a></li>
-                <li><a href="middleware.html"><i class="fas fa-layer-group"></i> Middleware</a></li>
-                <li><a href="cli.html"><i class="fas fa-terminal"></i> CLI Commands</a></li>
-                <li><a href="deployment.html"><i class="fas fa-cloud"></i> Deployment</a></li>
-            </ul>
-        </nav>
-        <main class="content">
-            <div class="hero">
-                <h1>Services</h1>
-                <p>Business logic and data access layer for the FastAPI Boilerplate</p>
-            </div>
+# Services
 
-            <section id="base-service">
-                <h2>Base Service</h2>
-                <div class="card">
-                    <h3>Service Structure</h3>
-                    <pre><code>from typing import List, Optional, Type, TypeVar
+Business logic and data access layer for the FastAPI Boilerplate.
+
+## Base Service
+
+### Service Structure
+
+```python
+from typing import List, Optional, Type, TypeVar
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
 
@@ -123,15 +65,15 @@ class BaseService:
     async def delete(self, db: Session, id: int) -> None:
         db_obj = await self.get(db, id)
         db.delete(db_obj)
-        db.commit()</code></pre>
-                </div>
-            </section>
+        db.commit()
+```
 
-            <section id="user-service">
-                <h2>User Service</h2>
-                <div class="card">
-                    <h3>User Operations</h3>
-                    <pre><code>from typing import Optional
+## User Service
+
+### User Operations
+
+```python
+from typing import Optional
 from sqlalchemy.orm import Session
 from passlib.context import CryptContext
 
@@ -182,15 +124,15 @@ class UserService(BaseService):
         if obj_in.password:
             hashed_password = get_password_hash(obj_in.password)
             obj_in = obj_in.copy(update={"hashed_password": hashed_password})
-        return await super().update(db, id, obj_in)</code></pre>
-                </div>
-            </section>
+        return await super().update(db, id, obj_in)
+```
 
-            <section id="post-service">
-                <h2>Post Service</h2>
-                <div class="card">
-                    <h3>Post Operations</h3>
-                    <pre><code>from typing import List, Optional
+## Post Service
+
+### Post Operations
+
+```python
+from typing import List, Optional
 from sqlalchemy.orm import Session
 
 from app.models.post import Post
@@ -238,15 +180,15 @@ class PostService(BaseService):
         post = await self.get(db, id)
         if post.author_id != author_id:
             raise ForbiddenException()
-        await super().delete(db, id)</code></pre>
-                </div>
-            </section>
+        await super().delete(db, id)
+```
 
-            <section id="service-dependencies">
-                <h2>Service Dependencies</h2>
-                <div class="card">
-                    <h3>Dependency Injection</h3>
-                    <pre><code>from fastapi import Depends
+## Service Dependencies
+
+### Dependency Injection
+
+```python
+from fastapi import Depends
 from sqlalchemy.orm import Session
 
 from app.core.database import get_db
@@ -257,12 +199,5 @@ def get_user_service(db: Session = Depends(get_db)) -> UserService:
     return UserService()
 
 def get_post_service(db: Session = Depends(get_db)) -> PostService:
-    return PostService()</code></pre>
-                </div>
-            </section>
-        </main>
-    </div>
-    <script src="js/main.js"></script>
-    <script src="js/theme.js"></script>
-</body>
-</html> 
+    return PostService()
+```

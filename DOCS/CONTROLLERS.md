@@ -1,71 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Controllers - FastAPI Boilerplate Documentation</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-</head>
-<body>
-    <div class="topbar">
-        <div class="topbar-left">
-            <button class="sidebar-toggle">
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="search-box">
-                <input type="text" placeholder="Search documentation...">
-                <i class="fas fa-search"></i>
-            </div>
-        </div>
-        <div class="topbar-right">
-            <div class="theme-switch-wrapper">
-                <label class="theme-switch" for="checkbox">
-                    <input type="checkbox" id="checkbox" />
-                    <div class="slider round">
-                        <i class="fas fa-sun"></i>
-                        <i class="fas fa-moon"></i>
-                    </div>
-                </label>
-            </div>
-            <a href="https://github.com/your-repo" class="github-link" target="_blank">
-                <i class="fab fa-github"></i>
-                <span>GitHub</span>
-            </a>
-        </div>
-    </div>
-    <div class="container">
-        <nav class="sidebar">
-            <div class="logo">
-                <h1>FastAPI Boilerplate</h1>
-            </div>
-            <ul class="nav-links">
-                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
-                <li><a href="getting-started.html"><i class="fas fa-rocket"></i> Getting Started</a></li>
-                <li><a href="requirements.html"><i class="fas fa-list-check"></i> Requirements</a></li>
-                <li><a href="architecture.html"><i class="fas fa-sitemap"></i> Architecture</a></li>
-                <li><a href="authentication.html"><i class="fas fa-shield-alt"></i> Authentication</a></li>
-                <li><a href="database.html"><i class="fas fa-database"></i> Database</a></li>
-                <li><a href="models.html"><i class="fas fa-table"></i> Models</a></li>
-                <li><a href="controllers.html" class="active"><i class="fas fa-cogs"></i> Controllers</a></li>
-                <li><a href="services.html"><i class="fas fa-server"></i> Services</a></li>
-                <li><a href="schemas.html"><i class="fas fa-code"></i> Schemas</a></li>
-                <li><a href="middleware.html"><i class="fas fa-layer-group"></i> Middleware</a></li>
-                <li><a href="cli.html"><i class="fas fa-terminal"></i> CLI Commands</a></li>
-                <li><a href="deployment.html"><i class="fas fa-cloud"></i> Deployment</a></li>
-            </ul>
-        </nav>
-        <main class="content">
-            <div class="hero">
-                <h1>Controllers</h1>
-                <p>API controllers and route handlers for the FastAPI Boilerplate</p>
-            </div>
+# Controllers
 
-            <section id="base-controller">
-                <h2>Base Controller</h2>
-                <div class="card">
-                    <h3>Controller Structure</h3>
-                    <pre><code>from fastapi import APIRouter, Depends, HTTPException
+API controllers and route handlers for the FastAPI Boilerplate.
+
+## Base Controller
+
+### Controller Structure
+
+```python
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List, Optional
 
@@ -80,15 +22,15 @@ class BaseController:
         self._register_routes()
 
     def _register_routes(self):
-        raise NotImplementedError("Subclasses must implement _register_routes")</code></pre>
-                </div>
-            </section>
+        raise NotImplementedError("Subclasses must implement _register_routes")
+```
 
-            <section id="user-controller">
-                <h2>User Controller</h2>
-                <div class="card">
-                    <h3>User Routes</h3>
-                    <pre><code>from fastapi import APIRouter, Depends, HTTPException, status
+## User Controller
+
+### User Routes
+
+```python
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List
 
@@ -143,15 +85,15 @@ class UserController(BaseController):
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail="Not enough permissions"
             )
-        return await self.service.delete(db, user_id)</code></pre>
-                </div>
-            </section>
+        return await self.service.delete(db, user_id)
+```
 
-            <section id="post-controller">
-                <h2>Post Controller</h2>
-                <div class="card">
-                    <h3>Post Routes</h3>
-                    <pre><code>from fastapi import APIRouter, Depends, HTTPException, status
+## Post Controller
+
+### Post Routes
+
+```python
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List
 
@@ -206,15 +148,15 @@ class PostController(BaseController):
         db: Session = Depends(get_db),
         current_user: User = Depends(get_current_user)
     ):
-        return await self.service.delete(db, post_id, current_user.id)</code></pre>
-                </div>
-            </section>
+        return await self.service.delete(db, post_id, current_user.id)
+```
 
-            <section id="error-handling">
-                <h2>Error Handling</h2>
-                <div class="card">
-                    <h3>Custom Exceptions</h3>
-                    <pre><code>from fastapi import HTTPException, status
+## Error Handling
+
+### Custom Exceptions
+
+```python
+from fastapi import HTTPException, status
 
 class NotFoundException(HTTPException):
     def __init__(self, detail: str = "Resource not found"):
@@ -235,12 +177,5 @@ class ForbiddenException(HTTPException):
         super().__init__(
             status_code=status.HTTP_403_FORBIDDEN,
             detail=detail
-        )</code></pre>
-                </div>
-            </section>
-        </main>
-    </div>
-    <script src="js/main.js"></script>
-    <script src="js/theme.js"></script>
-</body>
-</html> 
+        )
+```

@@ -4,6 +4,7 @@ FROM python:3.11-slim as base
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 ENV PYTHONPATH /app
+ENV UV_PROJECT_ENVIRONMENT=/usr/local
 
 WORKDIR /app
 
@@ -16,9 +17,12 @@ RUN apt-get update && apt-get install -y \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
+# Install uv
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+
 # Install Python dependencies
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+COPY pyproject.toml uv.lock ./
+RUN uv sync --no-dev --frozen
 
 # Copy project files
 COPY . .

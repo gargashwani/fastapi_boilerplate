@@ -392,7 +392,7 @@ cache().forever("key", "value")
 tagged = cache().tags("users")
 ```
 
-See [Redis Usage Guide](DOCS/REDIS_USAGE.md) for comprehensive examples.
+See [Redis Usage Guide](REDIS_USAGE.md) for comprehensive examples.
 
 ### Background Tasks (Celery)
 
@@ -451,7 +451,7 @@ python artisan schedule:run
 python artisan schedule:list
 ```
 
-See [Task Scheduling Guide](DOCS/TASK_SCHEDULING.md) for comprehensive examples.
+See [Task Scheduling Guide](TASK_SCHEDULING.md) for comprehensive examples.
 
 ### File Storage Usage
 
@@ -488,7 +488,7 @@ storage('s3').put('file.txt', 'content')
 - **Private** (`storage/app`): Files NOT publicly accessible - use for sensitive data
 - **Public** (`public/storage`): Files publicly accessible via `/storage/` URL
 
-See [File Storage Guide](DOCS/FILE_STORAGE.md) for comprehensive examples.
+See [File Storage Guide](FILE_STORAGE.md) for comprehensive examples.
 
 ### Running Tests
 
@@ -502,16 +502,14 @@ pytest --cov=app
 
 ## Documentation
 
-- [Security Guide](DOCS/SECURITY.md) - Security best practices and features
-- [Security Audit](SECURITY_AUDIT.md) - Comprehensive security audit report
-- [Security Fixes](SECURITY_FIXES.md) - Summary of security improvements
-- [Redis Usage Guide](DOCS/REDIS_USAGE.md) - Caching and message queue
-- [Task Scheduling Guide](DOCS/TASK_SCHEDULING.md) - Scheduled task management
-- [Broadcasting Guide](DOCS/BROADCASTING.md) - Real-time event broadcasting
-- [HTTP Client Guide](DOCS/HTTP_CLIENT.md) - HTTP client for making requests
-- [File Storage Guide](DOCS/FILE_STORAGE.md) - File storage system
-- [Environment Variables](DOCS/ENVIRONMENT.md) - Complete configuration guide
-- [Development Guide](DOCS/DEVELOPMENT.md) - Development workflow and best practices
+- [Security Guide](SECURITY.md) - Security best practices and features
+- [Redis Usage Guide](REDIS_USAGE.md) - Caching and message queue
+- [Task Scheduling Guide](TASK_SCHEDULING.md) - Scheduled task management
+- [Broadcasting Guide](BROADCASTING.md) - Real-time event broadcasting
+- [HTTP Client Guide](HTTP_CLIENT.md) - HTTP client for making requests
+- [File Storage Guide](FILE_STORAGE.md) - File storage system
+- [Environment Variables](ENVIRONMENT.md) - Complete configuration guide
+- [Development Guide](DEVELOPMENT.md) - Development workflow and best practices
 
 ## Key Features Explained
 

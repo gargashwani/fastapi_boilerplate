@@ -17,6 +17,11 @@ services:
         condition: service_healthy
     networks:
       - backend
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   worker:
     build: .
@@ -59,11 +64,11 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=fastapi_boilerplate
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=${DB_DATABASE:-fastapi_boilerplate}
+      - POSTGRES_USER=${DB_USERNAME:-postgres}
+      - POSTGRES_PASSWORD=${DB_PASSWORD:-postgres}
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-postgres}"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -87,7 +92,8 @@ services:
     ports:
       - "5555:5555"
     depends_on:
-      - redis
+      redis:
+        condition: service_healthy
     networks:
       - backend
 

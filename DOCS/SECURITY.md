@@ -5,7 +5,7 @@ This guide covers security best practices and features in the FastAPI boilerplat
 ## Table of Contents
 
 1. [Security Features](#security-features)
-2. [Authentication & Authorization](#authentication--authorization)
+2. [Authentication and Authorization](#authentication-and-authorization)
 3. [Input Validation](#input-validation)
 4. [File Security](#file-security)
 5. [Configuration Security](#configuration-security)
@@ -16,7 +16,7 @@ This guide covers security best practices and features in the FastAPI boilerplat
 
 The boilerplate includes comprehensive security features:
 
-### Authentication & Authorization
+### Authentication and Authorization
 - JWT-based authentication with timezone-aware tokens
 - Password strength requirements (8+ chars, uppercase, lowercase, digit)
 - Policy and Gate-based authorization
@@ -47,7 +47,7 @@ The boilerplate includes comprehensive security features:
 - Request ID tracking
 - Proper logging without sensitive data
 
-## Authentication & Authorization
+## Authentication and Authorization
 
 ### Password Requirements
 
@@ -341,6 +341,4 @@ bandit -r app/ -f json -o security-report.json
 - [OWASP Top 10](https://owasp.org/www-project-top-ten/)
 - [FastAPI Security](https://fastapi.tiangolo.com/tutorial/security/)
 - [Python Security Best Practices](https://python.readthedocs.io/en/stable/library/security.html)
-- [Security Audit Report](SECURITY_AUDIT.md)
-- [Security Fixes Summary](SECURITY_FIXES.md)
 

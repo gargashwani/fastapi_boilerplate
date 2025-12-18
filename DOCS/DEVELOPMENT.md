@@ -365,7 +365,7 @@ pip install bandit
 bandit -r app/
 ```
 
-See [Security Audit](SECURITY_AUDIT.md) for comprehensive security information.
+See [Security Guide](SECURITY.md) for comprehensive security information.
 
 ### Security
 

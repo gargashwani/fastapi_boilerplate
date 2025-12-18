@@ -1,0 +1,72 @@
+site_name: FastAPI Laravel-Style Boilerplate
+site_description: A modern FastAPI microservices boilerplate inspired by Laravel.
+site_author: yourusername
+site_url: https://yourusername.github.io/fastapi_boilerplate/
+
+docs_dir: docs
+
+theme:
+  name: material
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.tabbed:
+      alternate_style: true
+
+nav:
+  - Home: index.md
+  - Getting Started:
+      - Introduction: DEVELOPMENT.md
+      - Environment: ENVIRONMENT.md
+      - Requirements: REQUIREMENTS.md
+  - Architecture:
+      - Overview: ARCHITECTURE.md
+  - Core Features:
+      - Artisan CLI: CLI.md
+      - Authentication: AUTHENTICATION.md
+      - Database: DATABASE.md
+      - Models: MODELS.md
+      - Controllers: CONTROLLERS.md
+      - Services: SERVICES.md
+      - Schemas: SCHEMAS.md
+      - Middleware: MIDDLEWARE.md
+      - Redis & Caching: REDIS_USAGE.md
+      - Task Scheduling: TASK_SCHEDULING.md
+      - Broadcasting: BROADCASTING.md
+      - File Storage: FILE_STORAGE.md
+      - HTTP Client: HTTP_CLIENT.md
+  - Security: SECURITY.md
+  - CLI Reference: artisan_commands.md
+  - API Reference: API.md
+  - Deployment: DEPLOYMENT.md
+  - Contributing: CONTRIBUTING.md
+  - License: LICENSE.md
