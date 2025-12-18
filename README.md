@@ -59,22 +59,19 @@ Metrics are optional and grouped under a Docker Compose profile. To start the me
 docker compose --profile metrics up -d
 ```
 The API will be available at [http://localhost:8000](http://localhost:8000), Prometheus at [http://localhost:9090](http://localhost:9090), and Grafana at [http://localhost:3000](http://localhost:3000).
-
-### 🐍 Option 2: Local Installation
-If you prefer running without Docker:
-
-1. **Install uv** (if not already installed):
-   ```bash
-   curl -LsSf https://astral.sh/uv/install.sh | sh
-   ```
-
-2. **Setup environment & dependencies:**
+1. **Setup environment & dependencies:**
    ```bash
    # Clone the repo
    git clone https://github.com/yourusername/fastapi_boilerplate.git && cd fastapi_boilerplate
 
-   # Install dependencies and setup venv
-   uv sync
+   # Create virtual environment
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+   # Install dependencies
+   pip install -e .
+   # or
+   pip install -r requirements.txt # if generated
    ```
 
 3. **Configure Dependencies:**
@@ -83,13 +80,23 @@ If you prefer running without Docker:
 4. **Run Interactive Installer:**
    ```bash
    # This handles .env creation, APP_KEY generation, and migrations
-   uv run python artisan install
+   python artisan install
    ```
 
 5. **Start the server:**
    ```bash
-   uv run python artisan serve
+   python artisan serve
    ```
+
+### 💡 Hybrid Mode: Local App + Docker DB/Redis
+If you want to run the application locally but don't want to install PostgreSQL and Redis manually, you can use Docker to provide just the infrastructure:
+
+```bash
+# Start only the database and redis
+docker compose up -d db redis
+```
+
+The application (via Option 2) will now be able to connect to these services on `localhost`.
 
 > [!TIP]
 > You can disable Prometheus metrics exposure by setting `ENABLE_METRICS=false` in your `.env`.
