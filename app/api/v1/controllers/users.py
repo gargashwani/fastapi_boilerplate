@@ -1,3 +1,4 @@
+import json
 from typing import Any
 
 from fastapi import APIRouter, Depends, HTTPException
@@ -80,8 +81,10 @@ def read_user(
     def get_user_data():
         user = User.get(db, id=user_id)
         if user:
-            # Convert User model to UserResponse schema for JSON serialization
-            return UserResponse.model_validate(user).model_dump()
+            # Convert User model to UserResponse schema and serialize to JSON-compatible dict
+            # Using model_dump_json() ensures datetime objects are properly serialized
+            user_response = UserResponse.model_validate(user)
+            return json.loads(user_response.model_dump_json())
         return None
     
     user_data = cache().remember(
