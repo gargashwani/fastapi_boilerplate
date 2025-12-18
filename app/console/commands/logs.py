@@ -1,6 +1,9 @@
 """Log commands"""
-import click
+
 from pathlib import Path
+
+import click
+
 
 @click.command(name="logs:view")
 def view_logs():
@@ -9,9 +12,10 @@ def view_logs():
     if not log_path.exists():
         click.echo("No logs found!")
         return
-    
-    with open(log_path, 'r') as f:
+
+    with open(log_path) as f:
         click.echo(f.read())
+
 
 @click.command(name="logs:clear")
 def clear_logs():
@@ -22,4 +26,3 @@ def clear_logs():
         click.echo("Logs cleared successfully!")
     else:
         click.echo("No logs found!")
-

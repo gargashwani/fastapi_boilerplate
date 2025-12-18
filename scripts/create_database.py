@@ -3,15 +3,18 @@
 Create database if it doesn't exist.
 Similar to Laravel's database creation.
 """
-import sys
+
 import os
+import sys
 
 # Add project root to Python path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import psycopg2
 from psycopg2 import sql
+
 from config import settings
+
 
 def create_database():
     """Create the database if it doesn't exist."""
@@ -23,18 +26,17 @@ def create_database():
             port=settings.DB_PORT,
             user=settings.DB_USERNAME,
             password=settings.DB_PASSWORD,
-            database='postgres'  # Connect to default database
+            database="postgres",  # Connect to default database
         )
         conn.autocommit = True
         cursor = conn.cursor()
-        
+
         # Check if database exists
         cursor.execute(
-            "SELECT 1 FROM pg_database WHERE datname = %s",
-            (settings.DB_DATABASE,)
+            "SELECT 1 FROM pg_database WHERE datname = %s", (settings.DB_DATABASE,)
         )
         exists = cursor.fetchone()
-        
+
         if exists:
             print(f"✓ Database '{settings.DB_DATABASE}' already exists")
         else:
@@ -45,16 +47,16 @@ def create_database():
                 )
             )
             print(f"✓ Database '{settings.DB_DATABASE}' created successfully")
-        
+
         cursor.close()
         conn.close()
         return True
-        
+
     except psycopg2.OperationalError as e:
         print(f"✗ Error connecting to PostgreSQL: {e}")
-        print(f"\nPlease ensure:")
-        print(f"  1. PostgreSQL is running")
-        print(f"  2. Connection settings in .env are correct:")
+        print("\nPlease ensure:")
+        print("  1. PostgreSQL is running")
+        print("  2. Connection settings in .env are correct:")
         print(f"     DB_HOST={settings.DB_HOST}")
         print(f"     DB_PORT={settings.DB_PORT}")
         print(f"     DB_USERNAME={settings.DB_USERNAME}")
@@ -64,7 +66,7 @@ def create_database():
         print(f"✗ Error: {e}")
         return False
 
+
 if __name__ == "__main__":
     success = create_database()
     sys.exit(0 if success else 1)
-

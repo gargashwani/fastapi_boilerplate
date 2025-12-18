@@ -40,4 +40,4 @@ class {seeder_class}:
         """Clear seeded data"""
         self.db.query(self.model).delete()
         self.db.commit()
-''' 
+'''

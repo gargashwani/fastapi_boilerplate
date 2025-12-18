@@ -1,6 +1,6 @@
 """Service templates for CLI commands"""
 
-SERVICE_TEMPLATE = '''from typing import List, Optional
+SERVICE_TEMPLATE = """from typing import List, Optional
 from fastapi import Depends
 from app.models.{model_name} import {model_class}
 from app.schemas.{model_name} import {model_class}Create, {model_class}Response
@@ -44,9 +44,9 @@ class {service_class}:
         self.db.delete(db_obj)
         self.db.commit()
         return True
-'''
+"""
 
-SERVICE_WITH_INTERFACE_TEMPLATE = '''from abc import ABC, abstractmethod
+SERVICE_WITH_INTERFACE_TEMPLATE = """from abc import ABC, abstractmethod
 from typing import List, Optional
 from fastapi import Depends
 from app.models.{model_name} import {model_class}
@@ -112,4 +112,4 @@ class {service_class}(I{service_class}):
         self.db.delete(db_obj)
         self.db.commit()
         return True
-''' 
+"""

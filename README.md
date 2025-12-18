@@ -1,173 +1,99 @@
-# FastAPI Boilerplate
+# 🚀 FastAPI Laravel-Style Boilerplate
 
-A modern, production-ready FastAPI boilerplate with a structure similar to Laravel.
+[![CI](https://github.com/yourusername/fastapi_boilerplate/actions/workflows/ci.yml/badge.svg)](https://github.com/yourusername/fastapi_boilerplate/actions)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=flat&logo=fastapi)](https://fastapi.tiangolo.com)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 
-## Features
+**The "batteries-included" developer experience of Laravel, powered by the high-performance async capabilities of FastAPI.**
 
-- User authentication with JWT
-- SQLAlchemy ORM with PostgreSQL & MySQL support
-- Alembic database migrations
-- Redis caching (Laravel-like Cache facade)
-- Redis message queue with Celery
-- Task scheduling (Laravel-like Scheduler) - Cron-like task scheduling
-- Real-time broadcasting (Laravel-like Broadcasting) - WebSocket support with Redis/Pusher/Ably
-- HTTP client (Laravel-like Http facade) - Fluent HTTP requests with retries, middleware, and testing
-- File storage (Laravel-like Storage facade) - Local, S3, FTP, SFTP
-- Pydantic models and validation
-- Environment configuration (Laravel-like)
-- CORS support
-- Type hints
-- API documentation with Swagger UI
+This boilerplate is designed for developers who love Laravel's elegant syntax, clear structure, and powerful CLI, but want to build their next high-performance microservice or AI platform using Python.
 
-## Project Structure
+---
 
-```
-fastapi_boilerplate/
-├── alembic/                  # Database migrations
-│   ├── versions/             # Migration files
-│   ├── env.py                # Migration environment
-│   └── script.py.mako        # Migration template
-├── app/                      # Application package
-│   ├── api/                  # API routes
-│   │   └── v1/               # API version 1
-│   │       ├── controllers/    # API controllers (Laravel-like)
-│   │       │   ├── auth.py        # Authentication controller
-│   │       │   ├── users.py       # User controller
-│   │       │   ├── files.py       # File storage controller
-│   │       │   └── broadcasting.py # Broadcasting WebSocket controller
-│   │       └── api.py        # API router
-│   ├── core/                 # Core functionality
-│   │   ├── database.py       # Database configuration (PostgreSQL & MySQL)
-│   │   ├── cache.py          # Redis caching (Laravel-like)
-│   │   ├── storage.py        # File storage (Laravel-like Storage facade)
-│   │   ├── broadcasting.py  # Broadcasting system (Laravel-like)
-│   │   ├── channels.py       # Channel authorization
-│   │   ├── http.py           # HTTP client (Laravel-like)
-│   │   ├── scheduler.py      # Task scheduler
-│   │   ├── celery_app.py     # Celery configuration
-│   │   ├── security.py       # Security utilities (JWT, password hashing)
-│   │   ├── policies.py       # Authorization policies
-│   │   └── gates.py          # Authorization gates
-│   ├── http/                  # HTTP layer (Laravel-like)
-│   │   └── middleware/        # HTTP middleware
-│   │       ├── logging.py    # Logging middleware
-│   │       └── rate_limit.py # Rate limit middleware
-│   ├── events/               # Broadcast events
-│   │   ├── base.py           # Base event classes
-│   │   └── user_events.py    # User broadcast events
-│   ├── console/              # Console commands (Laravel-like)
-│   │   ├── commands/         # Console command files
-│   │   │   ├── serve.py      # Serve command
-│   │   │   ├── migration.py  # Migration commands
-│   │   │   ├── make.py       # Make commands
-│   │   │   └── ...           # Other commands
-│   │   ├── templates/        # Command templates
-│   │   └── kernel.py         # Scheduled tasks definition
-│   ├── models/               # SQLAlchemy models
-│   │   └── user.py           # User model
-│   ├── schemas/              # Pydantic schemas
-│   │   ├── token.py          # Token schemas
-│   │   └── user.py           # User schemas
-│   └── jobs/                 # Background jobs (Laravel-like)
-│       └── tasks.py          # Celery tasks
-├── DOCS/                     # Documentation
-│   ├── REDIS_USAGE.md        # Redis caching & message queue guide
-│   ├── ENVIRONMENT.md        # Environment variables guide
-│   └── DEVELOPMENT.md        # Development guide
-├── public/                   # Publicly accessible files (like Laravel's public/)
-│   ├── storage/              # Public storage files (accessible via /storage/)
-│   ├── css/                  # CSS files
-│   ├── js/                   # JavaScript files
-│   └── images/               # Image files
-├── storage/                  # Private storage (not publicly accessible)
-│   └── app/                  # Application storage
-├── config/                   # Configuration files (Laravel-like)
-│   ├── __init__.py           # Main settings
-│   ├── app.py                # Application config
-│   ├── database.py           # Database config
-│   ├── cache.py              # Cache config
-│   └── ...                   # Other config files
-├── routes/                   # Route definitions (Laravel-like)
-│   ├── api.py                # API routes (routes/api.php equivalent)
-│   ├── web.py                # Web routes (routes/web.php equivalent)
-│   └── channels.py           # Channel authorization routes
-├── tests/                    # Test files
-├── .env.example              # Example environment variables
-├── alembic.ini               # Alembic configuration
-├── main.py                   # Application entry point
-├── requirements.txt          # Python dependencies
-└── README.md                 # Project documentation
-```
+## 🔥 Why This Boilerplate?
 
-## Getting Started
+Most FastAPI projects start as a single `main.py` and grow into a chaotic mess. This project brings **opinionated structure** and **production-ready patterns** out of the box:
 
-1. Clone the repository:
+- 🏛️ **Domain-Driven Design**: Clear separation of Controllers, Models, Services, and Jobs.
+- 🛠️ **Artisan CLI**: A powerful command-line interface for migrations, code generation, and task management.
+- 📡 **Real-time Broadcasting**: Laravel-like WebSocket channels (Public/Private/Presence).
+- 📦 **Unified Storage**: Fluent API for Local, S3, FTP, and SFTP.
+- ⚡ **Redis Everything**: Caching (Laravel-like Cache facade) and Task Queuing (Celery) pre-configured.
+- 🛡️ **Security First**: JWT auth, RBAC (Policies & Gates), Rate Limiting, and CORS protection.
+
+---
+
+## 🛠️ Tech Stack
+
+- **Framework**: [FastAPI](https://fastapi.tiangolo.com/)
+- **ORM**: [SQLAlchemy 2.0](https://www.sqlalchemy.org/) (PostgreSQL & MySQL support)
+- **Migrations**: [Alembic](https://alembic.sqlalchemy.org/)
+- **Validation**: [Pydantic v2](https://docs.pydantic.dev/)
+- **Task Queue**: [Celery](https://docs.celeryq.dev/) with [Redis](https://redis.io/)
+- **Testing**: [Pytest](https://docs.pytest.org/) with Coverage
+- **Linting**: [Ruff](https://github.com/astral-sh/ruff) (The fastest Python linter)
+
+---
+
+## 🚀 Getting Started
+
+### 🐳 Option 1: Docker (Recommended)
+Launch the entire stack (App, DB, Redis, Worker, Flower) with a single command:
+
 ```bash
-git clone https://github.com/yourusername/fastapi_boilerplate.git
-cd fastapi_boilerplate
-```
+# 1. Clone the repo
+git clone https://github.com/yourusername/fastapi_boilerplate.git && cd fastapi_boilerplate
 
-2. Create a virtual environment and activate it:
-```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-```
-
-3. Install dependencies:
-```bash
-pip install -r requirements.txt
-```
-
-4. Copy the example environment file and configure it:
-```bash
+# 2. Setup environment
 cp .env.example .env
+
+# 3. Start everything
+docker-compose up -d
 ```
+The API will be available at [http://localhost:8000](http://localhost:8000) and the API docs at [/docs](http://localhost:8000/docs).
 
-5. Configure your database in `.env` file:
-   - **PostgreSQL** (default):
-     ```env
-     DB_CONNECTION=postgresql
-     DB_HOST=localhost
-     DB_PORT=5432
-     DB_DATABASE=fastapi_boilerplate
-     DB_USERNAME=postgres
-     DB_PASSWORD=postgres
-     ```
-   
-   - **MySQL**:
-     ```env
-     DB_CONNECTION=mysql+pymysql
-     DB_HOST=localhost
-     DB_PORT=3306
-     DB_DATABASE=fastapi_boilerplate
-     DB_USERNAME=root
-     DB_PASSWORD=root
-     # Optional: For MAMP
-     # DB_UNIX_SOCKET=/Applications/MAMP/tmp/mysql/mysql.sock
-     ```
+### 🐍 Option 2: Local Installation
+If you prefer running without Docker:
 
-6. **Generate secure secrets** (IMPORTANT for production):
+1. **Install dependencies:**
    ```bash
-   # Generate APP_KEY
-   python -c "import secrets; print('APP_KEY=' + secrets.token_urlsafe(32))"
-   
-   # Generate JWT_SECRET
-   python -c "import secrets; print('JWT_SECRET=' + secrets.token_urlsafe(32))"
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   pip install -e ".[dev]"
    ```
-   Add these to your `.env` file. **Never use default values in production!**
 
-7. Run database migrations:
+2. **Configure environment:**
+   ```bash
+   cp .env.example .env
+   # Update DB_HOST and REDIS_HOST to localhost in .env
+   ```
+
+3. **Run migrations & start:**
+   ```bash
+   alembic upgrade head
+   python main.py
+   ```
+
+---
+
+## 🎮 Artisan CLI Usage
+
+Just like Laravel, we provide an `artisan.py` script to speed up development:
+
 ```bash
-alembic upgrade head
-```
+# Generate a new Controller
+python artisan make:controller UserProfile
 
-8. Start the development server:
-```bash
-python main.py
-```
+# Run database migrations
+python artisan migrate
 
-The API will be available at http://localhost:8000
-API documentation will be available at http://localhost:8000/docs
+# List all scheduled tasks
+python artisan schedule:list
+
+# Generate secure APP_KEY
+python artisan key:generate
+```
 
 ## Authentication Examples
 

@@ -1,31 +1,31 @@
 from datetime import timedelta
 from typing import Any
+
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
+
 from app.core import security
-from config import settings
-from app.core.database import get_db
 from app.core.broadcasting import broadcast
-from app.models.user import User
-from app.schemas.token import Token, TokenWithUser
-from app.schemas.user import UserCreate, UserResponse
-from app.jobs.tasks import send_welcome_email, process_user_data
+from app.core.database import get_db
 from app.events.user_events import UserCreated
+from app.jobs.tasks import process_user_data, send_welcome_email
+from app.models.user import User
+from app.schemas.token import TokenWithUser
+from app.schemas.user import UserCreate, UserResponse
+from config import settings
 
 router = APIRouter()
 
+
 @router.post("/login", response_model=TokenWithUser)
 def login(
-    db: Session = Depends(get_db),
-    form_data: OAuth2PasswordRequestForm = Depends()
+    db: Session = Depends(get_db), form_data: OAuth2PasswordRequestForm = Depends()
 ) -> Any:
     """
     OAuth2 compatible token login, get an access token and user information for future requests
     """
-    user = User.authenticate(
-        db, email=form_data.username, password=form_data.password
-    )
+    user = User.authenticate(db, email=form_data.username, password=form_data.password)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -40,6 +40,7 @@ def login(
         "token_type": "bearer",
         "user": user,
     }
+
 
 @router.post("/register", response_model=UserResponse)
 def register(
@@ -58,13 +59,13 @@ def register(
             detail="The user with this email already exists in the system.",
         )
     user = User.create(db, obj_in=user_in)
-    
+
     # Queue background tasks
     send_welcome_email.delay(user.id)
     process_user_data.delay(user.id)
-    
+
     # Example: Broadcast user created event
     event = UserCreated(user)
     broadcast().event(event)
-    
-    return user 
+
+    return user

@@ -1,7 +1,8 @@
-from typing import Any
 from fastapi import HTTPException, status
-from app.models.user import User
+
 from app.core.gates import Gate
+from app.models.user import User
+
 
 class Policy:
     @staticmethod
@@ -56,13 +57,14 @@ class Policy:
             return False
         return Gate.owns_resource(user, resource_user_id) or Gate.can_manage_users(user)
 
+
 class UserPolicy(Policy):
     @staticmethod
     def view_any(user: User) -> bool:
         if not super().view_any(user):
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
-                detail="Not authorized to view users"
+                detail="Not authorized to view users",
             )
         return True
 
@@ -71,7 +73,7 @@ class UserPolicy(Policy):
         if not super().view(user, resource_user_id):
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
-                detail="Not authorized to view this user"
+                detail="Not authorized to view this user",
             )
         return True
 
@@ -80,7 +82,7 @@ class UserPolicy(Policy):
         if not super().update(user, resource_user_id):
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
-                detail="Not authorized to update this user"
+                detail="Not authorized to update this user",
             )
         return True
 
@@ -89,6 +91,6 @@ class UserPolicy(Policy):
         if not super().delete(user, resource_user_id):
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
-                detail="Not authorized to delete this user"
+                detail="Not authorized to delete this user",
             )
-        return True 
+        return True

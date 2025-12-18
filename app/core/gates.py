@@ -1,5 +1,5 @@
-from typing import Any
 from app.models.user import User
+
 
 class Gate:
     @staticmethod
@@ -42,4 +42,4 @@ class Gate:
         """
         Check if user can view other users
         """
-        return user.is_superuser or user.is_active 
+        return user.is_superuser or user.is_active

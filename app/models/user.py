@@ -1,10 +1,13 @@
 from datetime import datetime, timezone
-from typing import Optional, List
-from sqlalchemy import Boolean, Column, Integer, String, DateTime
+from typing import Optional
+
+from sqlalchemy import Boolean, Column, DateTime, Integer, String
 from sqlalchemy.orm import Session
+
 from app.core.database import Base
 from app.core.security import get_password_hash, verify_password
 from app.schemas.user import UserCreate, UserUpdate
+
 
 class User(Base):
     __tablename__ = "users"
@@ -16,7 +19,11 @@ class User(Base):
     is_active = Column(Boolean(), default=True)
     is_superuser = Column(Boolean(), default=False)
     created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
-    updated_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
+    updated_at = Column(
+        DateTime,
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
+    )
 
     @classmethod
     def get(cls, db: Session, id: int) -> Optional["User"]:
@@ -63,5 +70,5 @@ class User(Base):
         return db_obj
 
     @classmethod
-    def get_multi(cls, db: Session, skip: int = 0, limit: int = 100) -> List["User"]:
-        return db.query(cls).offset(skip).limit(limit).all() 
+    def get_multi(cls, db: Session, skip: int = 0, limit: int = 100) -> list["User"]:
+        return db.query(cls).offset(skip).limit(limit).all()

@@ -1,7 +1,7 @@
 from app.core.celery_app import celery_app
-from config import settings
-from app.models.user import User
 from app.core.database import SessionLocal
+from app.models.user import User
+
 
 @celery_app.task(name="send_welcome_email")
 def send_welcome_email(user_id: int):
@@ -17,6 +17,7 @@ def send_welcome_email(user_id: int):
     finally:
         db.close()
 
+
 @celery_app.task(name="process_user_data")
 def process_user_data(user_id: int):
     """
@@ -29,4 +30,4 @@ def process_user_data(user_id: int):
             # Implement data processing logic here
             print(f"Processing data for user {user.email}")
     finally:
-        db.close() 
+        db.close()

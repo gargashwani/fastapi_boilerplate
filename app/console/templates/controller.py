@@ -1,6 +1,6 @@
 """Controller templates for CLI commands"""
 
-BASIC_CONTROLLER_TEMPLATE = '''from fastapi import APIRouter, Depends
+BASIC_CONTROLLER_TEMPLATE = """from fastapi import APIRouter, Depends
 from typing import List
 from app.schemas.{model_name} import {model_class}Create, {model_class}Response
 from app.services.{model_name} import {model_class}Service
@@ -14,9 +14,9 @@ async def get_{model_name}s(service: {model_class}Service = Depends()):
 @router.post("/", response_model={model_class}Response)
 async def create_{model_name}({model_name}: {model_class}Create, service: {model_class}Service = Depends()):
     return await service.create({model_name})
-'''
+"""
 
-RESOURCE_CONTROLLER_TEMPLATE = '''from fastapi import APIRouter, Depends, HTTPException, status
+RESOURCE_CONTROLLER_TEMPLATE = """from fastapi import APIRouter, Depends, HTTPException, status
 from typing import List
 from app.schemas.{model_name} import {model_class}Create, {model_class}Update, {model_class}Response
 from app.services.{model_name} import {model_class}Service
@@ -51,9 +51,9 @@ async def delete_{model_name}(id: int, service: {model_class}Service = Depends()
     if not success:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="{model_class} not found")
     return None
-'''
+"""
 
-API_CONTROLLER_TEMPLATE = '''from fastapi import APIRouter, Depends, HTTPException, status, Query, Path
+API_CONTROLLER_TEMPLATE = """from fastapi import APIRouter, Depends, HTTPException, status, Query, Path
 from typing import List, Optional
 from app.schemas.{model_name} import {model_class}Create, {model_class}Update, {model_class}Response
 from app.services.{model_name} import {model_class}Service
@@ -111,4 +111,4 @@ async def delete_{model_name}(
     if not success:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="{model_class} not found")
     return None
-''' 
+"""

@@ -1,7 +1,10 @@
 """Documentation commands"""
-import click
-from pathlib import Path
+
 import os
+from pathlib import Path
+
+import click
+
 
 @click.command(name="docs:generate")
 def generate_docs():
@@ -9,13 +12,15 @@ def generate_docs():
     # Create docs directory if it doesn't exist
     docs_path = Path("docs")
     docs_path.mkdir(exist_ok=True)
-    
+
     # Generate OpenAPI schema
-    os.system("python3 -c 'from main import app; import json; open(\"docs/openapi.json\", \"w\").write(json.dumps(app.openapi()))'")
-    
+    os.system(
+        'python3 -c \'from main import app; import json; open("docs/openapi.json", "w").write(json.dumps(app.openapi()))\''
+    )
+
     # Generate ReDoc HTML
     with open("docs/index.html", "w") as f:
-        f.write('''
+        f.write("""
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,9 +37,8 @@ def generate_docs():
     <script src="https://cdn.jsdelivr.net/npm/redoc@next/bundles/redoc.standalone.js"></script>
 </body>
 </html>
-        ''')
-    
+        """)
+
     click.echo("API documentation generated successfully!")
     click.echo(f"OpenAPI schema: file://{docs_path.absolute()}/openapi.json")
     click.echo(f"HTML documentation: file://{docs_path.absolute()}/index.html")
-

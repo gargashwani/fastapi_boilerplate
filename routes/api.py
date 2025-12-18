@@ -2,50 +2,36 @@
 API Routes
 Define API routes here, similar to Laravel's routes/api.php
 """
-from fastapi import APIRouter, Depends, HTTPException, status
-from app.api.v1.controllers import auth, users, files, broadcasting
-from app.core.security import get_current_user
-from app.models.user import User
+
+from fastapi import APIRouter
+
+from app.api.v1.controllers import auth, broadcasting, files, users
+
 
 def register_api_routes() -> APIRouter:
     """
     Register all API routes.
     Similar to Laravel's routes/api.php
     Returns the API router with all routes included.
-    
+
     Note: All routes except /auth/* require authentication by default.
     """
     api_router = APIRouter()
-    
+
     # Authentication routes (NO authentication required)
     # These endpoints are for getting tokens, so they must be public
-    api_router.include_router(
-        auth.router, 
-        prefix="/auth", 
-        tags=["auth"]
-    )
-    
+    api_router.include_router(auth.router, prefix="/auth", tags=["auth"])
+
     # All other routes require authentication
     # User routes (require authentication)
-    api_router.include_router(
-        users.router, 
-        prefix="/users", 
-        tags=["users"]
-    )
-    
+    api_router.include_router(users.router, prefix="/users", tags=["users"])
+
     # File routes (require authentication)
-    api_router.include_router(
-        files.router, 
-        prefix="/files", 
-        tags=["files"]
-    )
-    
+    api_router.include_router(files.router, prefix="/files", tags=["files"])
+
     # Broadcasting routes (require authentication)
     api_router.include_router(
-        broadcasting.router, 
-        prefix="/broadcasting", 
-        tags=["broadcasting"]
+        broadcasting.router, prefix="/broadcasting", tags=["broadcasting"]
     )
-    
-    return api_router
 
+    return api_router

@@ -1,19 +1,20 @@
-from fastapi import FastAPI, Request
-from fastapi.staticfiles import StaticFiles
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import Response
-from config import settings
-from routes.api import register_api_routes
-from app.http.middleware import LoggingMiddleware, RateLimitMiddleware
-from app.core.error_handler import global_exception_handler
 import os
 import uuid
 
+from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import Response
+from fastapi.staticfiles import StaticFiles
+
+from app.core.error_handler import global_exception_handler
+from app.http.middleware import LoggingMiddleware, RateLimitMiddleware
+from config import settings
+from routes.api import register_api_routes
+
 app = FastAPI(
-    title=settings.APP_NAME,
-    openapi_url="/openapi.json",
-    debug=settings.APP_DEBUG
+    title=settings.APP_NAME, openapi_url="/openapi.json", debug=settings.APP_DEBUG
 )
+
 
 # Add global exception handler
 @app.exception_handler(Exception)
@@ -21,13 +22,16 @@ async def exception_handler(request: Request, exc: Exception):
     """Handle all unhandled exceptions."""
     return await global_exception_handler(request, exc)
 
+
 # Set up CORS - never allow all origins in production
 cors_origins = settings.BACKEND_CORS_ORIGINS
 if settings.APP_ENV == "production" and "*" in cors_origins:
     # In production, don't allow wildcard
     cors_origins = [origin for origin in cors_origins if origin != "*"]
     if not cors_origins:
-        raise ValueError("CORS origins must be specified in production. Cannot use '*' wildcard.")
+        raise ValueError(
+            "CORS origins must be specified in production. Cannot use '*' wildcard."
+        )
 
 app.add_middleware(
     CORSMiddleware,
@@ -37,22 +41,25 @@ app.add_middleware(
     allow_headers=["Content-Type", "Authorization", "X-Request-ID"],
 )
 
+
 # Add security headers middleware
 @app.middleware("http")
 async def add_security_headers(request: Request, call_next):
     """Add security headers to all responses."""
     response = await call_next(request)
-    
+
     # Security headers
     response.headers["X-Content-Type-Options"] = "nosniff"
     response.headers["X-Frame-Options"] = "DENY"
     response.headers["X-XSS-Protection"] = "1; mode=block"
     response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
-    
+
     # HSTS - only in production with HTTPS
     if settings.APP_ENV == "production" and settings.APP_URL.startswith("https://"):
-        response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains; preload"
-    
+        response.headers["Strict-Transport-Security"] = (
+            "max-age=31536000; includeSubDomains; preload"
+        )
+
     # Content Security Policy
     # Allow Swagger UI CDN resources for /docs and /redoc endpoints
     if request.url.path in ["/docs", "/redoc", "/openapi.json"]:
@@ -67,12 +74,15 @@ async def add_security_headers(request: Request, call_next):
         )
     else:
         # Strict CSP for other endpoints
-        response.headers["Content-Security-Policy"] = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline';"
-    
+        response.headers["Content-Security-Policy"] = (
+            "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline';"
+        )
+
     # Permissions Policy
     response.headers["Permissions-Policy"] = "geolocation=(), microphone=(), camera=()"
-    
+
     return response
+
 
 # Add request ID middleware
 @app.middleware("http")
@@ -84,9 +94,11 @@ async def add_request_id(request: Request, call_next):
     response.headers["X-Request-ID"] = request_id
     return response
 
+
 # Add custom middlewares
 app.add_middleware(LoggingMiddleware)
 app.add_middleware(RateLimitMiddleware)
+
 
 @app.get("/")
 async def root():
@@ -94,8 +106,9 @@ async def root():
         "message": "Welcome to the FastAPI Boilerplate API",
         "version": "1.0.0",
         "docs": "/docs",
-        "api_docs": "/redoc"
+        "api_docs": "/redoc",
     }
+
 
 # Mount static files (public directory)
 # Similar to Laravel's public directory
@@ -111,4 +124,4 @@ if os.path.exists(storage_public_dir):
 
 # Include API routes (Laravel-like routes/api.php)
 api_router = register_api_routes()
-app.include_router(api_router, prefix="/api/v1") 
+app.include_router(api_router, prefix="/api/v1")
