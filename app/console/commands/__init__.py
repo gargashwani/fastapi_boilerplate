@@ -7,7 +7,6 @@ import click
 
 from app.console.commands.cache import clear_cache
 from app.console.commands.database import db_create, db_drop
-from app.console.commands.docs import generate_docs
 from app.console.commands.key_generate import key_generate
 from app.console.commands.install import install
 from app.console.commands.logs import clear_logs, view_logs
@@ -64,7 +63,6 @@ app.add_command(make_middleware)
 app.add_command(make_exception)
 app.add_command(make_validator)
 app.add_command(make_repository)
-app.add_command(generate_docs)
 app.add_command(make_seeder)
 app.add_command(db_seed)
 app.add_command(db_refresh)

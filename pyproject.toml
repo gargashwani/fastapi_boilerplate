@@ -47,7 +47,6 @@ dev = [
     "mypy>=1.13.0",
     "types-python-dateutil",
     "types-redis",
-    "mkdocs-material>=9.5.0",
 ]
 
 [tool.ruff]
