@@ -7,11 +7,13 @@ from fastapi.responses import Response
 from fastapi.staticfiles import StaticFiles
 
 from prometheus_fastapi_instrumentator import Instrumentator
+from strawberry.fastapi import GraphQLRouter
 
 from app.core.error_handler import global_exception_handler
 from app.http.middleware import LoggingMiddleware, RateLimitMiddleware
 from config import settings
 from routes.api import register_api_routes
+from app.graphql.schema import schema
 
 app = FastAPI(
     title=settings.APP_NAME, openapi_url="/openapi.json", debug=settings.APP_DEBUG
@@ -127,6 +129,10 @@ if os.path.exists(storage_public_dir):
 # Include API routes (Laravel-like routes/api.php)
 api_router = register_api_routes()
 app.include_router(api_router, prefix="/api/v1")
+
+# Include GraphQL Support
+graphql_app = GraphQLRouter(schema)
+app.include_router(graphql_app, prefix="/graphql")
 
 # Initialize Prometheus instrumentation
 Instrumentator().instrument(app).expose(app)
