@@ -8,20 +8,20 @@ from config import settings
 from app.core.database import get_db
 from app.core.broadcasting import broadcast
 from app.models.user import User
-from app.schemas.token import Token
+from app.schemas.token import Token, TokenWithUser
 from app.schemas.user import UserCreate, UserResponse
 from app.jobs.tasks import send_welcome_email, process_user_data
 from app.events.user_events import UserCreated
 
 router = APIRouter()
 
-@router.post("/login", response_model=Token)
+@router.post("/login", response_model=TokenWithUser)
 def login(
     db: Session = Depends(get_db),
     form_data: OAuth2PasswordRequestForm = Depends()
 ) -> Any:
     """
-    OAuth2 compatible token login, get an access token for future requests
+    OAuth2 compatible token login, get an access token and user information for future requests
     """
     user = User.authenticate(
         db, email=form_data.username, password=form_data.password
@@ -38,16 +38,18 @@ def login(
             user.id, expires_delta=access_token_expires
         ),
         "token_type": "bearer",
+        "user": user,
     }
 
-@router.post("/register", response_model=UserResponse)
+@router.post("/register", response_model=TokenWithUser)
 def register(
     *,
     db: Session = Depends(get_db),
     user_in: UserCreate,
 ) -> Any:
     """
-    Create new user.
+    Create new user and automatically log them in.
+    Returns authorization token and user information.
     """
     user = User.get_by_email(db, email=user_in.email)
     if user:
@@ -65,4 +67,12 @@ def register(
     event = UserCreated(user)
     broadcast().event(event)
     
-    return user 
+    # Automatically log in the user after registration
+    access_token_expires = timedelta(minutes=settings.JWT_EXPIRATION)
+    return {
+        "access_token": security.create_access_token(
+            user.id, expires_delta=access_token_expires
+        ),
+        "token_type": "bearer",
+        "user": user,
+    } 

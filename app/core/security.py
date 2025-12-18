@@ -8,9 +8,14 @@ from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 from jose.exceptions import JWTError
 from app.core.database import get_db
+import hashlib
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/v1/auth/login")
+
+# Bcrypt has a 72-byte limit. For longer passwords, we pre-hash with SHA-256
+# This allows passwords of any length while maintaining security
+BCRYPT_MAX_LENGTH = 72
 
 def create_access_token(
     subject: Union[str, Any], expires_delta: Optional[timedelta] = None
@@ -27,11 +32,57 @@ def create_access_token(
     )
     return encoded_jwt
 
+def _prepare_password_for_bcrypt(password: str) -> str:
+    """
+    Prepare password for bcrypt hashing.
+    Bcrypt has a 72-byte limit, so for longer passwords we pre-hash with SHA-256.
+    This allows passwords of any length while maintaining security.
+    
+    Args:
+        password: Plain text password
+        
+    Returns:
+        Password ready for bcrypt (either original or SHA-256 hash)
+    """
+    password_bytes = password.encode('utf-8')
+    
+    # If password is 72 bytes or less, use it directly
+    if len(password_bytes) <= BCRYPT_MAX_LENGTH:
+        return password
+    
+    # For longer passwords, pre-hash with SHA-256
+    # This creates a 32-byte hash (64 hex characters) which is well under the limit
+    sha256_hash = hashlib.sha256(password_bytes).hexdigest()
+    return sha256_hash
+
 def verify_password(plain_password: str, hashed_password: str) -> bool:
-    return pwd_context.verify(plain_password, hashed_password)
+    """
+    Verify a password against a hash.
+    Handles passwords longer than 72 bytes by pre-hashing.
+    
+    Args:
+        plain_password: Plain text password to verify
+        hashed_password: Bcrypt hash to verify against
+        
+    Returns:
+        True if password matches, False otherwise
+    """
+    prepared_password = _prepare_password_for_bcrypt(plain_password)
+    return pwd_context.verify(prepared_password, hashed_password)
 
 def get_password_hash(password: str) -> str:
-    return pwd_context.hash(password)
+    """
+    Hash a password using bcrypt.
+    Handles passwords longer than 72 bytes by pre-hashing with SHA-256.
+    
+    Args:
+        password: Plain text password to hash
+        
+    Returns:
+        Bcrypt hash of the password
+    """
+    prepared_password = _prepare_password_for_bcrypt(password)
+    return pwd_context.hash(prepared_password)
 
 def get_current_user(
     db: Session = Depends(get_db),

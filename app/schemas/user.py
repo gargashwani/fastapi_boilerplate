@@ -1,4 +1,5 @@
 from typing import Optional
+from datetime import datetime
 from pydantic import BaseModel, EmailStr, validator
 import re
 
@@ -17,8 +18,10 @@ class UserCreate(UserBase):
         """Validate password strength."""
         if len(v) < 8:
             raise ValueError('Password must be at least 8 characters long')
-        if len(v) > 128:
-            raise ValueError('Password must be less than 128 characters')
+        # Allow longer passwords - bcrypt limitation is handled in security.py
+        # We allow up to 512 characters for very long passphrases
+        if len(v) > 512:
+            raise ValueError('Password must be less than 512 characters')
         if not re.search(r'[A-Z]', v):
             raise ValueError('Password must contain at least one uppercase letter')
         if not re.search(r'[a-z]', v):
@@ -40,8 +43,10 @@ class UserUpdate(UserBase):
             return v
         if len(v) < 8:
             raise ValueError('Password must be at least 8 characters long')
-        if len(v) > 128:
-            raise ValueError('Password must be less than 128 characters')
+        # Allow longer passwords - bcrypt limitation is handled in security.py
+        # We allow up to 512 characters for very long passphrases
+        if len(v) > 512:
+            raise ValueError('Password must be less than 512 characters')
         if not re.search(r'[A-Z]', v):
             raise ValueError('Password must contain at least one uppercase letter')
         if not re.search(r'[a-z]', v):
@@ -52,8 +57,11 @@ class UserUpdate(UserBase):
 
 class UserResponse(UserBase):
     id: int
-    created_at: str
-    updated_at: str
+    created_at: datetime
+    updated_at: datetime
 
     class Config:
-        from_attributes = True 
+        from_attributes = True
+        json_encoders = {
+            datetime: lambda v: v.isoformat() if v else None
+        } 
